@@ -3,7 +3,7 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
-class User(db.model):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     role = db.Column(db.String, default = 'user')
     username = db.Column(db.String, unique = True, nullable = False)
@@ -21,8 +21,8 @@ class User(db.model):
             'password': self.phone_number
         }
     
-class batch(db.model):
-    id = db.Column(db.int, primary_key = True)
+class batch(db.Model):
+    id = db.Column(db.integers, primary_key = True)
     batch_name = db.Column(db.String, unique = True, nullable = False)
     breed = db.Column(db.String, unique = True, nullable = False)
     acquisition_date = db.Column(db.Date, nullable = False)  
@@ -39,4 +39,40 @@ class batch(db.model):
             'initial_number': self.initial_number,
             'current_number': self.current_number,
             'status': self.status,
+        }
+
+class EggProduction(db.Model):
+    id = db.Column(db.integer, primary_key = True)
+    batch_id = db.Column(db.integer, db.ForeignKey('batch.id'), nullable = False)
+    date = db.Column(db.Date, nullable = False)
+    eggs_collected = db.column(db.Integer, nullable = False)
+    broken_eggs = db.Column(db.Integers, nullable = False)
+    remarks = db.Column(db.String, nullable = False)
+
+    def to_dict(self):
+        return{
+            'id': self.id,
+            'batch_id': self.batch_id,
+            'date': self.date,
+            'eggs_collected': self.eggs_collected,
+            'broken_eggs': self.broken_eggs,
+            'remarks': self.remarks
+        }
+    
+class Sales(db.Model):
+    id = db.Column(db.integer, nullable = False)
+    date = db.Column(db.Date, nullable = False)
+    buyer_name = db.Column(db.String, nullable = False)
+    quantity = db.Column(db.Integer, nullable = False)
+    price_per_tray = db.Column(db.Integer, nullable = False)
+    total_amount = db.Column(db.Integer, nullable = False)
+
+    def to_dict(self):
+        return{
+            'id': self.id,
+            'date': self.date,
+            'buyer_name': self.buyer_name,
+            'quantity': self.quantity,
+            'price_per_tray': self.price_per_tray,
+            'total_amount': self.total_amount
         }
