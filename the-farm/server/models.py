@@ -65,7 +65,8 @@ class Sales(db.Model):
     buyer_name = db.Column(db.String, nullable = False)
     quantity = db.Column(db.Integer, nullable = False)
     price_per_tray = db.Column(db.Integer, nullable = False)
-    total_amount = db.Column(db.Integer, nullable = False)
+    transport_costs = db.Column(db.Integer, nullable = False)
+    total_from_sales = db.Column(db.Integer, nullable = False)
 
     def to_dict(self):
         return{
@@ -74,7 +75,8 @@ class Sales(db.Model):
             'buyer_name': self.buyer_name,
             'quantity': self.quantity,
             'price_per_tray': self.price_per_tray,
-            'total_amount': self.total_amount
+            'transport_costs': self.transport_costs
+            'total_from_sales': self.total_amount
         }
 
 class Expenses(db.Model):
@@ -107,5 +109,24 @@ class EmployeeData {
             'phone_number': self.phone_number,
             'email': self.email,
             'salary': self.salary
+        }
+    }
+
+class Inventory{
+    date = db.Column(db.Date, nullable = False, default = lambda: datetime.now(kenya_tz).date())
+    total_from_expenses = db.Column(db.Integer, nullable = False)
+    total_from_salaries = db.Column(db.Integer, nullable = False)
+    total_from_sales = db.Column(db.Integer, nullable = False)
+    tax = db.Column(db.Integer, nullable = False)
+    grand_totals = db.Column(db.Integer, nullable = false)
+
+    def to_dict(self):
+        return {
+            'date': self.date,
+            'total_from_expenses': self.total_from_expenses,
+            'total_from_salaries': self.total_from_salaries,
+            'total_from_sales': self.total_from_sales,
+            'tax': self.tax,
+            'grand_totals': self.grand_totals
         }
 }
