@@ -42,8 +42,8 @@ class batch(db.Model):
         }
 
 class EggProduction(db.Model):
-    id = db.Column(db.integer, primary_key = True)
-    batch_id = db.Column(db.integer, db.ForeignKey('batch.id'), nullable = False)
+    id = db.Column(db.Integer, primary_key = True)
+    batch_id = db.Column(db.Integer, db.ForeignKey('batch.id'), nullable = False)
     date = db.Column(db.Date, nullable = False)
     eggs_collected = db.column(db.Integer, nullable = False)
     broken_eggs = db.Column(db.Integers, nullable = False)
@@ -60,7 +60,7 @@ class EggProduction(db.Model):
         }
     
 class Sales(db.Model):
-    id = db.Column(db.integer, nullable = False)
+    id = db.Column(db.Integer, nullable = False)
     date = db.Column(db.Date, nullable = False)
     buyer_name = db.Column(db.String, nullable = False)
     quantity = db.Column(db.Integer, nullable = False)
@@ -76,3 +76,36 @@ class Sales(db.Model):
             'price_per_tray': self.price_per_tray,
             'total_amount': self.total_amount
         }
+
+class Expenses(db.Model):
+    id = db.Column(db.integer, nullable=False, primary_key = True)
+    date = db.Column(db.Date, nullable = False, default = lambda: datetime.now(kenya_tz).date())
+    category = db.Column(db.String, nullable = False)
+    amount_spent = db.Column(db.Integer, nullable = False)
+    description = sb.Column(db.String, nullable = False)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'date': self.date,
+            'category': self.category,
+            'amount_spent': self.amount_spent,
+            'description': self.description
+        }
+
+class EmployeeData {
+    id = db.Column(db.Integer, nullable = False)
+    name = db.Column(db.String, nullable = False)
+    phone_number = db.Column(db.Integer, nullable = False)
+    email = db.column(db.Email, nullable = False)
+    salary = db.Column(db.Integer, nullable = False)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'phone_number': self.phone_number,
+            'email': self.email,
+            'salary': self.salary
+        }
+}
