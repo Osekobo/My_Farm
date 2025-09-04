@@ -1,5 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import pytz
+kenya_tz = pytz.timezone("Africa/Nairobi")
 
 db = SQLAlchemy()
 
@@ -8,7 +10,7 @@ class User(db.Model):
     role = db.Column(db.String, default = 'user')
     username = db.Column(db.String, unique = True, nullable = False)
     email = db.Column(db.String, unique = True, nullable = False)
-    phone_number = db.Column(db.Integer, unique = True, nullable = False)
+    phone_number = db.Column(db.String, unique = True, nullable = False)
     password = db.Column(db.String, nullable = False)
 
     def to_dict(self):
@@ -18,13 +20,13 @@ class User(db.Model):
             'username': self.username,
             'email': self.email,
             'phone_number': self.phone_number,
-            'password': self.phone_number
+            'password': self.password
         }
     
-class batch(db.Model):
-    id = db.Column(db.integers, primary_key = True)
+class Batch(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
     batch_name = db.Column(db.String, unique = True, nullable = False)
-    breed = db.Column(db.String, unique = True, nullable = False)
+    breed = db.Column(db.String, nullable = False)
     acquisition_date = db.Column(db.Date, nullable = False)  
     initial_number = db.Column(db.Integer, nullable = False)
     current_number = db.Column(db.Integer, nullable = False)
@@ -45,8 +47,8 @@ class EggProduction(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     batch_id = db.Column(db.Integer, db.ForeignKey('batch.id'), nullable = False)
     date = db.Column(db.Date, nullable = False)
-    eggs_collected = db.column(db.Integer, nullable = False)
-    broken_eggs = db.Column(db.Integers, nullable = False)
+    eggs_collected = db.Column(db.Integer, nullable = False)
+    broken_eggs = db.Column(db.Integer, nullable = False)
     remarks = db.Column(db.String, nullable = False)
 
     def to_dict(self):
@@ -60,13 +62,13 @@ class EggProduction(db.Model):
         }
     
 class Sales(db.Model):
-    id = db.Column(db.Integer, nullable = False)
+    id = db.Column(db.Integer, nullable = False, primary_key = True)
     date = db.Column(db.Date, nullable = False)
     buyer_name = db.Column(db.String, nullable = False)
     quantity = db.Column(db.Integer, nullable = False)
-    price_per_tray = db.Column(db.Integer, nullable = False)
-    transport_costs = db.Column(db.Integer, nullable = False)
-    total_from_sales = db.Column(db.Integer, nullable = False)
+    price_per_tray = db.Column(db.Numeric(12, 2), nullable = False)
+    transport_costs = db.Column(db.Numeric(12, 2), nullable = False)
+    total_from_sales = db.Column(db.Numeric(12, 2), nullable = False)
 
     def to_dict(self):
         return{
@@ -75,16 +77,16 @@ class Sales(db.Model):
             'buyer_name': self.buyer_name,
             'quantity': self.quantity,
             'price_per_tray': self.price_per_tray,
-            'transport_costs': self.transport_costs
-            'total_from_sales': self.total_amount
+            'transport_costs': self.transport_costs,
+            'total_from_sales': self.total_from_sales
         }
 
 class Expenses(db.Model):
-    id = db.Column(db.integer, nullable=False, primary_key = True)
+    id = db.Column(db.Integer, nullable=False, primary_key = True)
     date = db.Column(db.Date, nullable = False, default = lambda: datetime.now(kenya_tz).date())
     category = db.Column(db.String, nullable = False)
-    amount_spent = db.Column(db.Integer, nullable = False)
-    description = sb.Column(db.String, nullable = False)
+    amount_spent = db.Column(db.Numeric(12, 2), nullable = False)
+    description = db.Column(db.String, nullable = False)
 
     def to_dict(self):
         return {
@@ -95,12 +97,12 @@ class Expenses(db.Model):
             'description': self.description
         }
 
-class EmployeeData {
-    id = db.Column(db.Integer, nullable = False)
+class EmployeeData (db.Model): 
+    id = db.Column(db.Integer, nullable = False, primary_key = True)
     name = db.Column(db.String, nullable = False)
-    phone_number = db.Column(db.Integer, nullable = False)
-    email = db.column(db.Email, nullable = False)
-    salary = db.Column(db.Integer, nullable = False)
+    phone_number = db.Column(db.String, nullable = False)
+    email = db.Column(db.String, nullable = False)
+    salary = db.Column(db.Numeric(12, 2), nullable = False)
 
     def to_dict(self):
         return {
@@ -110,15 +112,15 @@ class EmployeeData {
             'email': self.email,
             'salary': self.salary
         }
-    }
 
-class Inventory{
+class Inventory(db.Model):
+    id = db.Column(db.Integer, nullable = False, primary_key = True)
     date = db.Column(db.Date, nullable = False, default = lambda: datetime.now(kenya_tz).date())
-    total_from_expenses = db.Column(db.Integer, nullable = False)
-    total_from_salaries = db.Column(db.Integer, nullable = False)
-    total_from_sales = db.Column(db.Integer, nullable = False)
-    tax = db.Column(db.Integer, nullable = False)
-    grand_totals = db.Column(db.Integer, nullable = false)
+    total_from_expenses = db.Column(db.Numeric(12, 2), nullable = False)
+    total_from_salaries = db.Column(db.Numeric(12, 2), nullable = False)
+    total_from_sales = db.Column(db.Numeric(12, 2), nullable = False)
+    tax = db.Column(db.Numeric(12, 2), nullable = False)
+    grand_totals = db.Column(db.Numeric(12, 2), nullable = False)
 
     def to_dict(self):
         return {
@@ -129,4 +131,3 @@ class Inventory{
             'tax': self.tax,
             'grand_totals': self.grand_totals
         }
-}
