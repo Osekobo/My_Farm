@@ -2,8 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import pytz
 kenya_tz = pytz.timezone("Africa/Nairobi")
-
-db = SQLAlchemy()
+from app import db
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -60,7 +59,7 @@ class EggProduction(db.Model):
             'broken_eggs': self.broken_eggs,
             'remarks': self.remarks
         }
-    
+   
 class Sales(db.Model):
     id = db.Column(db.Integer, nullable = False, primary_key = True)
     date = db.Column(db.Date, nullable = False)
@@ -111,23 +110,4 @@ class EmployeeData (db.Model):
             'phone_number': self.phone_number,
             'email': self.email,
             'salary': self.salary
-        }
-
-class Inventory(db.Model):
-    id = db.Column(db.Integer, nullable = False, primary_key = True)
-    date = db.Column(db.Date, nullable = False, default = lambda: datetime.now(kenya_tz).date())
-    total_from_expenses = db.Column(db.Numeric(12, 2), nullable = False)
-    total_from_salaries = db.Column(db.Numeric(12, 2), nullable = False)
-    total_from_sales = db.Column(db.Numeric(12, 2), nullable = False)
-    tax = db.Column(db.Numeric(12, 2), nullable = False)
-    grand_totals = db.Column(db.Numeric(12, 2), nullable = False)
-
-    def to_dict(self):
-        return {
-            'date': self.date,
-            'total_from_expenses': self.total_from_expenses,
-            'total_from_salaries': self.total_from_salaries,
-            'total_from_sales': self.total_from_sales,
-            'tax': self.tax,
-            'grand_totals': self.grand_totals
         }
