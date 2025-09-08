@@ -25,7 +25,7 @@ class Batch(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     batch_name = db.Column(db.String, unique = True, nullable = False)
     breed = db.Column(db.String, nullable = False)
-    acquisition_date = db.Column(db.Date, nullable = False)  
+    acquisition_date = db.Column(db.String, nullable = False)  
     initial_number = db.Column(db.Integer, nullable = False)
     current_number = db.Column(db.Integer, nullable = False)
     status = db.Column(db.String, nullable = False, default = "Active")

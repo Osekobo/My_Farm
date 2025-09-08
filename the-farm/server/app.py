@@ -62,7 +62,76 @@ def create_app():
             return jsonify({'message': 'Invalid credentials'}), 401
 
         return jsonify({'message': f'Welcome {user.username}!'})
-
+    
+    @app.route('/batch', methods=['POST', 'GET', 'PATCH'])
+    def batch():
+        if request.method == 'POST':
+            data = request.get_json()
+            batch_name = data.get('batch_name')
+            breed = data.get('breed')
+            acquisition_date = data.get('acquisition_date')
+            initial_number = data.get('initial_number')            
+            current_number = data.get('current_number')
+            status = data.get('status')
+            
+            new_batch = Batch(
+                batch_name=batch_name,
+                breed=breed,
+                acquisition_date=acquisition_date,
+                initial_number=initial_number,
+                current_number=current_number,
+                status=status
+            )
+            db.session.add(new_batch)
+            db.session.commit()
+            return jsonify({'message': 'Batch created successfully'})
+        
+        elif request.method == 'GET':
+                batch_name = request.args.get('batch_name')
+                if not batch_name:
+                    data = request.get_json(silent=True) or {}
+                    batch_name = data.get('batch_name')
+                    
+                if not batch_name:
+                    return jsonify({'message': 'Please provide a batch name'}), 400
+                
+                batch = Batch.query.filter_by(batch_name = batch_name).first()
+                
+                if not batch:
+                    return jsonify({'message': 'No batch that goes with that name'}), 404
+                
+                return jsonify({
+                    'id': batch.id,
+                    'batch_name': batch.batch_name,
+                    'breed': batch.breed,
+                    'acquisition_date': batch.acquisition_date,
+                    'initial_number': batch.initial_number,
+                    'current_number': batch.current_number,
+                    'status': batch.status
+                })
+            
+        elif request.method == 'PATCH':
+            data = request.get_json()
+            batch_name = data.get('batch_name')
+            
+            batch = Batch.query.filter_by(batch_name = batch_name).first()
+            if not batch:
+                return jsonify({'message': 'Batch not found!'}), 404
+            
+            if 'breed' in data:
+                batch.breed = data['breed']
+            if 'acquisition_date' in data:
+                batch.acquisition_date = data['acquisition_date']
+            if 'initial_number' in data:
+                batch.initial_number = data['initial_number']
+            if 'current_number' in data:
+                batch.current_number = data['current_number']
+            if 'status' in data:
+                batch.status = data['status']
+                
+            db.session.commit()
+            return jsonify({'message': 'Batch updated successfully!'})
+                         
     return app
 
 if __name__ == "__main__":
