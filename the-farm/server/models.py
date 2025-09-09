@@ -40,30 +40,45 @@ class Batch(db.Model):
             'current_number': self.current_number,
             'status': self.status,
         }
+        
+         egg_productions = db.relationship("EggProduction", back_populates="batch", cascade="all, delete-orphan")
 
 class EggProduction(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    batch_id = db.Column(db.Integer, db.ForeignKey('batch.id'), nullable = False)
+    batch_name = db.Column(db.Integer, db.ForeignKey('batch_name'), nullable = False)
     date = db.Column(db.Date, nullable = False)
     eggs_collected = db.Column(db.Integer, nullable = False)
     broken_eggs = db.Column(db.Integer, nullable = False)
+    remaining_eggs = db.Column(db.Integer, nullable = False)
+    quantity_in_crates = db.Column(db.Integer, nullable = False)
     remarks = db.Column(db.String, nullable = False)
 
     def to_dict(self):
         return{
             'id': self.id,
-            'batch_id': self.batch_id,
+            'batch_name': self.batch_name,
             'date': self.date,
             'eggs_collected': self.eggs_collected,
             'broken_eggs': self.broken_eggs,
+            'remaining_eggs': self.remaining_eggs,
+            'quantity_in_crates': self.quantity_in_crates,
             'remarks': self.remarks
         }
+        
+        batch = db.relationship("Batch", back_populates = "egg_productions")
+        
+        # To be continued
+# class Stock(db.Model):
+#     id = db.Column(db.Integer, nullable = False)
+#     date = db.Column(db.Date, nullable = False, default = lambda: datetime.now(kenya_tz).date())
+#     Eggs_in_Stock = db.Column(db.Integer nullable = False)
+    
    
 class Sales(db.Model):
     id = db.Column(db.Integer, nullable = False, primary_key = True)
     date = db.Column(db.Date, nullable = False)
     buyer_name = db.Column(db.String, nullable = False)
-    quantity = db.Column(db.Integer, nullable = False)
+    quantity_in_crates = db.Column(db.Integer, nullable = False)
     price_per_tray = db.Column(db.Numeric(12, 2), nullable = False)
     transport_costs = db.Column(db.Numeric(12, 2), nullable = False)
     total_from_sales = db.Column(db.Numeric(12, 2), nullable = False)
@@ -73,7 +88,7 @@ class Sales(db.Model):
             'id': self.id,
             'date': self.date,
             'buyer_name': self.buyer_name,
-            'quantity': self.quantity,
+            'quantity_in_crates': self.quantity_in_crates,
             'price_per_tray': self.price_per_tray,
             'transport_costs': self.transport_costs,
             'total_from_sales': self.total_from_sales

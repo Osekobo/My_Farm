@@ -131,6 +131,70 @@ def create_app():
                 
             db.session.commit()
             return jsonify({'message': 'Batch updated successfully!'})
+        
+    @app.route('/eggsproduction', methods=['POST', 'PATCH', 'GET'])
+    def eggsproduction():
+        if request.method == 'POST':
+            data = request.get_json()
+            batch_name = data.get('batch_name')
+            date_value = date.get('date')
+            eggs_collected = data.get('eggs_collected')
+            broken_eggs = data.get('broken_eggs')
+            remarks = data.get('remarks')
+            
+            remaining_eggs = eggs_collected - broken_eggs
+            
+            batch = Batch.query.filter_by(batch_name=batch_name).first()
+            if not batch:
+                return jsonify({'message': 'Ther is no batch with that name'})
+            
+            new_eggs = EggProduction(
+                batch_name = batch_name,
+                date = date_value,
+                eggs_collected = eggs_collected,
+                broken_eggs = broken_eggs,
+                remaining_eggs = remaining_eggs,
+                remarks = remarks
+            )
+            db.session.add(new_eggs)
+            db.session.commit()
+            return jsonify({'message': 'New eggs data added successfully'})
+        
+        elif request.method = 'GET':
+            date = request.args.get('date')
+            date = EggProduction.query.filter_by(date=date).first()
+            
+            if not date:
+                return jsonify({'message': 'Invalid date!'})
+            
+            return jsonify({
+                'batch_name': EggProduction.batch_name,
+                'date': EggProduction.date,
+                'eggs_collected': EggProduction.eggs_collected,
+                'broken_eggs': EggProduction.broken_eggs,
+                'remaining_eggs': EggProduction.remaining_eggs,
+                'remark': EggProduction.remark
+            })
+            
+        elif request.method == 'PATCH':
+            data = request.get_json():
+            date = data.get('date')
+            
+            date = EggProduction.query.filter_by(date=date).first()
+            
+            if 'batch_name' in data:
+                EggProduction.batch_name = data['batch_name']
+            if 'date' in data:
+                EggProduction.date = data['date']
+            if 'broken_eggs' in data:
+                EggProduction.broken_eggs = data['broken_eggs']
+            if 'remaining_eggs' in data:
+                EggProduction.remaining_eggs = data['remaining_eggs']
+            if 'remark' in data:
+                EggProduction.remain = data['remain']
+                
+                db.session.commit()
+                return jsonify({'message': 'Data updated successfully!'}), 400
                          
     return app
 
