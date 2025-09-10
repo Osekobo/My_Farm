@@ -158,14 +158,14 @@ def create_app():
             )
             db.session.add(new_eggs)
             db.session.commit()
-            return jsonify({'message': 'New eggs data added successfully'})
+            return jsonify({'message': 'New eggs data added successfully'}), 400
         
-        elif request.method = 'GET':
+        elif request.method == 'GET':
             date = request.args.get('date')
             date = EggProduction.query.filter_by(date=date).first()
             
             if not date:
-                return jsonify({'message': 'Invalid date!'})
+                return jsonify({'message': 'Invalid date!'}),
             
             return jsonify({
                 'batch_name': EggProduction.batch_name,
@@ -177,7 +177,7 @@ def create_app():
             })
             
         elif request.method == 'PATCH':
-            data = request.get_json():
+            data = request.get_json()
             date = data.get('date')
             
             date = EggProduction.query.filter_by(date=date).first()
