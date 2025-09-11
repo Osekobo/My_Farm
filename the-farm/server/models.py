@@ -29,7 +29,7 @@ class Batch(db.Model):
     __tablename__ = "batch"
 
     id = db.Column(db.Integer, primary_key=True)
-    batch_name = db.Column(db.String, nullable=False)
+    batch_id = db.Column(db.String, nullable=False)
     breed = db.Column(db.String, nullable=False)
     acquisition_date = db.Column(db.Date, nullable=False, default=lambda: datetime.now(kenya_tz).date())
     initial_number = db.Column(db.Integer, nullable=False)
@@ -55,7 +55,6 @@ class EggProduction(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     batch_id = db.Column(db.Integer, db.ForeignKey("batch.id", name="fk_eggproduction_batch_id"), nullable=False)
-
     date = db.Column(db.Date, nullable=False, default=lambda: datetime.now(kenya_tz).date())
     eggs_collected = db.Column(db.Integer, nullable=False)
     broken_eggs = db.Column(db.Integer, nullable=False)

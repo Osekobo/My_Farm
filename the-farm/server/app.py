@@ -136,20 +136,20 @@ def create_app():
     def eggsproduction():
         if request.method == 'POST':
             data = request.get_json()
-            batch_name = data.get('batch_name')
-            date_value = date.get('date')
+            batch_id = data.get('batch_id')
+            date_value = data.get('date')
             eggs_collected = data.get('eggs_collected')
             broken_eggs = data.get('broken_eggs')
             remarks = data.get('remarks')
             
             remaining_eggs = eggs_collected - broken_eggs
             
-            batch = Batch.query.filter_by(batch_name=batch_name).first()
+            batch = Batch.query.filter_by(batch_id=batch_id).first() 
             if not batch:
-                return jsonify({'message': 'Ther is no batch with that name'})
+                return jsonify({'message': 'Ther is no batch with that ID'}), 404
             
             new_eggs = EggProduction(
-                batch_name = batch_name,
+                batch_id = batch_id,
                 date = date_value,
                 eggs_collected = eggs_collected,
                 broken_eggs = broken_eggs,
@@ -168,7 +168,7 @@ def create_app():
                 return jsonify({'message': 'Invalid date!'}),
             
             return jsonify({
-                'batch_name': EggProduction.batch_name,
+                'batch_id': EggProduction.batch_id,
                 'date': EggProduction.date,
                 'eggs_collected': EggProduction.eggs_collected,
                 'broken_eggs': EggProduction.broken_eggs,
@@ -182,8 +182,8 @@ def create_app():
             
             date = EggProduction.query.filter_by(date=date).first()
             
-            if 'batch_name' in data:
-                EggProduction.batch_name = data['batch_name']
+            if 'batch_id' in data:
+                EggProduction.batch_id = data['batch_id']
             if 'date' in data:
                 EggProduction.date = data['date']
             if 'broken_eggs' in data:
