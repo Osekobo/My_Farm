@@ -3,6 +3,10 @@ from extensions import db, bcrypt, migrate
 from config import Config
 from dotenv import load_dotenv
 from models import User, Batch, EggProduction, Sales, Expenses, EmployeeData
+from datetime import datetime
+import pytz
+
+kenya_tz = pytz.timezone("Africa/Nairobi")
 
 load_dotenv()
 
@@ -137,24 +141,30 @@ def create_app():
         if request.method == 'POST':
             data = request.get_json()
             batch_id = data.get('batch_id')
-            date_value = data.get('date')
+            date = data.get('date')
             eggs_collected = data.get('eggs_collected')
             broken_eggs = data.get('broken_eggs')
             remarks = data.get('remarks')
             
-            remaining_eggs = eggs_collected - broken_eggs
+            eggs_collected = int(data.get("eggs_collected", 0))
+            broken_eggs = int(data.get("broken_eggs", 0))
+            date = datetime.now(kenya_tz).strftime("%Y-%m-%d")
             
-            batch = Batch.query.filter_by(batch_id=batch_id).first() 
+            remaining_eggs = eggs_collected - broken_eggs
+            quantity_in_crates = remaining_eggs / 30;
+            
+            batch = Batch.query.filter_by(id=batch_id).first() 
             if not batch:
                 return jsonify({'message': 'Ther is no batch with that ID'}), 404
             
             new_eggs = EggProduction(
                 batch_id = batch_id,
-                date = date_value,
+                date = date,
                 eggs_collected = eggs_collected,
                 broken_eggs = broken_eggs,
                 remaining_eggs = remaining_eggs,
-                remarks = remarks
+                remarks = remarks,
+                quantity_in_crates = quantity_in_crates
             )
             db.session.add(new_eggs)
             db.session.commit()
