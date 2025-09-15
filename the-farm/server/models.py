@@ -55,7 +55,7 @@ class EggProduction(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     batch_id = db.Column(db.Integer, db.ForeignKey("batch.id", name="fk_batch_id"), nullable=False)
-    date = db.Column(db.String, nullable=False, default=lambda: datetime.now(kenya_tz).date())
+    date = db.Column(db.Date, nullable=False)
     eggs_collected = db.Column(db.Integer, nullable=False)
     broken_eggs = db.Column(db.Integer, nullable=False)
     remaining_eggs = db.Column(db.Integer, nullable=False)

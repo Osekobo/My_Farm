@@ -146,7 +146,7 @@ def create_app():
             broken_eggs = data.get('broken_eggs')
             remarks = data.get('remarks')
             
-            date_value = datetime.now(kenya_tz).strftime("%Y/%m/%d")
+            date_value = datetime.now(kenya_tz).date()
             eggs_collected = int(data.get("eggs_collected", 0))
             broken_eggs = int(data.get("broken_eggs", 0))
             
