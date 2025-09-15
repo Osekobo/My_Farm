@@ -141,14 +141,14 @@ def create_app():
         if request.method == 'POST':
             data = request.get_json()
             batch_id = data.get('batch_id')
-            date = data.get('date')
+            # date = data.get('date')
             eggs_collected = data.get('eggs_collected')
             broken_eggs = data.get('broken_eggs')
             remarks = data.get('remarks')
             
+            date_value = datetime.now(kenya_tz).strftime("%Y/%m/%d")
             eggs_collected = int(data.get("eggs_collected", 0))
             broken_eggs = int(data.get("broken_eggs", 0))
-            date = datetime.now(kenya_tz).strftime("%Y-%m-%d")
             
             remaining_eggs = eggs_collected - broken_eggs
             quantity_in_crates = remaining_eggs / 30;
@@ -159,7 +159,7 @@ def create_app():
             
             new_eggs = EggProduction(
                 batch_id = batch_id,
-                date = date,
+                date = date_value,
                 eggs_collected = eggs_collected,
                 broken_eggs = broken_eggs,
                 remaining_eggs = remaining_eggs,
