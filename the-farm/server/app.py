@@ -8,6 +8,8 @@ import pytz
 
 kenya_tz = pytz.timezone("Africa/Nairobi")
 
+
+
 load_dotenv()
 
 def create_app():
@@ -73,7 +75,8 @@ def create_app():
             data = request.get_json()
             batch_name = data.get('batch_name')
             breed = data.get('breed')
-            acquisition_date = data.get('acquisition_date')
+            acquisition_date_str = data.get('acquisition_date')
+            acquisition_date = datetime.strptime(acquisition_date_str, '%m/%d/%Y').date()
             initial_number = data.get('initial_number')            
             current_number = data.get('current_number')
             status = data.get('status')
@@ -141,70 +144,82 @@ def create_app():
         if request.method == 'POST':
             data = request.get_json()
             batch_id = data.get('batch_id')
-            # date = data.get('date')
-            eggs_collected = data.get('eggs_collected')
-            broken_eggs = data.get('broken_eggs')
-            remarks = data.get('remarks')
-            
-            date_value = datetime.now(kenya_tz).date()
             eggs_collected = int(data.get("eggs_collected", 0))
             broken_eggs = int(data.get("broken_eggs", 0))
-            
+            remarks = data.get("remarks")
+
+            # Parse date
+            date_str = data.get('date')  # expects MM/DD/YYYY
+            date_value = datetime.strptime(date_str, '%m/%d/%Y')
+            date_value = kenya_tz.localize(date_value)
+
             remaining_eggs = eggs_collected - broken_eggs
-            quantity_in_crates = remaining_eggs / 30;
-            
-            batch = Batch.query.filter_by(id=batch_id).first() 
+            quantity_in_crates = remaining_eggs / 30
+
+            batch = Batch.query.filter_by(id=batch_id).first()
             if not batch:
-                return jsonify({'message': 'Ther is no batch with that ID'}), 404
-            
+                return jsonify({'message': 'There is no batch with that ID'}), 404
+
             new_eggs = EggProduction(
-                batch_id = batch_id,
-                date = date_value,
-                eggs_collected = eggs_collected,
-                broken_eggs = broken_eggs,
-                remaining_eggs = remaining_eggs,
-                remarks = remarks,
-                quantity_in_crates = quantity_in_crates
+                batch_id=batch_id,
+                date=date_value,  # ✅ if column is DateTime
+                eggs_collected=eggs_collected,
+                broken_eggs=broken_eggs,
+                remaining_eggs=remaining_eggs,
+                remarks=remarks,
+                quantity_in_crates=quantity_in_crates
             )
+
             db.session.add(new_eggs)
             db.session.commit()
-            return jsonify({'message': 'New eggs data added successfully'}), 400
-        
+            return jsonify({'message': 'New eggs data added successfully'}), 200
+
         elif request.method == 'GET':
-            date = request.args.get('date')
-            date = EggProduction.query.filter_by(date=date).first()
-            
-            if not date:
-                return jsonify({'message': 'Invalid date!'}),
-            
+            date_str = request.args.get('date')  # "09/08/2025"
+            try:
+                date_value = datetime.strptime(date_str, '%m/%d/%Y')
+                date_value = kenya_tz.localize(date_value)
+            except Exception:
+                return jsonify({'message': 'Invalid date format, use MM/DD/YYYY'}), 400
+
+            record = EggProduction.query.filter_by(date=date_value).first()
+            if not record:
+                return jsonify({'message': 'No record for that date'}), 404
+
             return jsonify({
-                'batch_id': EggProduction.batch_id,
-                'date': EggProduction.date,
-                'eggs_collected': EggProduction.eggs_collected,
-                'broken_eggs': EggProduction.broken_eggs,
-                'remaining_eggs': EggProduction.remaining_eggs,
-                'remark': EggProduction.remark
+                'batch_id': record.batch_id,
+                'date': record.date.isoformat(),
+                'eggs_collected': record.eggs_collected,
+                'broken_eggs': record.broken_eggs,
+                'remaining_eggs': record.remaining_eggs,
+                'remarks': record.remarks
             })
-            
+
         elif request.method == 'PATCH':
             data = request.get_json()
-            date = data.get('date')
-            
-            date = EggProduction.query.filter_by(date=date).first()
-            
+            date_str = data.get('date')
+            try:
+                date_value = datetime.strptime(date_str, '%m/%d/%Y')
+                date_value = kenya_tz.localize(date_value)
+            except Exception:
+                return jsonify({'message': 'Invalid date format, use MM/DD/YYYY'}), 400
+
+            record = EggProduction.query.filter_by(date=date_value).first()
+            if not record:
+                return jsonify({'message': 'No record for that date'}), 404
+
             if 'batch_id' in data:
-                EggProduction.batch_id = data['batch_id']
-            if 'date' in data:
-                EggProduction.date = data['date']
+                record.batch_id = data['batch_id']
             if 'broken_eggs' in data:
-                EggProduction.broken_eggs = data['broken_eggs']
+                record.broken_eggs = data['broken_eggs']
             if 'remaining_eggs' in data:
-                EggProduction.remaining_eggs = data['remaining_eggs']
-            if 'remark' in data:
-                EggProduction.remain = data['remain']
-                
-                db.session.commit()
-                return jsonify({'message': 'Data updated successfully!'}), 400
+                record.remaining_eggs = data['remaining_eggs']
+            if 'remarks' in data:
+                record.remarks = data['remarks']
+
+            db.session.commit()
+            return jsonify({'message': 'Data updated successfully!'}), 200
+
                          
     return app
 
