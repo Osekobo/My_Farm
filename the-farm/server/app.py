@@ -7,9 +7,6 @@ from datetime import datetime
 import pytz
 
 kenya_tz = pytz.timezone("Africa/Nairobi")
-
-
-
 load_dotenv()
 
 def create_app():
