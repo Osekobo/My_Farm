@@ -3,7 +3,7 @@ from extensions import db, bcrypt, migrate
 from config import Config
 from dotenv import load_dotenv
 from models import User, Batch, EggProduction, Sales, Expenses, EmployeeData
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 
 kenya_tz = pytz.timezone("Africa/Nairobi")
@@ -72,17 +72,14 @@ def create_app():
             data = request.get_json()
             batch_name = data.get('batch_name')
             breed = data.get('breed')
-
             acquisition_date_str = data.get('acquisition_date')
             try:
                 acquisition_date = datetime.strptime(acquisition_date_str, '%m/%d/%Y').date()
             except Exception:
                 return jsonify({'message': 'Invalid date format, use MM/DD/YYYY'}), 400
-
             initial_number = data.get('initial_number')
             current_number = data.get('current_number')
             status = data.get('status')
-
             new_batch = Batch(
                 batch_name=batch_name,
                 breed=breed,
@@ -100,14 +97,11 @@ def create_app():
             if not batch_name:
                 data = request.get_json(silent=True) or {}
                 batch_name = data.get('batch_name')
-
             if not batch_name:
                 return jsonify({'message': 'Please provide a batch name'}), 400
-
             batch = Batch.query.filter_by(batch_name=batch_name).first()
             if not batch:
                 return jsonify({'message': 'No batch that goes with that name'}), 404
-
             return jsonify({
                 'id': batch.id,
                 'batch_name': batch.batch_name,
@@ -121,11 +115,9 @@ def create_app():
         elif request.method == 'PATCH':
             data = request.get_json()
             batch_name = data.get('batch_name')
-
             batch = Batch.query.filter_by(batch_name=batch_name).first()
             if not batch:
                 return jsonify({'message': 'Batch not found!'}), 404
-
             if 'breed' in data:
                 batch.breed = data['breed']
             if 'acquisition_date' in data:
@@ -139,25 +131,19 @@ def create_app():
                 batch.current_number = data['current_number']
             if 'status' in data:
                 batch.status = data['status']
-
             db.session.commit()
             return jsonify({'message': 'Batch updated successfully!'})
 
         elif request.method == 'DELETE':
             data = request.get_json()
             batch_name = data.get('batch_name')
-
             if not batch_name:
                 return jsonify({'message': 'Please provide batch_name'}), 400
-
             batch = Batch.query.filter_by(batch_name=batch_name).first()
-
             if not batch:
                 return jsonify({'message': f'No batch found with name {batch_name}'}), 404
-
             db.session.delete(batch)
             db.session.commit()
-
             return jsonify({'message': 'Batch deleted successfully'}), 200
 
     @app.route('/eggsproduction', methods=['POST', 'PATCH', 'GET'])
@@ -168,7 +154,6 @@ def create_app():
             eggs_collected = int(data.get("eggs_collected", 0))
             broken_eggs = int(data.get("broken_eggs", 0))
             remarks = data.get("remarks")
-
             date_str = data.get('date')
             if date_str:
                 try:
@@ -177,14 +162,16 @@ def create_app():
                     return jsonify({'message': 'Invalid date format!'}), 400
             else:
                 date_value = datetime.now(kenya_tz).date()
-
             remaining_eggs = eggs_collected - broken_eggs
-            quantity_in_crates = remaining_eggs / 30
-
+            yesterday = date_value - timedelta(days=1)
+            yesterday_record = EggProduction.query.filter_by(date=yesterday, batch_id=batch_id).first()
+            if yesterday_record:
+                remaining_eggs += yesterday_record.extra_eggs
+            quantity_in_crates = remaining_eggs // 30
+            extra_eggs = remaining_eggs % 30
             batch = Batch.query.filter_by(id=batch_id).first()
             if not batch:
                 return jsonify({'message': 'There is no batch with that ID'}), 404
-
             new_eggs = EggProduction(
                 batch_id=batch_id,
                 date=date_value,
@@ -192,9 +179,9 @@ def create_app():
                 broken_eggs=broken_eggs,
                 remaining_eggs=remaining_eggs,
                 remarks=remarks,
-                quantity_in_crates=quantity_in_crates
+                quantity_in_crates=quantity_in_crates,
+                extra_eggs=extra_eggs
             )
-
             db.session.add(new_eggs)
             db.session.commit()
             return jsonify({'message': 'New eggs data added successfully'}), 200
@@ -205,18 +192,18 @@ def create_app():
                 date_value = datetime.strptime(date_str, '%m/%d/%Y').date()
             except Exception:
                 return jsonify({'message': 'Invalid date format, use MM/DD/YYYY'}), 400
-
             record = EggProduction.query.filter_by(date=date_value).first()
             if not record:
                 return jsonify({'message': 'No record for that date'}), 404
-
             return jsonify({
                 'batch_id': record.batch_id,
                 'date': record.date.isoformat(),
                 'eggs_collected': record.eggs_collected,
                 'broken_eggs': record.broken_eggs,
                 'remaining_eggs': record.remaining_eggs,
-                'remarks': record.remarks
+                'remarks': record.remarks,
+                'quantity_in_crates': record.quantity_in_crates,
+                'extra_eggs': record.extra_eggs
             })
 
         elif request.method == 'PATCH':
@@ -226,11 +213,9 @@ def create_app():
                 date_value = datetime.strptime(date_str, '%m/%d/%Y').date()
             except Exception:
                 return jsonify({'message': 'Invalid date format, use MM/DD/YYYY'}), 400
-
             record = EggProduction.query.filter_by(date=date_value).first()
             if not record:
                 return jsonify({'message': 'No record for that date'}), 404
-
             if 'batch_id' in data:
                 record.batch_id = data['batch_id']
             if 'broken_eggs' in data:
@@ -239,7 +224,6 @@ def create_app():
                 record.remaining_eggs = data['remaining_eggs']
             if 'remarks' in data:
                 record.remarks = data['remarks']
-
             db.session.commit()
             return jsonify({'message': 'Data updated successfully!'}), 200
 
