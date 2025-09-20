@@ -65,19 +65,24 @@ def create_app():
             return jsonify({'message': 'Invalid credentials'}), 401
 
         return jsonify({'message': f'Welcome {user.username}!'})
-    
-    @app.route('/batch', methods=['POST', 'GET', 'PATCH'])
+
+    @app.route('/batch', methods=['POST', 'GET', 'PATCH', 'DELETE'])
     def batch():
         if request.method == 'POST':
             data = request.get_json()
             batch_name = data.get('batch_name')
             breed = data.get('breed')
+
             acquisition_date_str = data.get('acquisition_date')
-            acquisition_date = datetime.strptime(acquisition_date_str, '%m/%d/%Y').date()
-            initial_number = data.get('initial_number')            
+            try:
+                acquisition_date = datetime.strptime(acquisition_date_str, '%m/%d/%Y').date()
+            except Exception:
+                return jsonify({'message': 'Invalid date format, use MM/DD/YYYY'}), 400
+
+            initial_number = data.get('initial_number')
             current_number = data.get('current_number')
             status = data.get('status')
-            
+
             new_batch = Batch(
                 batch_name=batch_name,
                 breed=breed,
@@ -89,53 +94,72 @@ def create_app():
             db.session.add(new_batch)
             db.session.commit()
             return jsonify({'message': 'Batch created successfully'})
-        
+
         elif request.method == 'GET':
-                batch_name = request.args.get('batch_name')
-                if not batch_name:
-                    data = request.get_json(silent=True) or {}
-                    batch_name = data.get('batch_name')
-                    
-                if not batch_name:
-                    return jsonify({'message': 'Please provide a batch name'}), 400
-                
-                batch = Batch.query.filter_by(batch_name = batch_name).first()
-                
-                if not batch:
-                    return jsonify({'message': 'No batch that goes with that name'}), 404
-                
-                return jsonify({
-                    'id': batch.id,
-                    'batch_name': batch.batch_name,
-                    'breed': batch.breed,
-                    'acquisition_date': batch.acquisition_date,
-                    'initial_number': batch.initial_number,
-                    'current_number': batch.current_number,
-                    'status': batch.status
-                })
-            
+            batch_name = request.args.get('batch_name')
+            if not batch_name:
+                data = request.get_json(silent=True) or {}
+                batch_name = data.get('batch_name')
+
+            if not batch_name:
+                return jsonify({'message': 'Please provide a batch name'}), 400
+
+            batch = Batch.query.filter_by(batch_name=batch_name).first()
+            if not batch:
+                return jsonify({'message': 'No batch that goes with that name'}), 404
+
+            return jsonify({
+                'id': batch.id,
+                'batch_name': batch.batch_name,
+                'breed': batch.breed,
+                'acquisition_date': batch.acquisition_date.isoformat() if batch.acquisition_date else None,
+                'initial_number': batch.initial_number,
+                'current_number': batch.current_number,
+                'status': batch.status
+            })
+
         elif request.method == 'PATCH':
             data = request.get_json()
             batch_name = data.get('batch_name')
-            
-            batch = Batch.query.filter_by(batch_name = batch_name).first()
+
+            batch = Batch.query.filter_by(batch_name=batch_name).first()
             if not batch:
                 return jsonify({'message': 'Batch not found!'}), 404
-            
+
             if 'breed' in data:
                 batch.breed = data['breed']
             if 'acquisition_date' in data:
-                batch.acquisition_date = data['acquisition_date']
+                try:
+                    batch.acquisition_date = datetime.strptime(data['acquisition_date'], '%m/%d/%Y').date()
+                except Exception:
+                    return jsonify({'message': 'Invalid date format, use MM/DD/YYYY'}), 400
             if 'initial_number' in data:
                 batch.initial_number = data['initial_number']
             if 'current_number' in data:
                 batch.current_number = data['current_number']
             if 'status' in data:
                 batch.status = data['status']
-                
+
             db.session.commit()
             return jsonify({'message': 'Batch updated successfully!'})
-        
+
+        elif request.method == 'DELETE':
+            data = request.get_json()
+            batch_name = data.get('batch_name')
+
+            if not batch_name:
+                return jsonify({'message': 'Please provide batch_name'}), 400
+
+            batch = Batch.query.filter_by(batch_name=batch_name).first()
+
+            if not batch:
+                return jsonify({'message': f'No batch found with name {batch_name}'}), 404
+
+            db.session.delete(batch)
+            db.session.commit()
+
+            return jsonify({'message': 'Batch deleted successfully'}), 200
+
     @app.route('/eggsproduction', methods=['POST', 'PATCH', 'GET'])
     def eggsproduction():
         if request.method == 'POST':
@@ -145,10 +169,14 @@ def create_app():
             broken_eggs = int(data.get("broken_eggs", 0))
             remarks = data.get("remarks")
 
-            # Parse date
-            date_str = data.get('date')  # expects MM/DD/YYYY
-            date_value = datetime.strptime(date_str, '%m/%d/%Y')
-            date_value = kenya_tz.localize(date_value)
+            date_str = data.get('date')
+            if date_str:
+                try:
+                    date_value = datetime.strptime(date_str, '%m/%d/%Y').date()
+                except ValueError:
+                    return jsonify({'message': 'Invalid date format!'}), 400
+            else:
+                date_value = datetime.now(kenya_tz).date()
 
             remaining_eggs = eggs_collected - broken_eggs
             quantity_in_crates = remaining_eggs / 30
@@ -159,7 +187,7 @@ def create_app():
 
             new_eggs = EggProduction(
                 batch_id=batch_id,
-                date=date_value,  # ✅ if column is DateTime
+                date=date_value,
                 eggs_collected=eggs_collected,
                 broken_eggs=broken_eggs,
                 remaining_eggs=remaining_eggs,
@@ -172,10 +200,9 @@ def create_app():
             return jsonify({'message': 'New eggs data added successfully'}), 200
 
         elif request.method == 'GET':
-            date_str = request.args.get('date')  # "09/08/2025"
+            date_str = request.args.get('date')
             try:
-                date_value = datetime.strptime(date_str, '%m/%d/%Y')
-                date_value = kenya_tz.localize(date_value)
+                date_value = datetime.strptime(date_str, '%m/%d/%Y').date()
             except Exception:
                 return jsonify({'message': 'Invalid date format, use MM/DD/YYYY'}), 400
 
@@ -196,8 +223,7 @@ def create_app():
             data = request.get_json()
             date_str = data.get('date')
             try:
-                date_value = datetime.strptime(date_str, '%m/%d/%Y')
-                date_value = kenya_tz.localize(date_value)
+                date_value = datetime.strptime(date_str, '%m/%d/%Y').date()
             except Exception:
                 return jsonify({'message': 'Invalid date format, use MM/DD/YYYY'}), 400
 
@@ -217,7 +243,6 @@ def create_app():
             db.session.commit()
             return jsonify({'message': 'Data updated successfully!'}), 200
 
-                         
     return app
 
 if __name__ == "__main__":
