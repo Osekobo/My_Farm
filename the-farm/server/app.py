@@ -226,6 +226,8 @@ def create_app():
                 record.remarks = data['remarks']
             db.session.commit()
             return jsonify({'message': 'Data updated successfully!'}), 200
+        
+    @app.route('/sales', methods = ['POST', 'GET', 'PATCH'])
 
     return app
 
