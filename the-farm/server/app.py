@@ -228,6 +228,10 @@ def create_app():
             return jsonify({'message': 'Data updated successfully!'}), 200
         
     @app.route('/sales', methods = ['POST', 'GET', 'PATCH'])
+    def sales():
+        if request.method == 'POST':
+            data = request.get_json()
+            
 
     return app
 
