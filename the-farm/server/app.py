@@ -229,43 +229,91 @@ def create_app():
             db.session.commit()
             return jsonify({'message': 'Data updated successfully!'}), 200
 
-    @app.route('/sales', methods=['POST'])
+    @app.route('/sales', methods=['POST', 'GET', 'PATCH'])
     def sales():
-        data = request.get_json()
+        if request.method == 'POST':
+            data = request.get_json()
 
-        egg_production_id = data.get('egg_production_id')
+            egg_production_id = data.get('egg_production_id')
 
-        date_str = data.get('date')
-        if date_str:
+            date_str = data.get('date')
+            if date_str:
+                try:
+                    date = datetime.strptime(date_str, '%m/%d/%Y').date()
+                except ValueError:
+                    return jsonify({'message': 'Invalid date format, use MM/DD/YYYY'}), 400
+            else:
+                date = datetime.now(kenya_tz).date()
+
+            buyer_name = data.get('buyer_name')
+            quantity_in_crates = int(data.get('quantity_in_crates'))
+            price_per_tray = float(data.get('price_per_tray'))
+            transport_costs = float(data.get('transport_costs'))
+
+            selling_price = quantity_in_crates * price_per_tray
+            final_amount = selling_price - transport_costs
+
+            new_sales = Sales(
+                egg_production_id=egg_production_id,
+                date=date,
+                buyer_name=buyer_name,
+                quantity_in_crates=quantity_in_crates,
+                price_per_tray=price_per_tray,
+                transport_costs=transport_costs,
+                selling_price=selling_price,
+                final_amount=final_amount
+            )
+
+            db.session.add(new_sales)
+            db.session.commit()
+            return jsonify({'message': 'New Sale added successfully!'}), 201
+        
+        elif request.method == 'GET':
+            date_str = request.args.get('date')
             try:
-                date = datetime.strptime(date_str, '%m/%d/%Y').date()
-            except ValueError:
-                return jsonify({'message': 'Invalid date format, use MM/DD/YYYY'}), 400
-        else:
-            date = datetime.now(kenya_tz).date()
-
-        buyer_name = data.get('buyer_name')
-        quantity_in_crates = int(data.get('quantity_in_crates'))
-        price_per_tray = float(data.get('price_per_tray'))
-        transport_costs = float(data.get('transport_costs'))
-
-        selling_price = quantity_in_crates * price_per_tray
-        final_amount = selling_price - transport_costs
-
-        new_sales = Sales(
-            egg_production_id=egg_production_id,
-            date=date,
-            buyer_name=buyer_name,
-            quantity_in_crates=quantity_in_crates,
-            price_per_tray=price_per_tray,
-            transport_costs=transport_costs,
-            selling_price=selling_price,
-            final_amount=final_amount
-        )
-
-        db.session.add(new_sales)
-        db.session.commit()
-        return jsonify({'message': 'New Sale added successfully!'}), 201
+                date_value = datetime.strptime(date_str, '%m/%d/%Y').date()
+            except Exception:
+                return jsonify({'message': 'Invalid date format!'}), 400
+            sale = Sales.query.filter_by(date=date_value).first()
+            if not sale:
+                return jsonify({'message': f'There are no sales on {date_str}'})
+            return jsonify({
+                'date': sale.date.isoformat(),
+                'buyer_name': sale.buyer_name,
+                'quantity_in_crates': sale.quantity_in_crates,
+                'price_per_tray': float(sale.price_per_tray),
+                'transport_costs': float(sale.transport_costs),
+                'selling_price': float(sale.selling_price),
+                'final_amount': float(sale.final_amount)
+            })
+            
+        elif request.method == 'PATCH':
+            data = request.get_json()
+            date_str = data.get('date')
+            
+            try:
+                date_value = datetime.strptime(date_str, '%m/%d/%Y').date()
+            except Exception:
+                return jsonify({'message': 'Invalid date format!'}), 400
+            sale = Sales.query.filter_by(date=date_value).first()
+            if not sale:
+                return jsonify({'message': 'No sale of that date'}), 404
+            if 'date' in data:
+                try:
+                    sale.date = datetime.strptime(data['date'], '%m/%d/%Y').date()
+                except Exception:
+                    return jsonify({'message': 'Invalid date format for update, use MM/DD/YYYY'}), 400
+            if 'buyer_name' in data:
+                sale.buyer_name = data['buyer_name']
+            if 'quantity_in_crates' in data:
+                sale.quantity_in_crates = data['quantity_in_crates']
+            if 'price_per_tray' in data:
+                sale.price_per_tray = data['price_per_tray']
+            if 'transport_costs' in data:
+                sale.transport_costs = data['transport_costs']
+            
+            db.session.commit()
+            return jsonify({'message': 'Sale updated successfully'}), 200
 
     return app
 
@@ -273,3 +321,4 @@ def create_app():
 if __name__ == "__main__":
     app = create_app()
     app.run(debug=True)
+    
