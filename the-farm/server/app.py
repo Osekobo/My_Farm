@@ -9,6 +9,7 @@ import pytz
 kenya_tz = pytz.timezone("Africa/Nairobi")
 load_dotenv()
 
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -66,6 +67,7 @@ def create_app():
 
         return jsonify({'message': f'Welcome {user.username}!'})
 
+    # ------------------- BATCH -------------------
     @app.route('/batch', methods=['POST', 'GET', 'PATCH', 'DELETE'])
     def batch():
         if request.method == 'POST':
@@ -226,14 +228,47 @@ def create_app():
                 record.remarks = data['remarks']
             db.session.commit()
             return jsonify({'message': 'Data updated successfully!'}), 200
-        
-    @app.route('/sales', methods = ['POST', 'GET', 'PATCH'])
+
+    @app.route('/sales', methods=['POST'])
     def sales():
-        if request.method == 'POST':
-            data = request.get_json()
-            
+        data = request.get_json()
+
+        egg_production_id = data.get('egg_production_id')
+
+        date_str = data.get('date')
+        if date_str:
+            try:
+                date = datetime.strptime(date_str, '%m/%d/%Y').date()
+            except ValueError:
+                return jsonify({'message': 'Invalid date format, use MM/DD/YYYY'}), 400
+        else:
+            date = datetime.now(kenya_tz).date()
+
+        buyer_name = data.get('buyer_name')
+        quantity_in_crates = int(data.get('quantity_in_crates'))
+        price_per_tray = float(data.get('price_per_tray'))
+        transport_costs = float(data.get('transport_costs'))
+
+        selling_price = quantity_in_crates * price_per_tray
+        final_amount = selling_price - transport_costs
+
+        new_sales = Sales(
+            egg_production_id=egg_production_id,
+            date=date,
+            buyer_name=buyer_name,
+            quantity_in_crates=quantity_in_crates,
+            price_per_tray=price_per_tray,
+            transport_costs=transport_costs,
+            selling_price=selling_price,
+            final_amount=final_amount
+        )
+
+        db.session.add(new_sales)
+        db.session.commit()
+        return jsonify({'message': 'New Sale added successfully!'}), 201
 
     return app
+
 
 if __name__ == "__main__":
     app = create_app()
