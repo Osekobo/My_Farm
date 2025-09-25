@@ -314,7 +314,69 @@ def create_app():
             
             db.session.commit()
             return jsonify({'message': 'Sale updated successfully'}), 200
-
+        
+    @app.route('/expenses', methods=['POST', 'GET', 'PATCH'])
+    def expenses:
+        if request.method == 'POST':
+            data = data.get_json
+            date_str = data.get('date')
+            if date_str:
+                try:
+                    date = datetime.strptime(date_str, '%m/%d/%Y').date()
+                except ValueError:
+                    return jsonify({'message': 'Invalid date format, use MM/DD/YYYY'}), 400
+            else:
+                date = datetime.now(kenya_tz).date()
+            category = data.get('category');
+            amount_spent = data.get('amount_spent')
+            description = data.get('description')
+            
+            new_expense = Expenses(
+                date = date,
+                category = category,
+                amount_spent = amount_spent,
+                description = description
+            )    
+            db.session.add(new_expense)
+            db.session.commit()
+            
+        elif request.method == 'GET':
+            data = data.get_json()
+            category = data.get('category')
+            
+            expence = Exception.query.filter_by(category = category).first()
+            if not expence:
+                return jsonify({'message': 'There is expence with that category!'})
+            else:
+                return jsonify({
+                    'date': expense.date,
+                    'category': expence.category,
+                    'amount_spent': expence.amount_spent,
+                    'description': expence.description
+                })  
+                
+        elif request.method == 'PATCH':
+            data = request.get_json()
+            category = data.get('category')
+            
+            expence = Expenses.query.filter_by(category=category).first()
+            if not expence:
+                return jsonify({'message': 'There is no such category!'}),404
+            if 'date' in data:
+                try:
+                    expense.date = datetime.strptime(data['date'], '%m/%d/%Y').date()
+                except Exception:
+                    return jsonify({'message': 'Invalid date format for update, use MM/DD/YYYY'}), 400
+            if 'category' in data:
+                expence.category = data['category']
+            if 'amount_spent' in data:
+                expence.amount_spent = data['amount_spent']
+            if 'description' in data:
+                expence.description = data['description']
+                
+            db.session.commit()
+            return jsonify({'message': 'Expense updated successfully!'})
+                
     return app
 
 
