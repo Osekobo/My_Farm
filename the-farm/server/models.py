@@ -134,6 +134,7 @@ class EmployeeData(db.Model):
     name = db.Column(db.String, nullable=False)
     phone_number = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
+    role = db.Column(db.String, nullable=False)
     salary = db.Column(db.Numeric(12, 2), nullable=False)
 
     def to_dict(self):
@@ -143,4 +144,33 @@ class EmployeeData(db.Model):
             'phone_number': self.phone_number,
             'email': self.email,
             'salary': self.salary
+        }
+        
+class Profit(db.Model):
+    __tablename__ = "profit"
+
+    id = db.Column(db.Integer, primary_key=True)
+    start_date = db.Column(db.Date, nullable=False)
+    end_date = db.Column(db.Date, nullable=False)
+    total_sales = db.Column(db.Numeric(12, 2), nullable=False)
+    total_expenses = db.Column(db.Numeric(12, 2), nullable=False)
+    total_salaries = db.Column(db.Numeric(12, 2), nullable=False)
+    profit = db.Column(db.Numeric(12, 2), nullable=False)
+
+    include_salaries = db.Column(db.Boolean, default=True)
+    include_expenses = db.Column(db.Boolean, default=True)
+    include_transport = db.Column(db.Boolean, default=True)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'start_date': self.start_date,
+            'end_date': self.end_date,
+            'total_sales': float(self.total_sales),
+            'total_expenses': float(self.total_expenses),
+            'total_salaries': float(self.total_salaries),
+            'profit': float(self.profit),
+            'include_salaries': self.include_salaries,
+            'include_expenses': self.include_expenses,
+            'include_transport': self.include_transport
         }

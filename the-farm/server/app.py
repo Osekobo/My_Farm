@@ -2,8 +2,10 @@ from flask import Flask, request, jsonify
 from extensions import db, bcrypt, migrate
 from config import Config
 from dotenv import load_dotenv
-from models import User, Batch, EggProduction, Sales, Expenses, EmployeeData
+from models import User, Batch, EggProduction, Sales, Expenses, EmployeeData, Profit
+from profits_util import generate_profit_record
 from datetime import datetime, timedelta
+from sqlalchemy import func
 import pytz
 
 kenya_tz = pytz.timezone("Africa/Nairobi")
@@ -17,6 +19,7 @@ def create_app():
     bcrypt.init_app(app)
     migrate.init_app(app, db)
 
+    # ------------------- AUTH -------------------
     @app.route('/signup', methods=['POST'])
     def signup():
         data = request.get_json()
@@ -148,6 +151,7 @@ def create_app():
             db.session.commit()
             return jsonify({'message': 'Batch deleted successfully'}), 200
 
+    # ------------------- EGGS PRODUCTION -------------------
     @app.route('/eggsproduction', methods=['POST', 'PATCH', 'GET'])
     def eggsproduction():
         if request.method == 'POST':
@@ -197,16 +201,7 @@ def create_app():
             record = EggProduction.query.filter_by(date=date_value).first()
             if not record:
                 return jsonify({'message': 'No record for that date'}), 404
-            return jsonify({
-                'batch_id': record.batch_id,
-                'date': record.date.isoformat(),
-                'eggs_collected': record.eggs_collected,
-                'broken_eggs': record.broken_eggs,
-                'remaining_eggs': record.remaining_eggs,
-                'remarks': record.remarks,
-                'quantity_in_crates': record.quantity_in_crates,
-                'extra_eggs': record.extra_eggs
-            })
+            return jsonify(record.to_dict())
 
         elif request.method == 'PATCH':
             data = request.get_json()
@@ -229,6 +224,7 @@ def create_app():
             db.session.commit()
             return jsonify({'message': 'Data updated successfully!'}), 200
 
+    # ------------------- SALES -------------------
     @app.route('/sales', methods=['POST', 'GET', 'PATCH'])
     def sales():
         if request.method == 'POST':
@@ -277,15 +273,7 @@ def create_app():
             sale = Sales.query.filter_by(date=date_value).first()
             if not sale:
                 return jsonify({'message': f'There are no sales on {date_str}'})
-            return jsonify({
-                'date': sale.date.isoformat(),
-                'buyer_name': sale.buyer_name,
-                'quantity_in_crates': sale.quantity_in_crates,
-                'price_per_tray': float(sale.price_per_tray),
-                'transport_costs': float(sale.transport_costs),
-                'selling_price': float(sale.selling_price),
-                'final_amount': float(sale.final_amount)
-            })
+            return jsonify(sale.to_dict())
             
         elif request.method == 'PATCH':
             data = request.get_json()
@@ -314,11 +302,12 @@ def create_app():
             
             db.session.commit()
             return jsonify({'message': 'Sale updated successfully'}), 200
-        
+
+    # ------------------- EXPENSES -------------------
     @app.route('/expenses', methods=['POST', 'GET', 'PATCH'])
-    def expenses:
+    def expenses():
         if request.method == 'POST':
-            data = data.get_json
+            data = request.get_json()
             date_str = data.get('date')
             if date_str:
                 try:
@@ -327,40 +316,34 @@ def create_app():
                     return jsonify({'message': 'Invalid date format, use MM/DD/YYYY'}), 400
             else:
                 date = datetime.now(kenya_tz).date()
-            category = data.get('category');
+            category = data.get('category')
             amount_spent = data.get('amount_spent')
             description = data.get('description')
             
             new_expense = Expenses(
-                date = date,
-                category = category,
-                amount_spent = amount_spent,
-                description = description
+                date=date,
+                category=category,
+                amount_spent=amount_spent,
+                description=description
             )    
             db.session.add(new_expense)
             db.session.commit()
+            return jsonify({'message': 'Expense added successfully!'}), 201
             
         elif request.method == 'GET':
-            data = data.get_json()
-            category = data.get('category')
-            
-            expence = Exception.query.filter_by(category = category).first()
-            if not expence:
-                return jsonify({'message': 'There is expence with that category!'})
+            category = request.args.get('category')
+            expense = Expenses.query.filter_by(category=category).first()
+            if not expense:
+                return jsonify({'message': 'There is no expense with that category!'})
             else:
-                return jsonify({
-                    'date': expense.date,
-                    'category': expence.category,
-                    'amount_spent': expence.amount_spent,
-                    'description': expence.description
-                })  
+                return jsonify(expense.to_dict())  
                 
         elif request.method == 'PATCH':
             data = request.get_json()
             category = data.get('category')
             
-            expence = Expenses.query.filter_by(category=category).first()
-            if not expence:
+            expense = Expenses.query.filter_by(category=category).first()
+            if not expense:
                 return jsonify({'message': 'There is no such category!'}),404
             if 'date' in data:
                 try:
@@ -368,19 +351,128 @@ def create_app():
                 except Exception:
                     return jsonify({'message': 'Invalid date format for update, use MM/DD/YYYY'}), 400
             if 'category' in data:
-                expence.category = data['category']
+                expense.category = data['category']
             if 'amount_spent' in data:
-                expence.amount_spent = data['amount_spent']
+                expense.amount_spent = data['amount_spent']
             if 'description' in data:
-                expence.description = data['description']
+                expense.description = data['description']
                 
             db.session.commit()
             return jsonify({'message': 'Expense updated successfully!'})
+
+    # ------------------- EMPLOYEE DATA -------------------
+    @app.route('/employeedata', methods=['POST', 'PATCH', 'GET'])
+    def employeedata():
+        if request.method == 'POST':
+            data = request.get_json()
+            name = data.get('name')
+            phone_number = data.get('phone_number')
+            email = data.get('email')
+            role = data.get('role')
+            salary = data.get('salary')
+            
+            existing = EmployeeData.query.filter_by(name=name).first()
+            if existing:
+                return jsonify({'message': 'Employee already exists'})
+            else:
+                new_employee = EmployeeData(
+                    name=name,
+                    phone_number=phone_number,
+                    email=email,
+                    role=role,
+                    salary=salary
+                )
+                db.session.add(new_employee)
+                db.session.commit()
+                return jsonify({'message': 'Employee added successfully!'}), 201
                 
+        elif request.method == 'GET':
+            name = request.args.get('name')
+            employee = EmployeeData.query.filter_by(name=name).first()
+            if not employee:
+                return jsonify({'message': 'Employee does not exist!'})
+            else:
+                return jsonify(employee.to_dict())
+                
+        elif request.method == 'PATCH':
+            data = request.get_json()
+            name = data.get('name')
+            
+            employee = EmployeeData.query.filter_by(name=name).first()
+            if not employee:
+                return jsonify({'message': 'Employee does not exist!'}),404
+            if 'name' in data:
+                employee.name = data['name']
+            if 'phone_number' in data:
+                employee.phone_number = data['phone_number']
+            if 'email' in data:
+                employee.email = data['email']
+            if 'role' in data:
+                employee.role = data['role']
+            if 'salary' in data:
+                employee.salary = data['salary']
+                
+            db.session.commit()
+            return jsonify({'message': 'Employee data updated sucessfully!'})
+
+    # ------------------- PROFITS -------------------
+    @app.route("/profits", methods=["POST"])
+    def calculate_and_store_profit():
+        data = request.get_json()
+        start_date = data.get("start_date")
+        end_date = data.get("end_date")
+
+        include_salaries = data.get("include_salaries", True)
+        include_expenses = data.get("include_expenses", True)
+        include_transport = data.get("include_transport", True)
+
+        if not start_date or not end_date:
+            return jsonify({"error": "start_date and end_date are required"}), 400
+
+        total_sales = db.session.query(func.sum(Sales.final_amount))\
+            .filter(Sales.date.between(start_date, end_date)).scalar() or 0
+
+        total_expenses = 0
+        if include_expenses:
+            total_expenses = db.session.query(func.sum(Expenses.amount_spent))\
+                .filter(Expenses.date.between(start_date, end_date)).scalar() or 0
+
+        total_salaries = 0
+        if include_salaries:
+            total_salaries = db.session.query(func.sum(EmployeeData.salary)).scalar() or 0
+
+        total_transport = 0
+        if include_transport:
+            total_transport = db.session.query(func.sum(Sales.transport_costs))\
+                .filter(Sales.date.between(start_date, end_date)).scalar() or 0
+
+        profit_value = total_sales - (total_expenses + total_salaries + total_transport)
+
+        profit_record = Profit(
+            start_date=start_date,
+            end_date=end_date,
+            total_sales=total_sales,
+            total_expenses=total_expenses + total_transport,
+            total_salaries=total_salaries,
+            profit=profit_value
+        )
+        db.session.add(profit_record)
+        db.session.commit()
+
+        return jsonify(profit_record.to_dict()), 201
+
+    @app.route("/profits", methods=["GET"])
+    def get_profits():
+        profits = Profit.query.all()
+        return jsonify([p.to_dict() for p in profits])
+
+    @app.route("/profits/<int:profit_id>", methods=["GET"])
+    def get_profit(profit_id):
+        profit = Profit.query.get_or_404(profit_id)
+        return jsonify(profit.to_dict())
+
     return app
 
 
 if __name__ == "__main__":
-    app = create_app()
-    app.run(debug=True)
-    
+    app = create_app
