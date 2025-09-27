@@ -61,6 +61,7 @@ class EggProduction(db.Model):
     remaining_eggs = db.Column(db.Integer, nullable=False)
     quantity_in_crates = db.Column(db.Integer, nullable=False)
     remarks = db.Column(db.String, nullable=False)
+    extra_eggs = db.Column(db.Integer, nullable=False, default=0)  
 
     batch = db.relationship("Batch", back_populates="egg_productions")
     sales = db.relationship("Sales", back_populates="egg_production", cascade="all, delete-orphan")
