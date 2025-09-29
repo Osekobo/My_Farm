@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from extensions import db, bcrypt, migrate
 from config import Config
 from dotenv import load_dotenv
-from models import User, Batch, EggProduction, Sales, Expenses, EmployeeData, Profit
+from models import User, Batch, EggProduction, Sales, Expenses, EmployeeData, Profit, Stock
 from profits_util import generate_profit_record
 from datetime import datetime, timedelta
 from sqlalchemy import func
@@ -193,6 +193,14 @@ def create_app():
 
             quantity_in_crates = total_eggs // 30
             extra_eggs = total_eggs % 30
+            
+            stock = Stock.query.first()
+            if not stock:
+                stock = Stock(crates_in_store = 0)
+                db.session.add(stock)
+                
+            stock.crates_in_store += quantity_in_crates
+            
 
             new_eggs = EggProduction(
                 batch_id=batch_id,
@@ -244,7 +252,6 @@ def create_app():
     def sales():
         if request.method == "POST":
             data = request.get_json()
-            egg_production_id = data.get("egg_production_id")
             date_str = data.get("date")
             if date_str:
                 try:
@@ -261,9 +268,14 @@ def create_app():
 
             selling_price = quantity_in_crates * price_per_tray
             final_amount = selling_price - transport_costs
+            
+            stock = Stock.query.first()
+            if stock:
+                stock.crates_in_store -= data.get("quantity_in_crates", 0)
+                if stock.crates_in_store < 0:
+                    stock.crates_in_store = 0
 
             new_sales = Sales(
-                egg_production_id=egg_production_id,
                 date=date,
                 buyer_name=buyer_name,
                 quantity_in_crates=quantity_in_crates,
@@ -312,6 +324,14 @@ def create_app():
                 sale.transport_costs = data["transport_costs"]
             db.session.commit()
             return jsonify({"message": "Sale updated successfully"}), 200
+        
+    @app.route("/stock", methods=["GET"])
+    def get_stock():
+        stock = Stock.query.first()
+        if not stock:
+           return jsonify({'message': 'No stock data found!'}), 400
+       
+        return jsonify(stock.to_dict()), 200
 
     @app.route("/expenses", methods=["POST", "GET", "PATCH"])
     def expenses():
@@ -424,6 +444,12 @@ def create_app():
         data = request.get_json()
         start_date = data.get("start_date")
         end_date = data.get("end_date")
+        
+        try:
+            start_date = datetime.strptime(start_date, "%m/%d/%Y").date()
+            end_date = datetime.strptime(end_date, "%m/%d/%Y").date()
+        except (TypeError, ValueError):
+            return jsonify({"error": "Invalid date format, use MM/DD/YYYY"}), 400
 
         include_salaries = data.get("include_salaries", True)
         include_expenses = data.get("include_expenses", True)

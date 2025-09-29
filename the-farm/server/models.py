@@ -64,7 +64,6 @@ class EggProduction(db.Model):
     extra_eggs = db.Column(db.Integer, nullable=False, default=0)  
 
     batch = db.relationship("Batch", back_populates="egg_productions")
-    sales = db.relationship("Sales", back_populates="egg_production", cascade="all, delete-orphan")
 
     def to_dict(self):
         return {
@@ -77,13 +76,23 @@ class EggProduction(db.Model):
             'quantity_in_crates': self.quantity_in_crates,
             'remarks': self.remarks
         }
-
+        
+class Stock(db.Model):
+    __tablename__ = "stock"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    crates_in_store = db.Column(db.Integer, nullable = False, default = 0)
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'crates_in_store': self.crates_in_store
+        }
 
 class Sales(db.Model):
     __tablename__ = "sales"
 
     id = db.Column(db.Integer, primary_key=True)
-    egg_production_id = db.Column(db.Integer, db.ForeignKey("egg_production.id"), nullable=False)
     date = db.Column(db.Date, nullable=False, default=lambda: datetime.now(kenya_tz).date())
     buyer_name = db.Column(db.String, nullable=False)
     quantity_in_crates = db.Column(db.Integer, nullable=False)
@@ -92,12 +101,9 @@ class Sales(db.Model):
     selling_price = db.Column(db.Numeric(12, 2), nullable=False)
     final_amount = db.Column(db.Numeric(12, 2), nullable=False)
 
-    egg_production = db.relationship("EggProduction", back_populates="sales")
-
     def to_dict(self):
         return {
             'id': self.id,
-            'egg_production_id': self.egg_production_id,
             'date': self.date,
             'buyer_name': self.buyer_name,
             'quantity_in_crates': self.quantity_in_crates,
@@ -106,7 +112,6 @@ class Sales(db.Model):
             'selling_price': float(self.selling_price),
             'final_amount': float(self.final_amount)
         }
-
 
 
 class Expenses(db.Model):
