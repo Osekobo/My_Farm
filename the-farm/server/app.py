@@ -7,6 +7,8 @@ from profits_util import generate_profit_record
 from datetime import datetime, timedelta
 from sqlalchemy import func
 import pytz
+from flask_cors import CORS
+
 
 kenya_tz = pytz.timezone("Africa/Nairobi")
 load_dotenv()
@@ -18,6 +20,7 @@ def create_app():
     db.init_app(app)
     bcrypt.init_app(app)
     migrate.init_app(app, db)
+    CORS(app)
 
     @app.route('/signup', methods=['POST'])
     def signup():
