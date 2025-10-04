@@ -1,15 +1,18 @@
-import './App.css'
-// import NavBar from './components/NavBar'
-import SignUp from './components/SignUp'
+import { useState } from "react";
+import SignUp from "./components/SignUp";
+import Login from "./components/Login";
 
 function App() {
+  const [page, setPage] = useState("signup");
+
   return (
-    <>
+    <div>
       <h1>THE FARM</h1>
-      {/* <NavBar /> */}
-      <SignUp />
-    </>
-  )
+
+      {page === "signup" && <SignUp goToLogin={() => setPage("login")} />}
+      {page === "login" && <Login goToSignup={() => setPage("signup")} />}
+    </div>
+  );
 }
 
-export default App
+export default App;

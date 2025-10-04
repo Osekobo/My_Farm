@@ -1,4 +1,6 @@
-import { useState } from "react"
+import { useState, Link } from "react"
+import { useNavigate } from "react-router-dom";
+
 function SignUp () {
 
     const [formData, setFormData] = useState({
@@ -11,6 +13,7 @@ function SignUp () {
     })
 
     const [message, setMessage] = useState("")
+    const navigate = useNavigate();
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -31,7 +34,8 @@ function SignUp () {
             const data = await res.json();
 
             if (res.ok) {
-                setMessage("Signup Successfull!")
+                setMessage("Signup Successfull redirecting...")
+                setTimeout(() => navigate("login"), 2000)
             } else {
                 setMessage(`${data.message}`);
             }
@@ -60,6 +64,7 @@ function SignUp () {
 
                 <button type="submit">Sign Up</button>
             </form>
+            <p>Already have an account? <Link to="/login">Login here</Link></p>
             {message && (<p>{message}</p>)}
         </div>
     )
