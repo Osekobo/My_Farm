@@ -35,7 +35,7 @@ function SignUp () {
 
             if (res.ok) {
                 setMessage("Signup Successfull redirecting...")
-                setTimeout(() => navigate("login"), 2000)
+                setTimeout(() => navigate("/login"), 2000)
             } else {
                 setMessage(`${data.message}`);
             }
@@ -64,7 +64,8 @@ function SignUp () {
 
                 <button type="submit">Sign Up</button>
             </form>
-            <p>Already have an account? <Link to="/login">Login here</Link></p>
+            <p>Already have an account?</p>
+            <a href="/login">Login here</a>
             {message && (<p>{message}</p>)}
         </div>
     )

@@ -292,15 +292,10 @@ def create_app():
             return jsonify({"message": "New Sale added successfully!"}), 201
 
         elif request.method == "GET":
-            date_str = request.args.get("date")
-            try:
-                date_value = datetime.strptime(date_str, "%m/%d/%Y").date()
-            except Exception:
-                return jsonify({"message": "Invalid date format!"}), 400
-            sale = Sales.query.filter_by(date=date_value).first()
-            if not sale:
-                return jsonify({"message": f"There are no sales on {date_str}"})
-            return jsonify(sale.to_dict())
+            sales = Sales.query.all()
+            if not sales:
+                return jsonify({"message": "There are no sales records available"}), 404
+            return jsonify([s.to_dict() for s in sales]), 200
 
         elif request.method == "PATCH":
             data = request.get_json()
@@ -348,9 +343,9 @@ def create_app():
                     return jsonify({"message": "Invalid date format, use MM/DD/YYYY"}), 400
             else:
                 date = datetime.now(kenya_tz).date()
-            category = data.get("category")
-            amount_spent = data.get("amount_spent")
-            description = data.get("description")
+                category = data.get("category")
+                amount_spent = data.get("amount_spent")
+                description = data.get("description")
 
             new_expense = Expenses(
                 date=date,

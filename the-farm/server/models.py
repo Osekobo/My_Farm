@@ -93,7 +93,7 @@ class Sales(db.Model):
     __tablename__ = "sales"
 
     id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.Date, nullable=False, default=lambda: datetime.now(kenya_tz).date())
+    date = db.Column(db.Date, nullable=False)
     buyer_name = db.Column(db.String, nullable=False)
     quantity_in_crates = db.Column(db.Integer, nullable=False)
     price_per_tray = db.Column(db.Numeric(12, 2), nullable=False)
@@ -104,7 +104,7 @@ class Sales(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'date': self.date,
+            'date': self.date.strftime("%m/%d/%Y") if self.date else None,
             'buyer_name': self.buyer_name,
             'quantity_in_crates': self.quantity_in_crates,
             'price_per_tray': float(self.price_per_tray),
