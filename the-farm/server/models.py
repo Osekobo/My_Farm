@@ -69,12 +69,13 @@ class EggProduction(db.Model):
         return {
             'id': self.id,
             'batch_id': self.batch_id,
-            'date': self.date,
+            'date': self.date.strftime("%m/%d/%Y") if self.date else None,
             'eggs_collected': self.eggs_collected,
             'broken_eggs': self.broken_eggs,
             'remaining_eggs': self.remaining_eggs,
             'quantity_in_crates': self.quantity_in_crates,
-            'remarks': self.remarks
+            'remarks': self.remarks,
+            'extra_eggs': self.extra_eggs
         }
         
 class Stock(db.Model):
@@ -118,7 +119,7 @@ class Expenses(db.Model):
     __tablename__ = "expenses"
 
     id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.Date, nullable=False, default=lambda: datetime.now(kenya_tz).date())
+    date = db.Column(db.Date, nullable=False)
     category = db.Column(db.String, nullable=False)
     amount_spent = db.Column(db.Numeric(12, 2), nullable=False)
     description = db.Column(db.String, nullable=False)
@@ -126,7 +127,7 @@ class Expenses(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'date': self.date,
+            'date': self.date.strftime("%m/%d/%Y") if self.date else None,
             'category': self.category,
             'amount_spent': self.amount_spent,
             'description': self.description

@@ -1,5 +1,5 @@
-import { useState, Link } from "react"
-import { useNavigate } from "react-router-dom";
+import { useState } from "react"
+import { useNavigate, Link } from "react-router-dom";
 
 function SignUp () {
 
@@ -35,7 +35,8 @@ function SignUp () {
 
             if (res.ok) {
                 setMessage("Signup Successfull redirecting...")
-                setTimeout(() => navigate("/login"), 2000)
+                setTimeout(() => {navigate("/login", { replace: true });
+              }, 1500);
             } else {
                 setMessage(`${data.message}`);
             }
@@ -65,7 +66,7 @@ function SignUp () {
                 <button type="submit">Sign Up</button>
             </form>
             <p>Already have an account?</p>
-            <a href="/login">Login here</a>
+            <Link to="/Login">Login here</Link>
             {message && (<p>{message}</p>)}
         </div>
     )
