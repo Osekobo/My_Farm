@@ -1,0 +1,3 @@
+__pycache__/
+*.pyc
+the-farm/server/instance/farm.db
