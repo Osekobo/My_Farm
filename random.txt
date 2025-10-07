@@ -124,21 +124,3 @@ function ResetPassword() {
 }
 
 export default ResetPassword;
-
-
-
-
-
-
-
-
-
-
-
-            <p>Already have an account?</p>
-            <Link to="/Login">Login here</Link>
-            {message && (<p>{message}</p>)}
-
-            
-                setTimeout(() => {navigate("/login", { replace: true });
-              }, 1500);
