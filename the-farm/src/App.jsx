@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SignUp from "./components/SignUp";
-import Login from "./components/Login";
-import Sales from "./components/Sales";
+// import Login from "./components/Login";
+// import Sales from "./components/Sales";
 
 function App() {
   const [page, setPage] = useState("signup");
@@ -10,8 +10,8 @@ function App() {
     <div>
       <h1>THE FARM</h1>
       <SignUp />
-      <Login />
-      <Sales />
+      {/* <Login /> */}
+      {/* <Sales /> */}
     </div>
   );
 }

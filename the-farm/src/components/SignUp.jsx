@@ -1,7 +1,12 @@
 import { useState, Link } from "react"
 import { useNavigate } from "react-router-dom";
+import '/src/components.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-function SignUp () {
+
+
+function SignUp() {
 
     const [formData, setFormData] = useState({
         role: "user",
@@ -27,7 +32,7 @@ function SignUp () {
         try {
             const res = await fetch("http://127.0.0.1:5000/signup", {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
             })
 
@@ -44,31 +49,57 @@ function SignUp () {
             setMessage("Something went wrong!")
         }
     }
-    return (  
-        <div>
-            <h1>Sign Up</h1>
+    return (
+        <div className="signup-container">
+            <div className="signup-left">
+                <h2>Don't have an account?</h2>
+                <p>Sign up to get started!</p>
+                <button onClick={() => navigate("/login")}>Sign Up</button>
+            </div>
+            <div className="signup-right">
+                <h1>Sign Up</h1>
 
-            <form onSubmit={handleSubmit}>
-                <select name="role" value={formData.role} onChange={handleChange}>
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
-                </select>
-                <input type="text" name="username" placeholder="Name" value={formData.username} onChange={handleChange} required/>
-                <input type="text" name="email" placeholder="email" value={formData.email} onChange={handleChange} required/>
-                <input type="text" name="phone_number" placeholder="Phone Number" value={formData.phone_number} onChange={handleChange} required/>
-                <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required/>
+                <form onSubmit={handleSubmit}>
 
-                {formData.role === "admin" && (
-                    <input type="text" name="admin_code" placeholder="Admin Code" value={formData.admin_code} onChange={handleChange}/>
-                )}
 
-                <button type="submit">Sign Up</button>
-            </form>
-            <p>Already have an account?</p>
-            <a href="/login">Login here</a>
-            {message && (<p>{message}</p>)}
+
+
+                    <select name="role" value={formData.role} onChange={handleChange}>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <input type="text" name="username" placeholder="Name" value={formData.username} onChange={handleChange} required />
+
+
+
+                    <input type="text" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+
+                    <input type="text" name="phone_number" placeholder="Phone Number" value={formData.phone_number} onChange={handleChange} required />
+
+                    <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
+                    {formData.role === "admin" && (
+                        <input type="text" name="admin_code" placeholder="Admin Code" value={formData.admin_code} onChange={handleChange} />
+                    )}
+
+                    {/* <div className="checkbox-container">
+                        <input type="checkbox" required />
+                        <label>I accept the terms & conditions</label>
+                    </div> */}
+
+
+                    <button type="submit">Sign Up</button>
+                </form>
+                <p>
+                    Already have an account? <a href="/login">Login here</a>
+                </p>
+                {message && (<p>{message}</p>)}
+            </div>
         </div>
     )
 
 }
 export default SignUp
+
+
+
+
