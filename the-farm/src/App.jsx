@@ -1,18 +1,13 @@
-import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import SignUp from "./components/SignUp";
-// import Login from "./components/Login";
-// import Sales from "./components/Sales";
+import Login from "./components/Login";
 
 function App() {
-  const [page, setPage] = useState("signup");
-
   return (
-    <div>
-      <h1>THE FARM</h1>
-      <SignUp />
-      {/* <Login /> */}
-      {/* <Sales /> */}
-    </div>
+    <Routes>
+      <Route path="/" element={<SignUp />} />
+      <Route path="/login" element={<Login />} />
+    </Routes>
   );
 }
 
