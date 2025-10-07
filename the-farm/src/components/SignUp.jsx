@@ -1,13 +1,10 @@
-import { useState, Link } from "react"
-import { useNavigate } from "react-router-dom";
+import { useState} from "react"
+import { useNavigate, Link } from "react-router-dom";
 import '/src/components.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-
-
 function SignUp() {
-
     const [formData, setFormData] = useState({
         role: "user",
         username: "",
@@ -16,7 +13,6 @@ function SignUp() {
         password: "",
         admin_code: "",
     })
-
     const [message, setMessage] = useState("")
     const navigate = useNavigate();
     const handleChange = (e) => {
@@ -25,19 +21,15 @@ function SignUp() {
             [e.target.name]: e.target.value,
         })
     }
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
             const res = await fetch("http://127.0.0.1:5000/signup", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
             })
-
             const data = await res.json();
-
             if (res.ok) {
                 setMessage("Signup Successfull redirecting...")
                 setTimeout(() => navigate("/login"), 2000)
@@ -58,35 +50,22 @@ function SignUp() {
             </div>
             <div className="signup-right">
                 <h1>Sign Up</h1>
-
                 <form onSubmit={handleSubmit}>
-
-
-
-
                     <select name="role" value={formData.role} onChange={handleChange}>
                         <option value="user">User</option>
                         <option value="admin">Admin</option>
                     </select>
                     <input type="text" name="username" placeholder="Name" value={formData.username} onChange={handleChange} required />
-
-
-
                     <input type="text" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-
                     <input type="text" name="phone_number" placeholder="Phone Number" value={formData.phone_number} onChange={handleChange} required />
-
                     <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
                     {formData.role === "admin" && (
                         <input type="text" name="admin_code" placeholder="Admin Code" value={formData.admin_code} onChange={handleChange} />
                     )}
-
                     {/* <div className="checkbox-container">
                         <input type="checkbox" required />
                         <label>I accept the terms & conditions</label>
                     </div> */}
-
-
                     <button type="submit">Sign Up</button>
                 </form>
                 <p>
@@ -96,10 +75,5 @@ function SignUp() {
             </div>
         </div>
     )
-
 }
 export default SignUp
-
-
-
-
