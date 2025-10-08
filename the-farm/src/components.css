@@ -1,4 +1,3 @@
-/* Background and layout */
 body {
   background-color: #0e2a47;
   font-family: 'Poppins', sans-serif;
@@ -9,7 +8,6 @@ body {
   margin: 0;
 }
 
-/* Card container */
 .signup-container {
   display: flex;
   width: 850px;
@@ -20,7 +18,6 @@ body {
   box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
 }
 
-/* Left section */
 .signup-left {
   width: 45%;
   background: linear-gradient(145deg, #0e2a47, #1d4e89);
@@ -59,7 +56,6 @@ body {
   color: #0e2a47;
 }
 
-/* Right section */
 .signup-right {
   width: 55%;
   padding: 40px 50px;
@@ -74,7 +70,6 @@ body {
   font-size: 1.8rem;
 }
 
-/* Form inputs */
 .signup-right form {
   display: flex;
   flex-direction: column;
@@ -94,7 +89,6 @@ body {
   border-color: #1d4e89;
 }
 
-/* Checkbox and button */
 .checkbox-container {
   display: flex;
   align-items: center;
@@ -119,7 +113,6 @@ body {
   background-color: #0e2a47;
 }
 
-/* Message and link */
 .signup-right p {
   text-align: center;
   margin-top: 15px;
@@ -138,3 +131,4 @@ body {
 
 
 /* Login page */
+

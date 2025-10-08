@@ -11,7 +11,13 @@ function Expenses() {
                 const data = await response.json()
 
                 if (response.ok) {
-                    setExpenses(data)
+                    if (Array.isArray(data)) {
+                     setExpenses(data)
+                    } else {
+                        setExpenses([]);
+                        setError(data.message || "Data format error!")
+                    }
+
                 } else {
                     setError(data.message || "Failed to fetch Expense data!")
                 }
@@ -21,4 +27,32 @@ function Expenses() {
         }
         fetchExpenses()
     }, [])
+    return (
+        <div>
+            <h3>Expenses</h3>
+            <div>    
+            <table>
+                <thead>
+                    <tr>
+                        <td>Date</td>
+                        <td>Category</td>
+                        <td>Amount Spent</td>
+                        <td>Description</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {expenses.map((expense) => (
+                        <tr key={expense.id}>
+                            <td>{expense.date}</td>
+                            <td>{expense.category}</td>
+                            <td>{expense.amount_spent}</td>
+                            <td>{expense.description}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            </div>
+        </div>
+    )
 }
+export default Expenses;
