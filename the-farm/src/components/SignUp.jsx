@@ -36,7 +36,7 @@ function SignUp() {
           navigate("/login", { replace: true });
         }, 1500);
       } else {
-        setMessage($`{data.message}`);
+        setMessage(`${data.message}`);
       }
     } catch (error) {
       console.error(error)
