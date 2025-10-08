@@ -104,33 +104,17 @@ def create_app():
             return jsonify({"message": "Batch created successfully"})
 
         elif request.method == "GET":
-            batch_name = request.args.get("batch_name")
-            if not batch_name:
-                data = request.get_json(silent=True) or {}
-                batch_name = data.get("batch_name")
-            if not batch_name:
-                return jsonify({"message": "Please provide a batch name"}), 400
-            batch = Batch.query.filter_by(batch_name=batch_name).first()
-            if not batch:
-                return jsonify({"message": "No batch that goes with that name"}), 404
-            return jsonify(
-                {
-                    "id": batch.id,
-                    "batch_name": batch.batch_name,
-                    "breed": batch.breed,
-                    "acquisition_date": batch.acquisition_date.isoformat() if batch.acquisition_date else None,
-                    "initial_number": batch.initial_number,
-                    "current_number": batch.current_number,
-                    "status": batch.status,
-                }
-            )
+           batch = Batch.query.all()
+           if not batch:
+               return jsonify([]), 200;
+           return([b.to_dict() for b in batch]), 200;
 
         elif request.method == "PATCH":
             data = request.get_json()
             batch_name = data.get("batch_name")
             batch = Batch.query.filter_by(batch_name=batch_name).first()
             if not batch:
-                return jsonify({"message": "Batch not found!"}), 404
+                return jsonify({"message": "Batch not found!"}), 404;
             if "breed" in data:
                 batch.breed = data["breed"]
             if "acquisition_date" in data:
@@ -405,12 +389,10 @@ def create_app():
                 return jsonify({"message": "Employee added successfully!"}), 201
 
         elif request.method == "GET":
-            name = request.args.get("name")
-            employee = EmployeeData.query.filter_by(name=name).first()
-            if not employee:
-                return jsonify({"message": "Employee does not exist!"})
-            else:
-                return jsonify(employee.to_dict())
+            employeedata = EmployeeData.query.all();
+            if not employeedata:
+                return jsonify([]), 200;
+            return([e.to_dict() for e in employeedata]), 200
 
         elif request.method == "PATCH":
             data = request.get_json()
