@@ -1,4 +1,4 @@
-import { useState} from "react"
+import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom";
 import '/src/components.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -44,9 +44,9 @@ function SignUp() {
     return (
         <div className="signup-container">
             <div className="signup-left">
-                <h2>Don't have an account?</h2>
-                <p>Sign up to get started!</p>
-                <button onClick={() => navigate("/login")}>Sign Up</button>
+                <h2>Already have an account?</h2>
+                <p>Log in to get started!</p>
+                <button onClick={() => navigate("/login")}>Log In</button>
             </div>
             <div className="signup-right">
                 <h1>Sign Up</h1>
@@ -62,10 +62,6 @@ function SignUp() {
                     {formData.role === "admin" && (
                         <input type="text" name="admin_code" placeholder="Admin Code" value={formData.admin_code} onChange={handleChange} />
                     )}
-                    {/* <div className="checkbox-container">
-                        <input type="checkbox" required />
-                        <label>I accept the terms & conditions</label>
-                    </div> */}
                     <button type="submit">Sign Up</button>
                 </form>
                 <p>
