@@ -6,9 +6,9 @@ import Expenses from "./components/Expenses"
 function App() {
   return (
     <Routes>
-      {/* <Route path="/" element={<SignUp />} />
+      <Route path="/" element={<SignUp />} />
       <Route path="/signup" element={<SignUp />} />  
-      <Route path="/login" element={<Login />} />    */}
+      <Route path="/login" element={<Login />} />   
       <Route path="/expenses" element={<Expenses/>}/>
     </Routes>
   );
