@@ -92,6 +92,7 @@ function SignUp() {
             </div>
         </div>
     )
+    
   }
   return (
     <div className="signup-container">
