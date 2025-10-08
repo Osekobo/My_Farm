@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 function Expenses() {
     const [expenses, setExpenses] = useState([])
     const [error, setError] = useState("")
+    
 
     useEffect(() => {
         const fetchExpenses = async() => {

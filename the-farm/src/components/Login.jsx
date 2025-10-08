@@ -7,7 +7,6 @@ function Login() {
     const [password, setpassword] = useState("")
     const [error, setError] = useState("")
     const navigate = useNavigate()
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("")
@@ -19,9 +18,7 @@ function Login() {
                 },
                 body: JSON.stringify({ username_or_email, password }),
             })
-
             const data = await response.json()
-
             if (response.ok) {
                 localStorage.setItem("token", data.token);
                 navigate("/dashboard")
@@ -31,16 +28,12 @@ function Login() {
         } catch (err) {
             setError(err.message)
         }
-
     }
     return (
         <div class="container">
-
             <div class="login-section">
                 <h2>Login</h2>
-
                 {error && <p style={{ color: "red" }}>{error}</p>}
-
                 <form onSubmit={handleSubmit} >
                     <div className="input-box">
                         <input type="text" name="username" placeholder="Username or Email" value={username_or_email} onChange={(e) => setusername(e.target.value)} />
@@ -52,13 +45,11 @@ function Login() {
                     <button type="submit" class="login-btn">Login</button>
                 </form>
             </div>
-
             <div class="right-panel">
                 <h2>Don't have an account?</h2>
                 <p>Sign up to get started!</p>
                 <button onClick={() =>navigate("/signup")}>Sign Up</button>
             </div>
-
         </div>
     )
 }
