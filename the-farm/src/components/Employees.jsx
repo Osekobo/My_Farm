@@ -7,7 +7,7 @@ function Employees() {
     useEffect(() => {
         const fetchEmployees = async() => {
             try {
-                const response = await fetch("http://127.0.0.1:5000/batch")
+                const response = await fetch("http://127.0.0.1:5000/emplayeedata")
                 const data = await response.json()
 
                 if (response.ok) {
@@ -21,4 +21,10 @@ function Employees() {
         }
         fetchEmployees();
     }, [])
+
+    return (
+        <div>
+            
+        </div>
+    )
 }
