@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 // import Expenses from "./components/Expenses"
 // import Batch from "./components/Batch"
 import Employees from "./components/Employees";
+// import Stock  from "./components/Stock";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/expenses" element={<Expenses />} />
       <Route path="/batch" element={<Batch />} /> */}
       <Route path="/employees" element={<Employees />} />
+      {/* <Route path="stock" element={<Stock />}/> */}
     </Routes>
   );
 }
