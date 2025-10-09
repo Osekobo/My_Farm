@@ -68,43 +68,7 @@ function Employees() {
             setError("Something went wrong");
         }
     };
-
-    const [formData, setFormData] = useState({
-        name: "",
-        phone_number: "",
-        email: "",
-        role: "",
-        salary: "",
-    })
-
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        })
-    }
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch("http://127.0.0.1:5000/employeedata", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
-            })
-            const data = await response.json();
-
-            if (response.ok) {
-                setMessage("Employee added successfully!")
-                setShowForm(false);
-                setFormData({ name: "", phone_number: "", email: "", role: "", salary: "" });
-            } else {
-                setError(data.message)
-            }
-        } catch (error) {
-            console.error(error)
-            setError("Something went wrong")
-        }
-    }
+    
     return (
         <div className="container mt-4">
             {error && <p className="text-danger text-center">{error}</p>}
