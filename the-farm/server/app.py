@@ -322,9 +322,9 @@ def create_app():
                     return jsonify({"message": "Invalid date format, use MM/DD/YYYY"}), 400
             else:
                 date = datetime.now(kenya_tz).date()
-                category = data.get("category")
-                amount_spent = data.get("amount_spent")
-                description = data.get("description")
+            category = data.get("category")
+            amount_spent = data.get("amount_spent")
+            description = data.get("description")
 
             new_expense = Expenses(
                 date=date,

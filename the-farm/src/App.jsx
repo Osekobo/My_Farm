@@ -3,7 +3,8 @@ import { Routes, Route } from "react-router-dom";
 // import Login from "./components/Login";
 // import Expenses from "./components/Expenses"
 // import Batch from "./components/Batch"
-import Employees from "./components/Employees";
+// import Employees from "./components/Employees";
+// import Egg_production from "./components/EggsProduction"
 
 function App() {
   return (
@@ -11,9 +12,12 @@ function App() {
       {/* <Route path="/" element={<SignUp />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/expenses" element={<Expenses />} />
-      <Route path="/batch" element={<Batch />} /> */}
       <Route path="/employees" element={<Employees />} />
+      <Route path="/batch" element={<Batch />} />
+      <Route path="/expenses" element={<Expenses />} />*/}
+      
+      {/* <Route path="/eggsproduction" element={<Eggproduction />} /> */}
+
     </Routes>
   );
 }
