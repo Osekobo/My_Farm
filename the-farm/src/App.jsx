@@ -4,7 +4,7 @@ import Login from "./components/Login";
 import Expenses from "./components/Expenses";
 import Batch from "./components/Batch";
 import Employees from "./components/Employees";
-
+import Eggsproduction from "./components/EggsProduction";
 import Stock from "./components/Stock";
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
       <Route path="/employees" element={<Employees />} />
       <Route path="/batch" element={<Batch />} />
       <Route path="/expenses" element={<Expenses />} />
-      <Route path="/eggsproduction" element={<EggsProduction />} />
+      <Route path="/eggsproduction" element={<Eggsproduction />} />
       <Route path="/stock" element={<Stock />} />
     </Routes>
   );
