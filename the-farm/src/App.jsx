@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 // import Expenses from "./components/Expenses"
 // import Batch from "./components/Batch"
 // import Employees from "./components/Employees";
-// import Egg_production from "./components/EggsProduction"
+import  EggsProduction from "./components/EggsProduction"
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
       <Route path="/batch" element={<Batch />} />
       <Route path="/expenses" element={<Expenses />} />*/}
       
-      {/* <Route path="/eggsproduction" element={<Eggproduction />} /> */}
+      <Route path="/eggsproduction" element={<EggsProduction />} />
 
     </Routes>
   );
