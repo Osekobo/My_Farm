@@ -104,33 +104,17 @@ def create_app():
             return jsonify({"message": "Batch created successfully"})
 
         elif request.method == "GET":
-            batch_name = request.args.get("batch_name")
-            if not batch_name:
-                data = request.get_json(silent=True) or {}
-                batch_name = data.get("batch_name")
-            if not batch_name:
-                return jsonify({"message": "Please provide a batch name"}), 400
-            batch = Batch.query.filter_by(batch_name=batch_name).first()
-            if not batch:
-                return jsonify({"message": "No batch that goes with that name"}), 404
-            return jsonify(
-                {
-                    "id": batch.id,
-                    "batch_name": batch.batch_name,
-                    "breed": batch.breed,
-                    "acquisition_date": batch.acquisition_date.isoformat() if batch.acquisition_date else None,
-                    "initial_number": batch.initial_number,
-                    "current_number": batch.current_number,
-                    "status": batch.status,
-                }
-            )
+           batch = Batch.query.all()
+           if not batch:
+               return jsonify([]), 200;
+           return([b.to_dict() for b in batch]), 200;
 
         elif request.method == "PATCH":
             data = request.get_json()
             batch_name = data.get("batch_name")
             batch = Batch.query.filter_by(batch_name=batch_name).first()
             if not batch:
-                return jsonify({"message": "Batch not found!"}), 404
+                return jsonify({"message": "Batch not found!"}), 404;
             if "breed" in data:
                 batch.breed = data["breed"]
             if "acquisition_date" in data:
@@ -220,16 +204,11 @@ def create_app():
             return jsonify({"message": "New eggs data added successfully"}), 200
 
         elif request.method == "GET":
-            date_str = request.args.get("date")
-            try:
-                date_value = datetime.strptime(date_str, "%m/%d/%Y").date()
-            except Exception:
-                return jsonify({"message": "Invalid date format, use MM/DD/YYYY"}), 400
-            record = EggProduction.query.filter_by(date=date_value).first()
-            if not record:
-                return jsonify({"message": "No record for that date"}), 404
-            return jsonify(record.to_dict())
-
+            eggsproduction = EggProduction.query.all();
+            if not eggsproduction:
+                return jsonify({"message": "There is no Eggs production data!"})
+            return([e.to_dict() for e in eggsproduction]), 200
+            
         elif request.method == "PATCH":
             data = request.get_json()
             date_str = data.get("date")
@@ -325,11 +304,11 @@ def create_app():
         
     @app.route("/stock", methods=["GET"])
     def get_stock():
-        stock = Stock.query.first()
+        stock = Stock.query.all()
         if not stock:
-           return jsonify({'message': 'No stock data found!'}), 400
+           return jsonify([]), 200
        
-        return jsonify(stock.to_dict()), 200
+        return jsonify(s.to_dict() for s in stock), 200
 
     @app.route("/expenses", methods=["POST", "GET", "PATCH"])
     def expenses():
@@ -343,9 +322,9 @@ def create_app():
                     return jsonify({"message": "Invalid date format, use MM/DD/YYYY"}), 400
             else:
                 date = datetime.now(kenya_tz).date()
-                category = data.get("category")
-                amount_spent = data.get("amount_spent")
-                description = data.get("description")
+            category = data.get("category")
+            amount_spent = data.get("amount_spent")
+            description = data.get("description")
 
             new_expense = Expenses(
                 date=date,
@@ -358,12 +337,11 @@ def create_app():
             return jsonify({"message": "Expense added successfully!"}), 201
 
         elif request.method == "GET":
-            category = request.args.get("category")
-            expense = Expenses.query.filter_by(category=category).first()
-            if not expense:
-                return jsonify({"message": "There is no expense with that category!"})
+            expenses = Expenses.query.all()
+            if not expenses:
+                return jsonify([]), 200;
             else:
-                return jsonify(expense.to_dict())
+                return jsonify([e.to_dict() for e in expenses]), 200
 
         elif request.method == "PATCH":
             data = request.get_json()
@@ -411,12 +389,10 @@ def create_app():
                 return jsonify({"message": "Employee added successfully!"}), 201
 
         elif request.method == "GET":
-            name = request.args.get("name")
-            employee = EmployeeData.query.filter_by(name=name).first()
-            if not employee:
-                return jsonify({"message": "Employee does not exist!"})
-            else:
-                return jsonify(employee.to_dict())
+            employeedata = EmployeeData.query.all();
+            if not employeedata:
+                return jsonify([]), 200;
+            return([e.to_dict() for e in employeedata]), 200
 
         elif request.method == "PATCH":
             data = request.get_json()

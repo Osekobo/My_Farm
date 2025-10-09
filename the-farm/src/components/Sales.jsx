@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 function Sales () {
     const [sales, setSales] = useState([])
@@ -33,9 +35,9 @@ function Sales () {
             <h3>All Sales Records</h3>
 
             <div>
-                <table>
-                    <thead>
-                        <tr>
+                <table className="container table table-secondary table-borderless table-hover mt-4">
+                    <thead className="table-dark">
+                        <tr className="fw-bold">
                             <th>Date</th>
                             <th>Buyer</th>
                             <th>Crates</th>
