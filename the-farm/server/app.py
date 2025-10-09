@@ -304,11 +304,11 @@ def create_app():
         
     @app.route("/stock", methods=["GET"])
     def get_stock():
-        stock = Stock.query.first()
+        stock = Stock.query.all()
         if not stock:
-           return jsonify({'message': 'No stock data found!'}), 400
+           return jsonify([]), 200
        
-        return jsonify(stock.to_dict()), 200
+        return jsonify(s.to_dict() for s in stock), 200
 
     @app.route("/expenses", methods=["POST", "GET", "PATCH"])
     def expenses():
@@ -322,9 +322,9 @@ def create_app():
                     return jsonify({"message": "Invalid date format, use MM/DD/YYYY"}), 400
             else:
                 date = datetime.now(kenya_tz).date()
-                category = data.get("category")
-                amount_spent = data.get("amount_spent")
-                description = data.get("description")
+            category = data.get("category")
+            amount_spent = data.get("amount_spent")
+            description = data.get("description")
 
             new_expense = Expenses(
                 date=date,

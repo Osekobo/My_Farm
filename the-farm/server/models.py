@@ -150,6 +150,7 @@ class EmployeeData(db.Model):
             'name': self.name,
             'phone_number': self.phone_number,
             'email': self.email,
+            'role': self.role,
             'salary': self.salary
         }
         

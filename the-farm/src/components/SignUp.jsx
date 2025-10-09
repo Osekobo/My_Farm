@@ -73,6 +73,7 @@ function SignUp() {
             </div>
         </div>
     )
+    
   }
 }
 
