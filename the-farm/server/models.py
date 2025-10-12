@@ -43,7 +43,7 @@ class Batch(db.Model):
             'id': self.id,
             'batch_name': self.batch_name,
             'breed': self.breed,
-            'acquisition_date': self.acquisition_date,
+            'acquisition_date': self.acquisition_date.strftime("%m/%d/%Y") if self.acquisition_date else None,
             'initial_number': self.initial_number,
             'current_number': self.current_number,
             'status': self.status,
@@ -172,8 +172,8 @@ class Profit(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'start_date': self.start_date,
-            'end_date': self.end_date,
+            'start_date': self.start_date.strftime("%m/%d/%Y") if self.start_date else None,
+            'end_date': self.end_date.strftime("%m/%d/%Y") if self.end_date else None,
             'total_sales': float(self.total_sales),
             'total_expenses': float(self.total_expenses),
             'total_salaries': float(self.total_salaries),
