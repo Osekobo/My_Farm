@@ -28,6 +28,7 @@ function Stock() {
     }, [])
     return (
         <div>
+            {error && <p className="text-danger text-center">{error}</p>}
             <h3>Crates in Stock: </h3>
             {stock.map((s) => (
                 <h3 key={s.id}>{s.crates_in_store}</h3>

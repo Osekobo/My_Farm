@@ -43,7 +43,7 @@ class Batch(db.Model):
             'id': self.id,
             'batch_name': self.batch_name,
             'breed': self.breed,
-            'acquisition_date': self.acquisition_date,
+            'acquisition_date': self.acquisition_date.strftime("%m/%d/%Y") if self.date else None,
             'initial_number': self.initial_number,
             'current_number': self.current_number,
             'status': self.status,

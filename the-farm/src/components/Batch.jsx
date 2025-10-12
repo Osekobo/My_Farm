@@ -32,7 +32,7 @@ function Batch() {
   return (
     <div>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <table className="container table table-secondary table-borderless table-hover mt-4">
+      <table className="container table-borderless table-hover mt-4">
         <thead className="table-dark">
           <tr className="fw-bold">
             <th>Batch Name</th>
