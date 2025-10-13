@@ -93,7 +93,6 @@ def create_app():
                 acquisition_date = datetime.strptime(acquisition_date_str, "%Y-%m-%d").date()
             except ValueError:
                 try:
-        # Fallback to MM/DD/YYYY
                     acquisition_date = datetime.strptime(acquisition_date_str, "%m/%d/%Y").date()
                 except ValueError:
                     return jsonify({"message": "Invalid date format, use YYYY-MM-DD or MM/DD/YYYY"}), 400
@@ -326,11 +325,12 @@ def create_app():
             date_str = data.get("date")
             if date_str:
                 try:
-                    date = datetime.strptime(date_str, "%m/%d/%Y").date()
+                    date = datetime.strptime(date_str, "%Y-%m-%d").date()
                 except ValueError:
-                    return jsonify({"message": "Invalid date format, use MM/DD/YYYY"}), 400
-            else:
-                date = datetime.now(kenya_tz).date()
+                    try: 
+                        date = datetime.strptime(date_str, "%m/%d/%Y").date()
+                    except ValueError:
+                        return jsonify({"message": "Invalid date format, use MM/DD/YYYY"}), 400
             category = data.get("category")
             amount_spent = data.get("amount_spent")
             description = data.get("description")
