@@ -84,10 +84,18 @@ def create_app():
             batch_name = data.get("batch_name")
             breed = data.get("breed")
             acquisition_date_str = data.get("acquisition_date")
+            acquisition_date_str = data.get("acquisition_date")
+
+            if not acquisition_date_str:
+                return jsonify({"message": "Acquisition date is required"}), 400
+
             try:
-                acquisition_date = datetime.strptime(acquisition_date_str, "%m/%d/%Y").date()
-            except Exception:
-                return jsonify({"message": "Invalid date format, use MM/DD/YYYY"}), 400
+                acquisition_date = datetime.strptime(acquisition_date_str, "%Y-%m-%d").date()
+            except ValueError:
+                try:
+                    acquisition_date = datetime.strptime(acquisition_date_str, "%m/%d/%Y").date()
+                except ValueError:
+                    return jsonify({"message": "Invalid date format, use YYYY-MM-DD or MM/DD/YYYY"}), 400
             initial_number = data.get("initial_number")
             current_number = data.get("current_number")
             status = data.get("status")
@@ -317,11 +325,12 @@ def create_app():
             date_str = data.get("date")
             if date_str:
                 try:
-                    date = datetime.strptime(date_str, "%m/%d/%Y").date()
+                    date = datetime.strptime(date_str, "%Y-%m-%d").date()
                 except ValueError:
-                    return jsonify({"message": "Invalid date format, use MM/DD/YYYY"}), 400
-            else:
-                date = datetime.now(kenya_tz).date()
+                    try: 
+                        date = datetime.strptime(date_str, "%m/%d/%Y").date()
+                    except ValueError:
+                        return jsonify({"message": "Invalid date format, use MM/DD/YYYY"}), 400
             category = data.get("category")
             amount_spent = data.get("amount_spent")
             description = data.get("description")
