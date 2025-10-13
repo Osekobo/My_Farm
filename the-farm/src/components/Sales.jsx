@@ -34,10 +34,10 @@ function Sales () {
         <div>
             <h3 className="text-center mt-3">All Sales Records</h3>
 
-            <div className="container">
-                <table className="table-borderless table-hover mt-4 table">
-                    <thead className="table-secondary">
-                        <tr className="fw-bold text-center">
+            <div>
+                <table className="container table table-secondary table-borderless table-hover mt-4">
+                    <thead className="table-dark">
+                        <tr className="fw-bold">
                             <th>Date</th>
                             <th>Buyer</th>
                             <th>Crates</th>
