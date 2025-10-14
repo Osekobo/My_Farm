@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 function Profits() {
     const [profits, setProfits] = useState([]);
@@ -64,17 +66,18 @@ function Profits() {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input type="date" name="start_date" placeholder="Starting date" value={formData.start_date} onChange={handleChange}/>
-                <input type="date" name="end_date" placeholder="Ending date" value={formData.end_date} onChange={handleChange} />
-                <button type="submit">Calculate</button>
+        <div className="container">
+            <h3 className="text-center mt-3">Profits</h3>
+            <form onSubmit={handleSubmit} className="container">
+                <input type="date" name="start_date" placeholder="Starting date" value={formData.start_date} onChange={handleChange} className="mx-3" />
+                <input type="date" name="end_date" placeholder="Ending date" value={formData.end_date} onChange={handleChange} className="mx-3" />
+                <button type="submit" className="btn btn-secondary">Calculate</button>
             </form>
-
+            
             {error && <p style={{ color: "red" }}>{error}</p>}
             {message && <p style={{ color: "green" }}>{message}</p>}
 
-            <div>
+            <div className="container">
                 {profits.map((p) => (
                     <div key={p.id}>
                         <h4>Starting Date: {p.start_date}</h4>

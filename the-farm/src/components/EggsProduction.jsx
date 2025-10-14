@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 function EggsProduction() {
     const [eggsproduction, setEggsproduction] = useState([])
@@ -68,6 +70,7 @@ function EggsProduction() {
 
     return (
         <div>
+            {error && <p className="text-danger text-center">{error}</p>}
             <h3>Collection Data</h3>
             {error && <p className="text-danger text-center">{error}</p>}
             <div>

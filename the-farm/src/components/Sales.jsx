@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 function Sales() {
     const [sales, setSales] = useState([])
@@ -83,10 +85,10 @@ function Sales() {
                 )}
             </div>
 
-            <div>
-                <table>
-                    <thead>
-                        <tr>
+            <div className="container">
+                <table className="table-borderless table-hover mt-4 table">
+                    <thead className="table-secondary">
+                        <tr className="fw-bold text-center">
                             <th>Date</th>
                             <th>Buyer</th>
                             <th>Crates</th>
@@ -98,7 +100,7 @@ function Sales() {
                     </thead>
                     <tbody>
                         {sales.map((sale) => (
-                            <tr key={sale.id}>
+                            <tr key={sale.id} className="text-center">
                                 <td>{sale.date}</td>
                                 <td>{sale.buyer_name}</td>
                                 <td>{sale.quantity_in_crates}</td>
