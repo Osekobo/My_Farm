@@ -68,34 +68,40 @@ function Employees() {
             setError("Something went wrong");
         }
     };
-    
+
     return (
         <div className="container mt-4">
+            <h3 className="text-center mt-3">Employees</h3>
             {error && <p className="text-danger text-center">{error}</p>}
             {message && <p className="text-success text-center">{message}</p>}
 
-            <div className="new-employee text-center">
+
+            <div className="container d-flex justify-content-end">
                 <button
-                    className="btn btn-primary mb-3"
+                    className="btn btn-secondary"
                     onClick={() => setShowForm(!showForm)}
                 >
                     {showForm ? "Cancel" : "Add New Employee"}
                 </button>
-
+            </div>
+            <div className="container d-flex justify-content-end mt-3">
                 {showForm && (
-                    <form onSubmit={handleSubmit} className="d-flex flex-column gap-2 align-items-center">
-                        <input type="text" name="name" placeholder="Employee name" value={formData.name} onChange={handleChange} />
-                        <input type="text" name="phone_number" placeholder="Phone number" value={formData.phone_number} onChange={handleChange} />
-                        <input type="text" name="email" placeholder="Email" value={formData.email} onChange={handleChange} />
-                        <input type="text" name="role" placeholder="Role" value={formData.role} onChange={handleChange} />
-                        <input type="text" name="salary" placeholder="Salary" value={formData.salary} onChange={handleChange} />
-                        <button type="submit" className="btn btn-success mt-2">Save</button>
+                    <form onSubmit={handleSubmit} className="d-flex flex-column">
+                        <input type="text" name="name" placeholder="Employee name" value={formData.name} onChange={handleChange} className="form-control mb-3"/>
+                        <input type="text" name="phone_number" placeholder="Phone number" value={formData.phone_number} onChange={handleChange} className="form-control mb-3"/>
+                        <input type="text" name="email" placeholder="Email" value={formData.email} onChange={handleChange} className="form-control mb-3"/>
+                        <input type="text" name="role" placeholder="Role" value={formData.role} onChange={handleChange} className="form-control mb-3"/>
+                        <input type="text" name="salary" placeholder="Salary" value={formData.salary} onChange={handleChange} className="form-control mb-3"/>
+                        <button type="submit" className="btn btn-secondary">Save</button>
                     </form>
                 )}
             </div>
 
-            <table className="table table-secondary table-hover mt-4">
-                <thead className="table-dark">
+
+
+
+            <table className="container table-borderless table-hover mt-4 table">
+                <thead className="table-secondary">
                     <tr className="fw-bold text-center">
                         <td>Name</td>
                         <td>Phone Number</td>
