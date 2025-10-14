@@ -161,13 +161,13 @@ def create_app():
             remarks = data.get("remarks")
             date_str = data.get("date")
 
-            if date_str:
+            try:
+                date = datetime.strptime(date_str, "%Y-%m-%d").date()
+            except ValueError:
                 try:
-                    date_value = datetime.strptime(date_str, "%m/%d/%Y").date()
+                    date = datetime.strptime(date_str, "%m/%d/%Y").date()
                 except ValueError:
-                    return jsonify({"message": "Invalid date format!"}), 400
-            else:
-                date_value = datetime.now(kenya_tz).date()
+                    return jsonify({"message": "Invalid date format, use YYYY-MM-DD or MM/DD/YYYY"}), 400
 
             batch = Batch.query.filter_by(id=batch_id).first()
             if not batch:
@@ -199,7 +199,7 @@ def create_app():
 
             new_eggs = EggProduction(
                 batch_id=batch_id,
-                date=date_value,
+                date=date,
                 eggs_collected=eggs_collected,
                 broken_eggs=broken_eggs,
                 remaining_eggs=remaining_eggs,
@@ -429,11 +429,14 @@ def create_app():
         end_date = data.get("end_date")
         
         try:
-            start_date = datetime.strptime(start_date, "%m/%d/%Y").date()
-            end_date = datetime.strptime(end_date, "%m/%d/%Y").date()
+            start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+            end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
         except (TypeError, ValueError):
-            return jsonify({"error": "Invalid date format, use MM/DD/YYYY"}), 400
-
+            try:
+                start_date = datetime.strptime(start_date, "%m/%d/%Y").date()
+                end_date = datetime.strptime(end_date, "%m/%d/%Y").date()
+            except:
+                return jsonify({"error": "Invalid date format, use MM/DD/YYYY"}), 400
         include_salaries = data.get("include_salaries", True)
         include_expenses = data.get("include_expenses", True)
         include_transport = data.get("include_transport", True)
