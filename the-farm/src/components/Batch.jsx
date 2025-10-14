@@ -71,7 +71,23 @@ function Batch() {
   return (
     <div>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <table className="container table-borderless table-hover mt-4">
+      <div>
+        <button onClick={() => setShowForm(!showForm)}>{showForm? "Cancel" : "Add new Batch"}</button>
+
+        {showForm && (
+          <form onSubmit={handleSubmit}>
+            <input type="text" name="batch_name" placeholder="Batch name" value={formData.batch_name} onChange={handleChange} required/>
+            <input type="text" name="breed" placeholder="Breed" value={formData.breed} onChange={handleChange} required/>
+            <input type="date" name="acquisition_date" placeholder="Acquisition Date" value={formData.acquisition_date} onChange={handleChange} required/>
+            <input type="text" name="initial_number" placeholder="Initial Number" value={formData.initial_number} onChange={handleChange} required/>
+            <input type="text" name="current_number" placeholder="Current Number" value={formData.current_number} onChange={handleChange} required/>
+            <input type="text" name="status" placeholder="Status" value={formData.status} onChange={handleChange} required/>
+            <button type="submit" className="btn btn-success mt-2">Save</button>
+          </form>
+        )}
+      </div>
+
+      <table className="container table table-secondary table-borderless table-hover mt-4">
         <thead className="table-dark">
           <tr className="fw-bold">
             <th>Batch Name</th>
