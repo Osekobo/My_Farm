@@ -1,3 +1,11 @@
+body {
+  display: block !important;
+  align-items: unset !important;
+  justify-content: unset !important;
+  height: auto !important;
+}
+
+
 /* 🌟 Overall Container */
 #expenses-container {
   max-width: 1000px;

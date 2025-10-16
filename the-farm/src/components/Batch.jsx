@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
 
 function Batch() {
   const [batch, setBatch] = useState([]);
@@ -40,7 +41,7 @@ function Batch() {
         setError(data.message || "Something went wrong")
       }
     } catch (err) {
-      console.error(error)
+      console.error(err)
       setError("Error with the data!")
     };
   };
@@ -69,13 +70,13 @@ function Batch() {
   }, []);
 
   return (
-    <div>
+    <div className="batch-page container py-4">
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <div>
-        <button onClick={() => setShowForm(!showForm)}>{showForm? "Cancel" : "Add new Batch"}</button>
+      <div className="text-center mb-3">
+        <button className="btn btn-primary" onClick={() => setShowForm(!showForm)}>{showForm? "Cancel" : "Add new Batch"}</button>
 
         {showForm && (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}  className="batch-form d-flex flex-column gap-2 align-items-center">
             <input type="text" name="batch_name" placeholder="Batch name" value={formData.batch_name} onChange={handleChange} required/>
             <input type="text" name="breed" placeholder="Breed" value={formData.breed} onChange={handleChange} required/>
             <input type="date" name="acquisition_date" placeholder="Acquisition Date" value={formData.acquisition_date} onChange={handleChange} required/>
@@ -87,7 +88,7 @@ function Batch() {
         )}
       </div>
 
-      <table className="container table table-secondary table-borderless table-hover mt-4">
+      <table className="table table-striped table-hover mt-4">
         <thead className="table-dark">
           <tr className="fw-bold">
             <th>Batch Name</th>
