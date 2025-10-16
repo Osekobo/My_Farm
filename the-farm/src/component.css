@@ -1,8 +1,17 @@
-/* * {
+login page
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
+}
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .container {
@@ -13,7 +22,7 @@
   display: flex;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
+} 
 
 .login-section {
   flex: 1;
@@ -139,4 +148,4 @@ input:focus {
   .right-panel {
     padding: 30px;
   }
-} */
+}

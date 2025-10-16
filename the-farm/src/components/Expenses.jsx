@@ -125,7 +125,7 @@ function Expenses() {
   };
 
   return (
-    <div id="expenses-container" className="container mt-4">
+    <div id="expenses-container" className="mt-4">
       <h3 className="expenses-title text-center mb-3">💰 Expenses Tracker</h3>
 
       {/* Top Controls */}
