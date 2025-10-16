@@ -15,6 +15,15 @@ function Expenses() {
     description: "",
   });
 
+  const BASE_URL = "http://127.0.0.1:5000";
+
+  // ✅ Convert any incoming date to ISO (for HTML date input)
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return !isNaN(date) ? date.toISOString().split("T")[0] : dateString;
+  };
+
   // Handle input change
   const handleChange = (e) => {
     setFormData({
@@ -23,19 +32,23 @@ function Expenses() {
     });
   };
 
-  // Create or update expense
+  // ✅ Create or update expense
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const method = editingExpense ? "PATCH" : "POST";
       const url = editingExpense
-        ? `http://127.0.0.1:5000/expenses/${editingExpense.id}`
-        : "http://127.0.0.1:5000/expenses";
+        ? `${BASE_URL}/expense/${editingExpense.id}`
+        : `${BASE_URL}/expenses`;
+
+      const payload = editingExpense
+        ? { id: editingExpense.id, ...formData } // Flask PATCH expects "id" in JSON body
+        : formData;
 
       const response = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
@@ -55,10 +68,10 @@ function Expenses() {
     }
   };
 
-  // Fetch all expenses
+  // ✅ Fetch all expenses
   const fetchExpenses = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:5000/expenses");
+      const response = await fetch(`${BASE_URL}/expenses`);
       const data = await response.json();
 
       if (response.ok && Array.isArray(data)) {
@@ -76,11 +89,15 @@ function Expenses() {
     fetchExpenses();
   }, []);
 
+  // ✅ Delete expense by ID
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://127.0.0.1:5000/expenses/${id}`, {
+      const response = await fetch(`${BASE_URL}/expense/${id}`, {
         method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }), // Flask DELETE expects JSON body
       });
+
       const data = await response.json();
 
       if (response.ok) {
@@ -98,7 +115,7 @@ function Expenses() {
   const handleEdit = (expense) => {
     setEditingExpense(expense);
     setFormData({
-      date: expense.date,
+      date: formatDate(expense.date),
       category: expense.category,
       amount_spent: expense.amount_spent,
       description: expense.description,
@@ -195,7 +212,7 @@ function Expenses() {
           <tbody>
             {expenses.map((expense) => (
               <tr key={expense.id} className="expense-row">
-                <td>{expense.date}</td>
+                <td>{formatDate(expense.date)}</td>
                 <td>{expense.category}</td>
                 <td>{expense.amount_spent}</td>
                 <td>{expense.description}</td>

@@ -12,7 +12,6 @@ import Sales from "./components/Sales";
 function App() {
   return (
     <Routes>
-      {/* <Route path="/" element={<SignUp />} /> */}
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<Login />} />
       <Route path="/batch" element={<Batch />} /> 
@@ -21,7 +20,7 @@ function App() {
       <Route path="/profits" element={<Profits/>} /> 
       <Route path="/eggsproduction" element={<Eggsproduction />} />
       <Route path="/employees" element={<Employees />} />
-      <Route path="/sales" element={<Sales />} />
+      <Route path="/sales" element={<Sales /> } />
     </Routes>
   );
 }

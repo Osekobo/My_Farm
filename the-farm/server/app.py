@@ -78,8 +78,7 @@ def create_app():
 
         return jsonify({"message": f"Welcome {user.username}!"})
 
-    # ------------------- BATCH -------------------
-    @app.route("/batch", methods=["POST", "GET", "PATCH", "DELETE"])
+    @app.route("/batch", methods=["POST", "GET"])
     def batch():
         if request.method == "POST":
             data = request.get_json()
@@ -115,39 +114,44 @@ def create_app():
             if not batches:
                 return jsonify([]), 200
             return jsonify([b.to_dict() for b in batches]), 200
-
-        elif request.method == "PATCH":
+        
+    @app.route("/batches/<int:id>", methods=["PATCH", "DELETE"])
+    def batches(id):
+        if request.method == "PATCH":
             data = request.get_json()
-            batch_name = data.get("batch_name")
-            batch = Batch.query.filter_by(batch_name=batch_name).first()
+            batch_id= data.get("id")
+            
+            batch = db.session.get(Batch, id)
             if not batch:
                 return jsonify({"message": "Batch not found!"}), 404
-
-            if "breed" in data:
-                batch.breed = data["breed"]
-            if "acquisition_date" in data:
-                try:
-                    batch.acquisition_date = datetime.strptime(data["acquisition_date"], "%m/%d/%Y").date()
-                except Exception:
-                    return jsonify({"message": "Invalid date format, use MM/DD/YYYY"}), 400
-            if "initial_number" in data:
-                batch.initial_number = data["initial_number"]
-            if "current_number" in data:
-                batch.current_number = data["current_number"]
-            if "status" in data:
-                batch.status = data["status"]
+            
+            for field in ["batch_name", "breed", "acquisition_date", "initial_number", "current_number", "status"]:
+                if field in data:
+                    value = data[field]
+                    if field  == "acquisition_date" and isinstance(value, str):
+                        try:
+                            value = datetime.strptime(value, "%Y-%m-%d").date()
+                        except ValueError:
+                            try:
+                                value = datetime.strptime(value, "%m/%d/%Y").date()
+                            except ValueError:
+                                return jsonify({"message": "Invalid date format. Use YYYY-MM-DD."}), 400
+                    setattr(batch, field, value)
 
             db.session.commit()
             return jsonify({"message": "Batch updated successfully!"})
 
         elif request.method == "DELETE":
             data = request.get_json()
-            batch_name = data.get("batch_name")
-            if not batch_name:
-                return jsonify({"message": "Please provide batch_name"}), 400
-            batch = Batch.query.filter_by(batch_name=batch_name).first()
+            batch_id= data.get("id")
+            
+            if not batch_id:
+                return jsonify({"message": "Please provide batch_id"}), 400
+            
+            batch = db.session.get(Batch, id)
+            
             if not batch:
-                return jsonify({"message": f"No batch found with name {batch_name}"}), 404
+                return jsonify({"message": f"No batch found with name {batch_id}"}), 404
 
             db.session.delete(batch)
             db.session.commit()
@@ -215,27 +219,29 @@ def create_app():
                 return jsonify({"message": "There is no Eggs production data!"})
             return jsonify([e.to_dict() for e in eggs_data]), 200
 
-        elif request.method == "PATCH":
+    @app.route("/eggsproduct/<int:id>", methods=["PATCH", "DELETE"])
+    def eggsproduct(id):
+        if request.method == "PATCH":
             data = request.get_json()
-            date_str = data.get("date")
-            try:
-                date_value = datetime.strptime(date_str, "%m/%d/%Y").date()
-            except Exception:
-                return jsonify({"message": "Invalid date format, use MM/DD/YYYY"}), 400
-
-            record = EggProduction.query.filter_by(date=date_value).first()
-            if not record:
-                return jsonify({"message": "No record for that date"}), 404
-
-            if "batch_id" in data:
-                record.batch_id = data["batch_id"]
-            if "broken_eggs" in data:
-                record.broken_eggs = data["broken_eggs"]
-            if "remaining_eggs" in data:
-                record.remaining_eggs = data["remaining_eggs"]
-            if "remarks" in data:
-                record.remarks = data["remarks"]
-
+            egg_id = data.get("id")
+            
+            eggs_col = db.session.get(EggProduction, egg_id)
+            if not eggs_col:
+                return jsonify({"message": "No collection info on that id!"}), 404
+            
+            for field in ["date", "eggs_collected", "broken_eggs", "remarks"]:
+                if field in data:
+                    value = data[field]
+                    if field  == "date" and isinstance(value, str):
+                        try:
+                            value = datetime.strptime(value, "%Y-%m-%d").date()
+                        except ValueError:
+                            try:
+                                value = datetime.strptime(value, "%m/%d/%Y").date()
+                            except ValueError:
+                                return jsonify({"message": "Invalid date format. Use YYYY-MM-DD."}), 400
+                    setattr(eggs_col, field, value)
+            
             db.session.commit()
             return jsonify({"message": "Data updated successfully!"}), 200
         
@@ -246,7 +252,7 @@ def create_app():
             if not egg_id:
                 return jsonify({"Enter ID!"})
             
-            egg_col = EggProduction.query.get(egg_id)
+            egg_col = db.session.get(EggProduction, egg_id)
             if not egg_col:
                 return ({"message": "No Eggs collection data!"})
             
@@ -255,7 +261,7 @@ def create_app():
             return jsonify({"message": "Deleted successfully"})
 
     # ------------------- SALES -------------------
-    @app.route("/sales", methods=["POST", "GET", "PATCH", "DELETE"])
+    @app.route("/sales", methods=["POST", "GET"])
     def sales():
         if request.method == "POST":
             data = request.get_json()
@@ -305,21 +311,28 @@ def create_app():
                 return jsonify({"message": "There are no sales records available"}), 404
             return jsonify([s.to_dict() for s in sales]), 200
 
-        elif request.method == "PATCH":
+    @app.route("/sale/<int:id>", methods=["PATCH", "DELETE"])
+    def sale(id):
+        if request.method == "PATCH":
             data = request.get_json()
-            date_str = data.get("date")
-            try:
-                date_value = datetime.strptime(date_str, "%m/%d/%Y").date()
-            except Exception:
-                return jsonify({"message": "Invalid date format!"}), 400
+            sale_id = data.get("id")
 
-            sale = Sales.query.filter_by(date=date_value).first()
+            sale = db.session.get(Sales, sale_id)
             if not sale:
                 return jsonify({"message": "No sale of that date"}), 404
 
-            for field in ["buyer_name", "quantity_in_crates", "price_per_tray", "transport_costs"]:
+            for field in ["date", "buyer_name", "quantity_in_crates", "price_per_tray", "transport_costs"]:
                 if field in data:
-                    setattr(sale, field, data[field])
+                    value = data[field]
+                    if field  == "date" and isinstance(value, str):
+                        try:
+                            value = datetime.strptime(value, "%Y-%m-%d").date()
+                        except ValueError:
+                            try:
+                                value = datetime.strptime(value, "%m/%d/%Y").date()
+                            except ValueError:
+                                return jsonify({"message": "Invalid date format. Use YYYY-MM-DD."}), 400
+                    setattr(sale, field, value)
 
             db.session.commit()
             return jsonify({"message": "Sale updated successfully"}), 200
@@ -331,14 +344,14 @@ def create_app():
             if not sale_id:
                 return jsonify({"message": "ID required"}), 400
             
-            sale = Sales.query.get(sale_id)
+            sale = db.session.get(Sales, sale_id)
             if not sale:
                 return jsonify({"message": "No sale"}), 404
             
             db.session.delete(sale)
             db.session.commit()
             return jsonify({"message": "Deleted Successfully"})
-    # ------------------- STOCK -------------------
+        
     @app.route("/stock", methods=["GET"])
     def get_stock():
         stock = Stock.query.all()
@@ -346,7 +359,7 @@ def create_app():
             return jsonify([]), 200
         return jsonify([s.to_dict() for s in stock]), 200
 
-    @app.route("/expenses", methods=["POST", "GET", "PATCH", "DELETE"])
+    @app.route("/expenses", methods=["POST", "GET"])
     def expenses():
         if request.method == "POST":
             data = request.get_json()
@@ -382,8 +395,10 @@ def create_app():
             if not expenses:
                 return jsonify([]), 200
             return jsonify([e.to_dict() for e in expenses]), 200
-
-        elif request.method == "PATCH":
+        
+    @app.route("/expense/<int:id>", methods=["PATCH", "DELETE"])
+    def expense(id):
+        if request.method == "PATCH":
             data = request.get_json()
             expense_id = data.get("id")
 
@@ -417,7 +432,7 @@ def create_app():
             if not expense_id:
                 return jsonify({"message": "Expense ID is required"}), 400
 
-            expense = Expenses.query.get(expense_id)
+            expense = db.query.get(Expenses, expense_id)
             if not expense:
                 return jsonify({"message": f"No expense found with id {expense_id}"}), 404
 

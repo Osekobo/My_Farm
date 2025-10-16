@@ -1,8 +1,5 @@
 from extensions import db
 from datetime import datetime
-# import pytz
-
-# kenya_tz = pytz.timezone("Africa/Nairobi")
 
 class User(db.Model):
     __tablename__ = "user"
@@ -43,7 +40,7 @@ class Batch(db.Model):
             'id': self.id,
             'batch_name': self.batch_name,
             'breed': self.breed,
-            'acquisition_date': self.acquisition_date.strftime("%m/%d/%Y") if self.date else None,
+            'acquisition_date': self.acquisition_date.strftime("%Y-%m-%d") if self.acquisition_date else None,
             'initial_number': self.initial_number,
             'current_number': self.current_number,
             'status': self.status,
