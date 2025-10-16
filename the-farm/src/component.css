@@ -1,4 +1,4 @@
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -46,7 +46,6 @@ input:focus {
 }
 
 .forgot {
-  /* text-align: right; */
   font-size: 13px;
   margin-bottom: 20px;
 }
@@ -140,4 +139,4 @@ input:focus {
   .right-panel {
     padding: 30px;
   }
-}
+} */

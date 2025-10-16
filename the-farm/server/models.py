@@ -127,7 +127,7 @@ class Expenses(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'date': self.date.strftime("%m/%d/%Y") if self.date else None,
+            'date': self.date.strftime("%Y-%m-%d") if self.date else None,
             'category': self.category,
             'amount_spent': self.amount_spent,
             'description': self.description

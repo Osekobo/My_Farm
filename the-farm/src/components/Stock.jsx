@@ -7,7 +7,7 @@ function Stock() {
     useEffect(() => {
         const fetchStocks = async() => {
             try {
-                const response = await fetch("http://127.0.0.1:5000/employeedata")
+                const response = await fetch("http://127.0.0.1:5000/stock")
                 const data = await response.json()
 
                 if (response.ok) {

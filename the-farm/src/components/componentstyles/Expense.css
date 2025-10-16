@@ -1,0 +1,130 @@
+/* 🌟 Overall Container */
+#expenses-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 🧾 Title */
+.expenses-title {
+  font-weight: 700;
+  color: #343a40;
+}
+
+/* 🔘 Controls */
+#toggle-form-btn {
+  border-radius: 8px;
+  transition: 0.3s;
+}
+#toggle-form-btn:hover {
+  background-color: #6c757d;
+  transform: scale(1.05);
+}
+
+/* 🧍 Form */
+#expense-form {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+.expense-input {
+  border-radius: 6px;
+}
+#save-btn {
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-weight: 500;
+}
+
+/* ❌ Error Message */
+#error-message {
+  font-weight: 500;
+}
+
+/* 📊 Table */
+#expenses-table {
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+}
+#expenses-table th {
+  background-color: #6c757d;
+  color: white;
+}
+#expenses-table td {
+  vertical-align: middle;
+}
+.expense-row:hover {
+  background-color: #f1f1f1;
+  transition: background 0.2s ease-in-out;
+}
+
+/* ⋮ Action Menu */
+.action-dots {
+  font-size: 20px;
+  border: none;
+}
+.action-menu {
+  position: absolute;
+  right: 0;
+  top: 30px;
+  z-index: 1000;
+  width: 120px;
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 768px) {
+  #expenses-container {
+    padding: 10px;
+  }
+
+  #expense-form .row {
+    flex-direction: column;
+  }
+
+  .expense-input {
+    margin-bottom: 10px;
+  }
+
+  #expenses-table thead {
+    display: none;
+  }
+
+  #expenses-table,
+  #expenses-table tbody,
+  #expenses-table tr,
+  #expenses-table td {
+    display: block;
+    width: 100%;
+  }
+
+  #expenses-table tr {
+    background: #fff;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+  }
+
+  #expenses-table td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  #expenses-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    width: 45%;
+    text-align: left;
+    font-weight: bold;
+  }
+
+  .action-menu {
+    position: static;
+    margin-top: 5px;
+    box-shadow: none;
+  }
+}
