@@ -5,7 +5,7 @@ function Expenses() {
   const [expenses, setExpenses] = useState([]);
   const [error, setError] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [showMenu, setShowMenu] = useState(null);
+  // const [showMenu, setShowMenu] = useState(null);
   const [editingExpense, setEditingExpense] = useState(null);
 
   const [formData, setFormData] = useState({
@@ -121,7 +121,7 @@ function Expenses() {
       description: expense.description,
     });
     setShowForm(true);
-    setShowMenu(null);
+    // setShowMenu(null);
   };
 
   return (
@@ -216,33 +216,23 @@ function Expenses() {
                 <td>{expense.category}</td>
                 <td>{expense.amount_spent}</td>
                 <td>{expense.description}</td>
-                <td style={{ position: "relative" }}>
-                  <button
-                    className="btn btn-sm btn-light action-dots"
-                    onClick={() =>
-                      setShowMenu(showMenu === expense.id ? null : expense.id)
-                    }
-                  >
-                    ⋮
-                  </button>
-
-                  {showMenu === expense.id && (
-                    <div className="action-menu bg-white border rounded shadow-sm p-2">
-                      <button
-                        className="btn btn-sm btn-outline-primary w-100 mb-1"
-                        onClick={() => handleEdit(expense)}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="btn btn-sm btn-outline-danger w-100"
-                        onClick={() => handleDelete(expense.id)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  )}
+                <td>
+                  <div className="expense-actions">
+                    <button
+                      className="btn btn-sm btn-outline-primary"
+                      onClick={() => handleEdit(expense)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="btn btn-sm btn-outline-danger"
+                      onClick={() => handleDelete(expense.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </td>
+
               </tr>
             ))}
           </tbody>

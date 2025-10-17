@@ -46,20 +46,20 @@
   border-radius: 10px;
   overflow: hidden;
   background: white;
-  border-collapse: separate;
-  border-spacing: 0;
+  /* border-collapse: separate; */
+  /* border-spacing: 0; */
 }
 
 #batch-container #batch-table th {
   background-color: #6c757d !important;
   color: white !important;
-  font-weight: 600;
-  text-transform: uppercase;
+  /* font-weight: 600; */
+  /* text-transform: uppercase; */
 }
 
 #batch-container #batch-table td {
   vertical-align: middle;
-  color: #333;
+  /* color: #333; */
 }
 
 #batch-container .batch-row:hover {

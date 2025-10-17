@@ -1,0 +1,171 @@
+/* 🌿 Container */
+#eggs-container {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* 🧾 Centered Header */
+#eggs-container .eggs-title {
+  font-weight: 700;
+  color: #343a40;
+  letter-spacing: 0.4px;
+  text-align: center;
+}
+
+/* 🔘 Add Button */
+#toggle-eggs-form-btn {
+  border-radius: 8px;
+  padding: 8px 18px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+#toggle-eggs-form-btn:hover {
+  background-color: #5a6268;
+  transform: scale(1.05);
+}
+
+/* 🧍 Form Styling */
+#eggs-form {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  border: 1px solid #dee2e6;
+}
+
+#eggs-form input {
+  border-radius: 8px;
+  padding: 10px;
+  transition: border 0.2s;
+}
+
+#eggs-form input:focus {
+  border-color: #6c757d;
+  box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.25);
+}
+
+/* 🖱️ Save Button */
+#save-eggs-btn {
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+#save-eggs-btn:hover {
+  background-color: #343a40;
+  transform: scale(1.05);
+}
+
+/* 📊 Table */
+#eggs-table {
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+  width: 100%;
+}
+
+#eggs-table th {
+  background-color: #6c757d !important;
+  color: white !important;
+  font-weight: 600;
+}
+
+#eggs-table td {
+  vertical-align: middle;
+  font-size: 0.95rem;
+}
+
+#eggs-table tbody tr:hover {
+  background-color: #f1f1f1 !important;
+  transition: background 0.2s ease-in-out;
+}
+
+/* ⚙️ Actions */
+.eggs-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.eggs-actions .btn {
+  min-width: 70px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.eggs-actions .btn:hover {
+  transform: scale(1.05);
+}
+
+/* 📱 Mobile Responsive: Card Style Table */
+@media (max-width: 768px) {
+  #eggs-container {
+    padding: 15px;
+  }
+
+  /* Hide table header */
+  #eggs-table thead {
+    display: none;
+  }
+
+  #eggs-table,
+  #eggs-table tbody,
+  #eggs-table tr,
+  #eggs-table td {
+    display: block;
+    width: 100%;
+  }
+
+  #eggs-table tr {
+    background: #fff;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+  }
+
+  #eggs-table td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+    border: none;
+    border-bottom: 1px solid #eee;
+  }
+
+  #eggs-table td:last-child {
+    border-bottom: none;
+  }
+
+  #eggs-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    width: 45%;
+    text-align: left;
+    font-weight: 600;
+    color: #495057;
+  }
+
+  /* 🧩 Make action buttons stay side-by-side */
+  .eggs-actions {
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .eggs-actions .btn {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+  }
+}
+
+/* 🪶 Row hover */
+.eggs-row:hover {
+  background-color: #f1f1f1;
+  transition: background 0.2s ease-in-out;
+}
