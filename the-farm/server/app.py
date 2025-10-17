@@ -432,7 +432,7 @@ def create_app():
             if not expense_id:
                 return jsonify({"message": "Expense ID is required"}), 400
 
-            expense = db.query.get(Expenses, expense_id)
+            expense = db.session.get(Expenses, expense_id)
             if not expense:
                 return jsonify({"message": f"No expense found with id {expense_id}"}), 404
 
@@ -440,7 +440,7 @@ def create_app():
             db.session.commit()
             return jsonify({"message": f"Expense with id {expense_id} deleted successfully!"}), 200
 
-    # ------------------- EMPLOYEE DATA -------------------
+
     @app.route("/employeedata", methods=["POST", "PATCH", "GET", "DELETE"])
     def employeedata():
         if request.method == "POST":
@@ -511,73 +511,23 @@ def create_app():
         data = request.get_json()
         start_date = data.get("start_date")
         end_date = data.get("end_date")
-
-        try:
-            start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
-            end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
-        except (TypeError, ValueError):
-            try:
-                start_date = datetime.strptime(start_date, "%m/%d/%Y").date()
-                end_date = datetime.strptime(end_date, "%m/%d/%Y").date()
-            except Exception:
-                return jsonify({"error": "Invalid date format, use MM/DD/YYYY"}), 400
-
         include_salaries = data.get("include_salaries", True)
         include_expenses = data.get("include_expenses", True)
         include_transport = data.get("include_transport", True)
-
+        
         if not start_date or not end_date:
             return jsonify({"error": "start_date and end_date are required"}), 400
-
-        total_sales = (
-            db.session.query(func.sum(Sales.final_amount))
-            .filter(Sales.date.between(start_date, end_date))
-            .scalar()
-            or 0
+        
+        result = generate_profit_record(
+            start_date,
+            end_date,
+            include_salaries=include_salaries,
+            include_expenses=include_expenses,
+            include_transport=include_transport,
+            save_to_db=False
         )
-
-        total_expenses = (
-            db.session.query(func.sum(Expenses.amount_spent))
-            .filter(Expenses.date.between(start_date, end_date))
-            .scalar()
-            or 0
-        ) if include_expenses else 0
-
-        total_salaries = (
-            db.session.query(func.sum(EmployeeData.salary)).scalar() or 0
-        ) if include_salaries else 0
-
-        total_transport = (
-            db.session.query(func.sum(Sales.transport_costs))
-            .filter(Sales.date.between(start_date, end_date))
-            .scalar()
-            or 0
-        ) if include_transport else 0
-
-        profit_value = total_sales - (total_expenses + total_salaries + total_transport)
-
-        profit_record = Profit(
-            start_date=start_date,
-            end_date=end_date,
-            total_sales=total_sales,
-            total_expenses=total_expenses + total_transport,
-            total_salaries=total_salaries,
-            profit=profit_value,
-        )
-        db.session.add(profit_record)
-        db.session.commit()
-
-        return jsonify(profit_record.to_dict()), 201
-
-    @app.route("/profits", methods=["GET"])
-    def get_profits():
-        profits = Profit.query.all()
-        return jsonify([p.to_dict() for p in profits]), 200
-
-    @app.route("/profits/<int:profit_id>", methods=["GET"])
-    def get_profit(profit_id):
-        profit = Profit.query.get_or_404(profit_id)
-        return jsonify(profit.to_dict()), 200
+        
+        return jsonify(result), 201
 
     return app
 
