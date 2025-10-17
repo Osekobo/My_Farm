@@ -250,8 +250,8 @@ function Sales() {
                                 <td data-label="Transport Cost">{sale.transport_costs}</td>
                                 <td data-label="Final Amount">{sale.final_amount}</td>
                                 <td data-label="Actions">
-                                    <button className="btn btn-sm btn-primary me-1" onClick={() => handleEdit(sale)}>Edit</button>
-                                    <button className="btn btn-sm btn-danger" onClick={() => handleDelete(sale.id)}>Delete</button>
+                                    <button className="btn btn-sm btn-outline-primary me-1" onClick={() => handleEdit(sale)}>Edit</button>
+                                    <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(sale.id)}>Delete</button>
                                 </td>
                             </tr>
                         ))}

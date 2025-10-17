@@ -153,24 +153,25 @@ function Employees() {
                 <table id="employees-table" className="table table-hover text-center align-middle">
                     <thead className="table-secondary">
                         <tr>
-                            <td>Name</td>
-                            <td>Phone Number</td>
-                            <td>Email</td>
-                            <td>Role</td>
-                            <td>Salary</td>
+                            <th>Name</th>
+                            <th>Phone Number</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Salary</th>
                         </tr>
                     </thead>
                     <tbody>
                         {employeedata.map((e) => (
                             <tr key={e.id} className="employee-row">
-                                <td>{e.name}</td>
-                                <td>{e.phone_number}</td>
-                                <td>{e.email}</td>
-                                <td>{e.role}</td>
-                                <td>{e.salary}</td>
+                                <td data-label="Name">{e.name}</td>
+                                <td data-label="Phone Number">{e.phone_number}</td>
+                                <td data-label="Email">{e.email}</td>
+                                <td data-label="Role">{e.role}</td>
+                                <td data-label="Salary">{e.salary}</td>
                             </tr>
                         ))}
                     </tbody>
+
                 </table>
             </div>
         </div>
