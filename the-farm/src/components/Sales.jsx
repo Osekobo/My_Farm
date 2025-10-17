@@ -134,69 +134,130 @@ function Sales() {
     if (loading) return <p>Loading sales...</p>;
 
     return (
-        <div className="container mt-4">
-            <h1 className="mb-3">Sales</h1>
-            
-            <button className="btn btn-secondary mb-3" onClick={() => {
-                setShowForm(!showForm);
-                setEditingSale(null);
-                setFormData({
-                    date: "",
-                    buyer_name: "",
-                    quantity_in_crates: "",
-                    price_per_tray: "",
-                    transport_costs: "",
-                });
-            }}>
-                {showForm ? "Cancel" : editingSale ? "Edit Sale" : "Add New Sale"}
-            </button>
+        <div id="sales-container" className="mt-4">
+            <h1 className="sales-title mb-3">Sales</h1>
+
+            <div className="d-flex justify-content-end mb-3">
+                <button
+                    id="toggle-form-btn"
+                    className="btn btn-secondary"
+                    onClick={() => {
+                        setShowForm(!showForm);
+                        setEditingSale(null);
+                        setFormData({
+                            date: "",
+                            buyer_name: "",
+                            quantity_in_crates: "",
+                            price_per_tray: "",
+                            transport_costs: "",
+                        });
+                    }}
+                >
+                    {showForm ? "Cancel" : editingSale ? "Edit Sale" : "Add New Sale"}
+                </button>
+            </div>
+
 
             {showForm && (
-                <form onSubmit={handleSubmit} className="mb-4">
-                    <input type="date" name="date" value={formData.date} onChange={handleChange} required />
-                    <input type="text" name="buyer_name" placeholder="Buyer" value={formData.buyer_name} onChange={handleChange} required />
-                    <input type="number" name="quantity_in_crates" placeholder="Crates" value={formData.quantity_in_crates} onChange={handleChange} required />
-                    <input type="number" name="price_per_tray" placeholder="Price/tray" value={formData.price_per_tray} onChange={handleChange} required />
-                    <input type="number" name="transport_costs" placeholder="Transport Cost" value={formData.transport_costs} onChange={handleChange} required />
-                    <button type="submit" className="btn btn-primary mt-2">
-                        {editingSale ? "Update Sale" : "Save Sale"}
-                    </button>
+                <form id="sales-form" onSubmit={handleSubmit} className="mb-4">
+                    <div className="row g-2">
+                        <div className="col-md-2">
+                            <input
+                                type="date"
+                                name="date"
+                                className="form-control sales-input"
+                                value={formData.date}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="col-md-2">
+                            <input
+                                type="text"
+                                name="buyer_name"
+                                className="form-control sales-input"
+                                placeholder="Buyer"
+                                value={formData.buyer_name}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="col-md-2">
+                            <input
+                                type="number"
+                                name="quantity_in_crates"
+                                className="form-control sales-input"
+                                placeholder="Crates"
+                                value={formData.quantity_in_crates}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="col-md-2">
+                            <input
+                                type="number"
+                                name="price_per_tray"
+                                className="form-control sales-input"
+                                placeholder="Price/tray"
+                                value={formData.price_per_tray}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="col-md-2">
+                            <input
+                                type="number"
+                                name="transport_costs"
+                                className="form-control sales-input"
+                                placeholder="Transport Cost"
+                                value={formData.transport_costs}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="col-md-2">
+                            <button type="submit" id="save-btn" className="btn btn-secondary w-100">
+                                {editingSale ? "Update" : "Save"}
+                            </button>
+                        </div>
+                    </div>
                 </form>
             )}
 
-            {error && <p className="text-danger">{error}</p>}
-
-            <table className="table table-hover table-bordered text-center">
-                <thead className="table-secondary">
-                    <tr>
-                        <th>Date</th>
-                        <th>Buyer</th>
-                        <th>Crates</th>
-                        <th>Price/tray</th>
-                        <th>Selling Price</th>
-                        <th>Transport Cost</th>
-                        <th>Final Amount</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {sales.map((sale) => (
-                        <tr key={sale.id}>
-                            <td>{formatDate(sale.date)}</td>
-                            <td>{sale.buyer_name}</td>
-                            <td>{sale.quantity_in_crates}</td>
-                            <td>{sale.price_per_tray}</td>
-                            <td>{sale.selling_price}</td>
-                            <td>{sale.transport_costs}</td>
-                            <td>{sale.final_amount}</td>
-                            <td>
-                                <button className="btn btn-sm btn-primary me-1" onClick={() => handleEdit(sale)}>Edit</button>
-                                <button className="btn btn-sm btn-danger" onClick={() => handleDelete(sale.id)}>Delete</button>
-                            </td>
+            {error && <p id="error-message" className="text-danger text-center">{error}</p>}
+            <div className="table-responsive">
+                <table id="sales-table" className="table table-hover text-center align-middle">
+                    <thead className="table-secondary">
+                        <tr>
+                            <th>Date</th>
+                            <th>Buyer</th>
+                            <th>Crates</th>
+                            <th>Price/tray</th>
+                            <th>Selling Price</th>
+                            <th>Transport Cost</th>
+                            <th>Final Amount</th>
+                            <th>Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {sales.map((sale) => (
+                            <tr key={sale.id} className="sales-row">
+                                <td data-label="Date">{formatDate(sale.date)}</td>
+                                <td data-label="Buyer">{sale.buyer_name}</td>
+                                <td data-label="Crates">{sale.quantity_in_crates}</td>
+                                <td data-label="Price/tray">{sale.price_per_tray}</td>
+                                <td data-label="Selling Price">{sale.selling_price}</td>
+                                <td data-label="Transport Cost">{sale.transport_costs}</td>
+                                <td data-label="Final Amount">{sale.final_amount}</td>
+                                <td data-label="Actions">
+                                    <button className="btn btn-sm btn-primary me-1" onClick={() => handleEdit(sale)}>Edit</button>
+                                    <button className="btn btn-sm btn-danger" onClick={() => handleDelete(sale.id)}>Delete</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
