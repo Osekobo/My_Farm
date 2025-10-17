@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import "./componentstyles/employee.css";
 
 function Employees() {
     const [employeedata, setEmployeedata] = useState([]);
@@ -70,58 +69,110 @@ function Employees() {
     };
 
     return (
-        <div className="container mt-4">
-            <h3 className="text-center mt-3">Employees</h3>
-            {error && <p className="text-danger text-center">{error}</p>}
-            {message && <p className="text-success text-center">{message}</p>}
-
-
-            <div className="container d-flex justify-content-end">
+        <div id="employees-container" className="mt-4">
+            <h3 className="employees-title text-center mb-3">👥 Employees</h3>
+            {error && <p id="error-message" className="text-danger text-center">{error}</p>}
+            {message && <p id="success-message" className="text-success text-center">{message}</p>}
+            <div className="employees-controls d-flex justify-content-end mb-3">
                 <button
+                    id="toggle-form-btn"
                     className="btn btn-secondary"
                     onClick={() => setShowForm(!showForm)}
                 >
                     {showForm ? "Cancel" : "Add New Employee"}
                 </button>
             </div>
-            <div className="container d-flex justify-content-end mt-3">
-                {showForm && (
-                    <form onSubmit={handleSubmit} className="d-flex flex-column">
-                        <input type="text" name="name" placeholder="Employee name" value={formData.name} onChange={handleChange} className="form-control mb-3"/>
-                        <input type="text" name="phone_number" placeholder="Phone number" value={formData.phone_number} onChange={handleChange} className="form-control mb-3"/>
-                        <input type="text" name="email" placeholder="Email" value={formData.email} onChange={handleChange} className="form-control mb-3"/>
-                        <input type="text" name="role" placeholder="Role" value={formData.role} onChange={handleChange} className="form-control mb-3"/>
-                        <input type="text" name="salary" placeholder="Salary" value={formData.salary} onChange={handleChange} className="form-control mb-3"/>
-                        <button type="submit" className="btn btn-secondary">Save</button>
-                    </form>
-                )}
-            </div>
 
 
+            {showForm && (
+                <form id="employee-form" onSubmit={handleSubmit} className="mb-4">
+                    <div className="row g-2 form-row">
+                        <div className="col-md-3">
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="Employee name"
+                                className="form-control employee-input"
+                                value={formData.name}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="col-md-3">
+                            <input
+                                type="text"
+                                name="phone_number"
+                                placeholder="Phone number"
+                                className="form-control employee-input"
+                                value={formData.phone_number}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="col-md-3">
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Email"
+                                className="form-control employee-input"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="col-md-3">
+                            <input
+                                type="text"
+                                name="role"
+                                placeholder="Role"
+                                className="form-control employee-input"
+                                value={formData.role}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div className="mt-2">
+                        <input
+                            type="number"
+                            name="salary"
+                            placeholder="Salary"
+                            className="form-control employee-input"
+                            value={formData.salary}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <button type="submit" id="save-btn" className="btn btn-secondary mt-3">
+                        Save Employee
+                    </button>
+                </form>
+            )}
 
-
-            <table className="container table-borderless table-hover mt-4 table">
-                <thead className="table-secondary">
-                    <tr className="fw-bold text-center">
-                        <td>Name</td>
-                        <td>Phone Number</td>
-                        <td>Email</td>
-                        <td>Role</td>
-                        <td>Salary</td>
-                    </tr>
-                </thead>
-                <tbody className="text-center">
-                    {employeedata.map((e) => (
-                        <tr key={e.id}>
-                            <td>{e.name}</td>
-                            <td>{e.phone_number}</td>
-                            <td>{e.email}</td>
-                            <td>{e.role}</td>
-                            <td>{e.salary}</td>
+            <div className="table-responsive">
+                <table id="employees-table" className="table table-hover text-center align-middle">
+                    <thead className="table-secondary">
+                        <tr>
+                            <td>Name</td>
+                            <td>Phone Number</td>
+                            <td>Email</td>
+                            <td>Role</td>
+                            <td>Salary</td>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {employeedata.map((e) => (
+                            <tr key={e.id} className="employee-row">
+                                <td>{e.name}</td>
+                                <td>{e.phone_number}</td>
+                                <td>{e.email}</td>
+                                <td>{e.role}</td>
+                                <td>{e.salary}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

@@ -1,6 +1,6 @@
-login page
+/* LOGIN PAGE STYLES ONLY APPLY INSIDE .login-page */
 
-* {
+.login-page * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -14,7 +14,7 @@ login page
   height: 100vh;
 }
 
-.container {
+.login-page .container {
   background: #fff;
   border-radius: 20px;
   width: 900px;
@@ -22,26 +22,26 @@ login page
   display: flex;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-} 
+}
 
-.login-section {
+.login-page .login-section {
   flex: 1;
   padding: 60px 50px;
 }
 
-.login-section h2 {
+.login-page .login-section h2 {
   font-size: 26px;
   margin-bottom: 30px;
 }
 
-.input-box {
+.login-page .input-box {
   display: flex;
   flex-direction: column;
   gap: 15px;
   margin-bottom: 20px;
 }
 
-input {
+.login-page input {
   padding: 12px 15px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -50,25 +50,25 @@ input {
   transition: 0.3s;
 }
 
-input:focus {
+.login-page input:focus {
   border-color: #1976d2;
 }
 
-.forgot {
+.login-page .forgot {
   font-size: 13px;
   margin-bottom: 20px;
 }
 
-.forgot a {
+.login-page .forgot a {
   color: #1976d2;
   text-decoration: none;
 }
 
-.forgot a:hover {
+.login-page .forgot a:hover {
   text-decoration: underline;
 }
 
-.login-btn {
+.login-page .login-btn {
   width: 100%;
   padding: 12px;
   background-color: #1d4e89;
@@ -77,14 +77,14 @@ input:focus {
   border-radius: 25px;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s
+  transition: background 0.3s;
 }
 
-.login-btn:hover {
+.login-page .login-btn:hover {
   background: #1565c0;
 }
 
-.social-login {
+.login-page .social-login {
   display: flex;
   justify-content: center;
   gap: 20px;
@@ -92,17 +92,17 @@ input:focus {
   font-size: 24px;
 }
 
-.social-login i {
+.login-page .social-login i {
   cursor: pointer;
   color: #444;
   transition: 0.3s;
 }
 
-.social-login i:hover {
+.login-page .social-login i:hover {
   color: #1976d2;
 }
 
-.right-panel {
+.login-page .right-panel {
   width: 45%;
   background: linear-gradient(145deg, #0e2a47, #1d4e89);
   color: white;
@@ -114,17 +114,17 @@ input:focus {
   text-align: center;
 }
 
-.right-panel h3 {
+.login-page .right-panel h3 {
   font-size: 22px;
   margin-bottom: 10px;
 }
 
-.right-panel p {
+.login-page .right-panel p {
   margin-bottom: 25px;
   font-size: 15px;
 }
 
-.right-panel button {
+.login-page .right-panel button {
   background-color: transparent;
   border: 2px solid #ffffff;
   border-radius: 25px;
@@ -134,18 +134,18 @@ input:focus {
   transition: 0.3s ease;
 }
 
-.right-panel button:hover {
+.login-page .right-panel button:hover {
   background-color: #ffffff;
   color: #0e2a47;
 }
 
 @media (max-width: 768px) {
-  .container {
+  .login-page .container {
     flex-direction: column;
     width: 90%;
   }
 
-  .right-panel {
+  .login-page .right-panel {
     padding: 30px;
   }
 }
