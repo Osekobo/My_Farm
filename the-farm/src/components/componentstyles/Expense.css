@@ -136,3 +136,19 @@ body {
     box-shadow: none;
   }
 }
+/* ⚙️ Expense Action Buttons */
+.expense-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.expense-actions .btn {
+  min-width: 70px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.expense-actions .btn:hover {
+  transform: scale(1.05);
+}
