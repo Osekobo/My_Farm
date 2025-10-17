@@ -158,7 +158,7 @@ def create_app():
             return jsonify({"message": "Batch deleted successfully"}), 200
 
     # ------------------- EGGS PRODUCTION -------------------
-    @app.route("/eggsproduction", methods=["POST", "PATCH", "GET", "DELETE"])
+    @app.route("/eggsproduction", methods=["POST", "GET"])
     def eggsproduction():
         if request.method == "POST":
             data = request.get_json()
@@ -216,7 +216,7 @@ def create_app():
         elif request.method == "GET":
             eggs_data = EggProduction.query.all()
             if not eggs_data:
-                return jsonify({"message": "There is no Eggs production data!"})
+                return jsonify([]), 200
             return jsonify([e.to_dict() for e in eggs_data]), 200
 
     @app.route("/eggsproduct/<int:id>", methods=["PATCH", "DELETE"])
