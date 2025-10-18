@@ -1,13 +1,16 @@
 from flask import Flask, request, jsonify
-from extensions import db, bcrypt, migrate
+from extensions import db, bcrypt, migrate, mail
 from config import Config
 from dotenv import load_dotenv
 from models import User, Batch, EggProduction, Sales, Expenses, EmployeeData, Profit, Stock
 from profits_util import generate_profit_record
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from sqlalchemy import func
 import pytz
 from flask_cors import CORS
+from flask_mail import Message
+import random
+from flask_login import logout_user
 
 kenya_tz = pytz.timezone("Africa/Nairobi")
 load_dotenv()
@@ -16,7 +19,8 @@ load_dotenv()
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-
+    reset_codes = {}
+    mail.init_app(app)
     db.init_app(app)
     bcrypt.init_app(app)
     migrate.init_app(app, db)
@@ -59,10 +63,19 @@ def create_app():
         )
         db.session.add(new_user)
         db.session.commit()
+        
+        try:
+            msg = Message(
+                subject="Welcome to Golden-Yolk",
+                recipients =[email],
+                body=f"Hello {username}, \n\nYour account has been created successfully!\n\nWelcome aboard 🚀"
+            )
+            mail.send(msg)
+        except Exception as e:
+            print("Email sending failded:", e)
 
-        return jsonify({"message": f"{role.capitalize()} account created successfully!"}), 201
+        return jsonify({"message": f"{role.capitalize()} account created successfully, A confirmation email has been sent.!"}), 201
 
-    # ------------------- LOGIN -------------------
     @app.route("/login", methods=["POST"])
     def login():
         data = request.get_json()
@@ -547,6 +560,74 @@ def create_app():
         )
         
         return jsonify(result), 201
+    
+    @app.route("/forgot-password", methods=["POST"])
+    def forgot_password():
+        data = request.get_json()
+        email = data.get("email")
+        
+        if not email:
+            return jsonify({"message" : "Email is required!"}), 400
+        
+        user = User.query.filter_by(email=email).first()
+        if not user: 
+            return jsonify({"message": "No user with that email!"}), 404
+        
+        reset_code = random.randint(100000, 999999)
+        expiry_time = datetime.now(timezone.utc) + timedelta(minutes=10)
+        reset_codes[email] = {"code": reset_code, "expires": expiry_time}
+        
+        try:
+            msg = Message(
+                subject="Password Reset code - Golden Yolk",
+                recipients=[email],
+                body=f"Hello {user.username},\n\nYour password reset code is: {reset_code}\n\nThis code will expire in 10 minutes.\n\nGolden Yolk 🐣"           
+            )
+            mail.send(msg)
+            return jsonify({"message": "Reset code sent to your email."}), 200
+        except Exception as e:
+            print(f"Email sending failed: {e}")
+            return jsonify({"message": "Failed to send email, please reenter your email or ensure your email is valid"}), 500
+        
+    @app.route("/reset-password", methods=["POST"])
+    def reset_password():
+        data = request.get_json()
+        email = data.get("email")
+        code = data.get("code")
+        new_password = data.get("new_password")
+        
+        if not all([email, code, new_password]):
+            return ({"message": "Please enter all the needed details: email, code and new password"})
+        
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            return jsonify({"message": "User not found"}), 404
+
+        if email not in reset_codes:
+            return jsonify({"message": "No reset request found for this email"}), 400
+
+        reset_info = reset_codes[email]
+
+        if str(reset_info["code"]) != str(code):
+            return jsonify({"message": "Invalid reset code"}), 400
+
+
+        if datetime.now(timezone.utc) > reset_info["expires"]:
+            del reset_codes[email]
+            return jsonify({"message": "Reset code expired"}), 400
+
+        user.password = bcrypt.generate_password_hash(new_password).decode("utf-8")
+        db.session.commit()
+
+
+        del reset_codes[email]
+
+        return jsonify({"message": "Password has been reset successfully"}), 200 
+    
+    @app.route("/logout", methods=["POST"])
+    def logout():
+        logout_user()
+        return jsonify({"message": "Logged out successfully"}), 200
 
     return app
 
