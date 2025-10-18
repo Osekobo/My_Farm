@@ -1,54 +1,19 @@
-html, body, #root {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
+/* ===============================
+   Sign Up Page Styles (Scoped)
+   =============================== */
 
-body {
-  background-color: #0e2a47;
-  font-family: 'Poppins', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.signup-page {
   min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  /* background: #0e2a47; */
+  overflow: hidden;
 }
 
-@media (max-width: 768px) {
-  .signup-container {
-    flex-direction: column;
-    width: 90%;
-    height: auto;
-  }
-
-  .signup-left,
-  .signup-right {
-    width: 100%;
-    padding: 30px;
-  }
-
-  .signup-left {
-    border-bottom: 3px solid #1d4e89;
-  }
-}
-
-.signup-container {
-  animation: slideIn 0.7s ease;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-.signup-container {
+/* Container */
+.signup-page .signup-container {
   display: flex;
   width: 850px;
   height: 500px;
@@ -57,17 +22,22 @@ body {
   overflow: hidden;
   box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
   animation: slideIn 0.7s ease;
-  margin: 0 auto; 
 }
 
-.page-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh; 
+/* Slide-in Animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.signup-left {
+/* Left Panel */
+.signup-page .signup-left {
   width: 45%;
   background: linear-gradient(145deg, #0e2a47, #1d4e89);
   color: white;
@@ -79,18 +49,18 @@ body {
   text-align: center;
 }
 
-.signup-left h2 {
+.signup-page .signup-left h2 {
   font-size: 1.8rem;
   margin-bottom: 10px;
 }
 
-.signup-left p {
+.signup-page .signup-left p {
   font-size: 1rem;
   opacity: 0.9;
   margin-bottom: 30px;
 }
 
-.signup-left button {
+.signup-page .signup-left button {
   background-color: transparent;
   border: 2px solid #ffffff;
   border-radius: 25px;
@@ -100,12 +70,13 @@ body {
   transition: 0.3s ease;
 }
 
-.signup-left button:hover {
+.signup-page .signup-left button:hover {
   background-color: #ffffff;
   color: #0e2a47;
 }
 
-.signup-right {
+/* Right Panel */
+.signup-page .signup-right {
   width: 55%;
   padding: 40px 50px;
   display: flex;
@@ -113,20 +84,21 @@ body {
   justify-content: center;
 }
 
-.signup-right h1 {
+.signup-page .signup-right h2 {
   color: #0e2a47;
-  margin-bottom: 20px;
-  font-size: 1.8rem;
+  margin-bottom: 10px;
+  font-weight: 700;
 }
 
-.signup-right form {
+/* Form Elements */
+.signup-page .signup-right form {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-.signup-right input,
-.signup-right select {
+.signup-page .signup-right input,
+.signup-page .signup-right select {
   padding: 12px 15px;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -134,19 +106,13 @@ body {
   font-size: 0.95rem;
 }
 
-.signup-right input:focus {
+.signup-page .signup-right input:focus,
+.signup-page .signup-right select:focus {
   border-color: #1d4e89;
 }
 
-.checkbox-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.9rem;
-  margin-top: 5px;
-}
-
-.signup-right button {
+/* Buttons */
+.signup-page .signup-right button {
   margin-top: 15px;
   background-color: #1d4e89;
   border: none;
@@ -158,24 +124,52 @@ body {
   transition: background 0.3s;
 }
 
-.signup-right button:hover {
+.signup-page .signup-right button:hover {
   background-color: #0e2a47;
 }
 
-.signup-right p {
+/* Text & Links */
+.signup-page .signup-right p {
   text-align: center;
   margin-top: 15px;
   color: #444;
 }
 
-.signup-right a {
+.signup-page .signup-right a {
   color: #1d4e89;
   text-decoration: none;
   font-weight: bold;
 }
 
-.signup-right a:hover {
+.signup-page .signup-right a:hover {
   text-decoration: underline;
-} 
+}
 
+/* Checkbox Section (if needed) */
+.signup-page .checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+  .signup-page .signup-container {
+    flex-direction: column;
+    width: 90%;
+    height: auto;
+  }
+
+  .signup-page .signup-left,
+  .signup-page .signup-right {
+    width: 100%;
+    padding: 30px;
+  }
+
+  .signup-page .signup-left {
+    border-bottom: 3px solid #1d4e89;
+  }
+}
 

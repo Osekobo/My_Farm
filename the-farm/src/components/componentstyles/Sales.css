@@ -1,99 +1,100 @@
-/* 💰 SALES PAGE - Styled exactly like the Expenses table */
+/* ===============================
+   💵 SALES PAGE - Scoped Styling
+   =============================== */
 
-/* 🧾 Page Container */
-#sales-container {
-  max-width: 1000px;
-  margin: 0 auto;
+/* Page Wrapper */
+#sales-page {
+  font-family: Arial, sans-serif;
+  background-color: #fff;
   padding: 20px;
 }
 
-/* 🏷️ Title */
-.sales-title {
+/* Container */
+#sales-page #sales-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Title */
+#sales-page .sales-title {
   font-weight: 700;
   color: #343a40;
   text-align: center;
 }
 
-/* 🔘 Toggle Button */
-#toggle-form-btn {
-  border-radius: 8px;
-  transition: 0.3s ease;
-}
-#toggle-form-btn:hover {
-  background-color: #5a6268;
-  transform: scale(1.05);
-}
-
-/* 🧍 Form Section */
-#sales-form {
+/* Form */
+#sales-page #sales-form {
   background: #f8f9fa;
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
-.sales-input {
+
+#sales-page .sales-input {
   border-radius: 6px;
 }
-#save-btn {
+
+/* Buttons */
+#sales-page #toggle-form-btn,
+#sales-page #save-btn {
   border-radius: 8px;
-  padding: 8px 20px;
-  font-weight: 500;
+  transition: 0.3s ease;
 }
 
-/* ❌ Error & Success Messages */
-#error-message {
-  font-weight: 500;
-}
-#success-message {
-  font-weight: 500;
-  color: green;
+#sales-page #toggle-form-btn:hover {
+  background-color: #5a6268;
+  transform: scale(1.05);
 }
 
-/* 📊 Table Styling */
-#sales-table {
+/* Table */
+#sales-page #sales-table {
   border-radius: 10px;
   overflow: hidden;
   background: white;
 }
-#sales-table th {
+
+#sales-page #sales-table th {
   background-color: #6c757d;
   color: white;
 }
-#sales-table td {
+
+#sales-page #sales-table td {
   vertical-align: middle;
 }
-.sales-row:hover {
+
+/* Hover Row */
+#sales-page .sales-row:hover {
   background-color: #f1f1f1;
   transition: background 0.2s ease-in-out;
 }
 
-/* 📱 Responsive Design */
+/* Responsive */
 @media (max-width: 768px) {
-  #sales-container {
+  #sales-page #sales-container {
     padding: 10px;
   }
 
-  #sales-form .row {
+  #sales-page #sales-form .row {
     flex-direction: column;
   }
 
-  .sales-input {
+  #sales-page .sales-input {
     margin-bottom: 10px;
   }
 
-  #sales-table thead {
+  #sales-page #sales-table thead {
     display: none;
   }
 
-  #sales-table,
-  #sales-table tbody,
-  #sales-table tr,
-  #sales-table td {
+  #sales-page #sales-table,
+  #sales-page #sales-table tbody,
+  #sales-page #sales-table tr,
+  #sales-page #sales-table td {
     display: block;
     width: 100%;
   }
 
-  #sales-table tr {
+  #sales-page #sales-table tr {
     background: #fff;
     margin-bottom: 15px;
     border-radius: 10px;
@@ -101,13 +102,13 @@
     padding: 10px;
   }
 
-  #sales-table td {
+  #sales-page #sales-table td {
     text-align: right;
     padding-left: 50%;
     position: relative;
   }
 
-  #sales-table td::before {
+  #sales-page #sales-table td::before {
     content: attr(data-label);
     position: absolute;
     left: 15px;

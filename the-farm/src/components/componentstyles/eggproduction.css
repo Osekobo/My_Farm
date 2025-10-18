@@ -1,128 +1,156 @@
-/* 🌿 Container */
-#eggs-container {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 25px;
-  max-width: 1100px;
-  margin: 0 auto;
+/* ===============================
+   🥚 Eggs Production Page - Scoped
+   =============================== */
+
+#eggs-page {
+  display: block;
+  height: auto;
+  font-family: "Poppins", sans-serif;
+  background-color: #f8f9fa;
+  padding: 20px;
 }
 
-/* 🧾 Centered Header */
-#eggs-container .eggs-title {
+/* 🧭 Main Container */
+#eggs-page #eggs-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* 🏷️ Page Title */
+#eggs-page .eggs-title {
   font-weight: 700;
   color: #343a40;
-  letter-spacing: 0.4px;
   text-align: center;
+  margin-bottom: 20px;
 }
 
-/* 🔘 Add Button */
-#toggle-eggs-form-btn {
+/* 🔘 Toggle Form Button */
+#eggs-page #toggle-eggs-form-btn {
   border-radius: 8px;
-  padding: 8px 18px;
-  transition: all 0.3s ease;
-  font-weight: 500;
+  transition: 0.3s ease;
 }
 
-#toggle-eggs-form-btn:hover {
+#eggs-page #toggle-eggs-form-btn:hover {
   background-color: #5a6268;
   transform: scale(1.05);
 }
 
 /* 🧍 Form Styling */
-#eggs-form {
+#eggs-page #eggs-form {
   background: #f8f9fa;
-  padding: 20px;
+  padding: 15px;
   border-radius: 10px;
-  margin-bottom: 25px;
-  border: 1px solid #dee2e6;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-#eggs-form input {
-  border-radius: 8px;
+#eggs-page #eggs-form input {
+  border-radius: 6px;
   padding: 10px;
-  transition: border 0.2s;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
 }
 
-#eggs-form input:focus {
-  border-color: #6c757d;
-  box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.25);
+#eggs-page #eggs-form input:focus {
+  border-color: #1d4e89;
+  outline: none;
 }
 
-/* 🖱️ Save Button */
-#save-eggs-btn {
+#eggs-page #save-eggs-btn {
   border-radius: 8px;
-  padding: 8px 18px;
+  padding: 10px 20px;
   font-weight: 500;
-  transition: all 0.3s ease;
+  background-color: #1d4e89;
+  color: white;
+  border: none;
+  transition: background 0.3s ease;
 }
 
-#save-eggs-btn:hover {
-  background-color: #343a40;
-  transform: scale(1.05);
+#eggs-page #save-eggs-btn:hover {
+  background-color: #0e2a47;
 }
 
-/* 📊 Table */
-#eggs-table {
+/* ❌ Error Message */
+#eggs-page .text-danger {
+  font-weight: 500;
+  color: red;
+}
+
+/* 📊 Table Styling */
+#eggs-page #eggs-table {
   border-radius: 10px;
   overflow: hidden;
   background: white;
   width: 100%;
+  border-collapse: collapse;
 }
 
-#eggs-table th {
-  background-color: #6c757d !important;
-  color: white !important;
-  font-weight: 600;
+#eggs-page #eggs-table th {
+  background-color: #6c757d;
+  color: white;
+  padding: 10px;
+  text-align: center;
 }
 
-#eggs-table td {
+#eggs-page #eggs-table td {
   vertical-align: middle;
-  font-size: 0.95rem;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  text-align: center;
 }
 
-#eggs-table tbody tr:hover {
-  background-color: #f1f1f1 !important;
+#eggs-page .eggs-row:hover {
+  background-color: #f1f1f1;
   transition: background 0.2s ease-in-out;
 }
 
-/* ⚙️ Actions */
-.eggs-actions {
+/* ⚙️ Action Buttons */
+#eggs-page .eggs-actions {
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
-.eggs-actions .btn {
+#eggs-page .eggs-actions .btn {
   min-width: 70px;
   border-radius: 6px;
   transition: all 0.2s ease;
 }
 
-.eggs-actions .btn:hover {
+#eggs-page .eggs-actions .btn:hover {
   transform: scale(1.05);
 }
 
-/* 📱 Mobile Responsive: Card Style Table */
+/* 📱 Responsive Layout */
 @media (max-width: 768px) {
-  #eggs-container {
-    padding: 15px;
+  #eggs-page #eggs-container {
+    padding: 10px;
   }
 
-  /* Hide table header */
-  #eggs-table thead {
+  #eggs-page #eggs-form .row {
+    flex-direction: column;
+  }
+
+  #eggs-page #eggs-form input {
+    margin-bottom: 10px;
+  }
+
+  #eggs-page #eggs-table thead {
     display: none;
   }
 
-  #eggs-table,
-  #eggs-table tbody,
-  #eggs-table tr,
-  #eggs-table td {
+  #eggs-page #eggs-table,
+  #eggs-page #eggs-table tbody,
+  #eggs-page #eggs-table tr,
+  #eggs-page #eggs-table td {
     display: block;
     width: 100%;
   }
 
-  #eggs-table tr {
+  #eggs-page #eggs-table tr {
     background: #fff;
     margin-bottom: 15px;
     border-radius: 10px;
@@ -130,42 +158,18 @@
     padding: 10px;
   }
 
-  #eggs-table td {
+  #eggs-page #eggs-table td {
     text-align: right;
     padding-left: 50%;
     position: relative;
-    border: none;
-    border-bottom: 1px solid #eee;
   }
 
-  #eggs-table td:last-child {
-    border-bottom: none;
-  }
-
-  #eggs-table td::before {
+  #eggs-page #eggs-table td::before {
     content: attr(data-label);
     position: absolute;
     left: 15px;
     width: 45%;
     text-align: left;
-    font-weight: 600;
-    color: #495057;
+    font-weight: bold;
   }
-
-  /* 🧩 Make action buttons stay side-by-side */
-  .eggs-actions {
-    justify-content: flex-end;
-    gap: 8px;
-  }
-
-  .eggs-actions .btn {
-    font-size: 0.8rem;
-    padding: 4px 8px;
-  }
-}
-
-/* 🪶 Row hover */
-.eggs-row:hover {
-  background-color: #f1f1f1;
-  transition: background 0.2s ease-in-out;
 }
