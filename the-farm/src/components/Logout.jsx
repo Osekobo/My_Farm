@@ -1,28 +1,30 @@
+import { useEffect } from "react";
+
 function Logout() {
-  const handleLogout = async () => {
-    const token = localStorage.getItem("token");
+  useEffect(() => {
+    const logoutUser = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/logout", {
+          method: "POST",
+          credentials: "include", 
+        });
 
-    if (token) {
-      await fetch("http://127.0.0.1:5000/logout", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        },
-      });
-    }
+        const data = await response.json();
+        console.log(data.message);
 
-    // Remove token locally
-    localStorage.removeItem("token");
-    sessionStorage.removeItem("token");
+        window.location.href = "/login";
+      } catch (error) {
+        console.error("Logout failed:", error);
+      }
+    };
 
-    // Redirect to login
-    window.location.href = "/login";
-  };
+    logoutUser();
+  }, []);
 
   return (
-    <button onClick={handleLogout}>
-      Logout
-    </button>
+    <div>
+      <h3>Logging you out...</h3>
+    </div>
   );
 }
 

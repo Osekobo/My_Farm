@@ -27,6 +27,7 @@ function ForgotPassword() {
         setError(data.message || "Error sending reset code.");
       }
     } catch (err) {
+      console.error(err)
       setError("Something went wrong, please try again.");
     }
   };
