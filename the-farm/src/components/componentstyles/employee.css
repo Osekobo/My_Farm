@@ -1,118 +1,145 @@
-/* 🧾 EMPLOYEES PAGE - Styled exactly like Expenses Table */
+/* ===============================
+   👥 Employees Page - Scoped
+   =============================== */
 
-body {
-  display: block !important;
-  align-items: unset !important;
-  justify-content: unset !important;
-  height: auto !important;
-}
-
-/* 🌟 Overall Container */
-#employees-container {
-  max-width: 1000px;
-  margin: 0 auto;
+#employees-page {
+  display: block;
+  height: auto;
+  font-family: "Poppins", sans-serif;
+  background-color: #f8f9fa;
   padding: 20px;
 }
 
-/* 🧾 Title */
-.employees-title {
-  font-weight: 700;
-  color: #343a40;
+/* 🧾 Main Container */
+#employees-page #employees-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* 🔘 Controls */
-#toggle-form-btn {
-  border-radius: 8px;
-  transition: 0.3s;
+/* 🏷️ Title */
+#employees-page .employees-title {
+  font-weight: 700;
+  color: #343a40;
+  text-align: center;
+  margin-bottom: 20px;
 }
-#toggle-form-btn:hover {
-  background-color: #6c757d;
+
+/* 🔘 Toggle Form Button */
+#employees-page #toggle-form-btn {
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+#employees-page #toggle-form-btn:hover {
+  background-color: #5a6268;
   transform: scale(1.05);
 }
 
-/* 🧍 Form */
-#employee-form {
+/* 🧍 Form Section */
+#employees-page #employee-form {
   background: #f8f9fa;
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
-.employee-input {
+
+#employees-page .employee-input {
   border-radius: 6px;
-}
-#save-btn {
-  border-radius: 8px;
-  padding: 8px 20px;
-  font-weight: 500;
+  padding: 10px;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
 }
 
-/* ❌ Error and Success Messages */
-#error-message {
-  font-weight: 500;
+#employees-page .employee-input:focus {
+  border-color: #1d4e89;
+  outline: none;
 }
-#success-message {
+
+/* 💾 Save Button */
+#employees-page #save-btn {
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 500;
+  background-color: #1d4e89;
+  color: white;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+#employees-page #save-btn:hover {
+  background-color: #0e2a47;
+}
+
+/* ❌ Error & ✅ Success Messages */
+#employees-page #error-message {
+  font-weight: 500;
+  color: red;
+}
+
+#employees-page #success-message {
   font-weight: 500;
   color: green;
 }
 
-/* 📊 Table */
-#employees-table {
+/* 📊 Table Styling */
+#employees-page #employees-table {
   border-radius: 10px;
   overflow: hidden;
   background: white;
+  width: 100%;
+  border-collapse: collapse;
 }
-#employees-table th {
+
+#employees-page #employees-table th {
   background-color: #6c757d;
   color: white;
+  padding: 10px;
+  text-align: center;
 }
-#employees-table td {
+
+#employees-page #employees-table td {
   vertical-align: middle;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  text-align: center;
 }
-.employee-row:hover {
+
+#employees-page .employee-row:hover {
   background-color: #f1f1f1;
   transition: background 0.2s ease-in-out;
 }
 
-/* ⋮ Action Menu (if added later) */
-.action-dots {
-  font-size: 20px;
-  border: none;
-}
-.action-menu {
-  position: absolute;
-  right: 0;
-  top: 30px;
-  z-index: 1000;
-  width: 120px;
-}
-
 /* 📱 Responsive Design */
 @media (max-width: 768px) {
-  #employees-container {
+  #employees-page #employees-container {
     padding: 10px;
   }
 
-  #employee-form .row {
+  #employees-page #employee-form .row {
     flex-direction: column;
   }
 
-  .employee-input {
+  #employees-page .employee-input {
     margin-bottom: 10px;
   }
 
-  #employees-table thead {
+  #employees-page #employees-table thead {
     display: none;
   }
 
-  #employees-table,
-  #employees-table tbody,
-  #employees-table tr,
-  #employees-table td {
+  #employees-page #employees-table,
+  #employees-page #employees-table tbody,
+  #employees-page #employees-table tr,
+  #employees-page #employees-table td {
     display: block;
     width: 100%;
   }
 
-  #employees-table tr {
+  #employees-page #employees-table tr {
     background: #fff;
     margin-bottom: 15px;
     border-radius: 10px;
@@ -120,24 +147,18 @@ body {
     padding: 10px;
   }
 
-  #employees-table td {
+  #employees-page #employees-table td {
     text-align: right;
     padding-left: 50%;
     position: relative;
   }
 
-  #employees-table td::before {
+  #employees-page #employees-table td::before {
     content: attr(data-label);
     position: absolute;
     left: 15px;
     width: 45%;
     text-align: left;
     font-weight: bold;
-  }
-
-  .action-menu {
-    position: static;
-    margin-top: 5px;
-    box-shadow: none;
   }
 }

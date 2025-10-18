@@ -1,113 +1,149 @@
-body {
-  display: block !important;
-  align-items: unset !important;
-  justify-content: unset !important;
-  height: auto !important;
-}
+/* ===============================
+   💰 Expenses Page - Scoped
+   =============================== */
 
-
-/* 🌟 Overall Container */
-#expenses-container {
-  max-width: 1000px;
-  margin: 0 auto;
+#expenses-page {
+  display: block;
+  font-family: "Poppins", sans-serif;
+  background-color: #f8f9fa;
   padding: 20px;
 }
 
-/* 🧾 Title */
-.expenses-title {
-  font-weight: 700;
-  color: #343a40;
+/* 🧾 Container */
+#expenses-page #expenses-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* 🔘 Controls */
-#toggle-form-btn {
-  border-radius: 8px;
-  transition: 0.3s;
+/* 🏷️ Title */
+#expenses-page .expenses-title {
+  font-weight: 700;
+  color: #343a40;
+  text-align: center;
+  margin-bottom: 20px;
 }
-#toggle-form-btn:hover {
-  background-color: #6c757d;
+
+/* 🔘 Toggle Form Button */
+#expenses-page #toggle-form-btn {
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+#expenses-page #toggle-form-btn:hover {
+  background-color: #5a6268;
   transform: scale(1.05);
 }
 
-/* 🧍 Form */
-#expense-form {
+/* 🧾 Form Section */
+#expenses-page #expense-form {
   background: #f8f9fa;
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
-.expense-input {
+
+#expenses-page .expense-input {
   border-radius: 6px;
+  padding: 10px;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
 }
-#save-btn {
+
+#expenses-page .expense-input:focus {
+  border-color: #1d4e89;
+  outline: none;
+}
+
+/* 💾 Save Button */
+#expenses-page #save-btn {
   border-radius: 8px;
-  padding: 8px 20px;
+  padding: 10px 20px;
   font-weight: 500;
+  background-color: #1d4e89;
+  color: white;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+#expenses-page #save-btn:hover {
+  background-color: #0e2a47;
 }
 
 /* ❌ Error Message */
-#error-message {
+#expenses-page #error-message {
   font-weight: 500;
+  color: red;
+  text-align: center;
+  margin-top: 10px;
 }
 
-/* 📊 Table */
-#expenses-table {
+/* 📊 Table Styling */
+#expenses-page #expenses-table {
   border-radius: 10px;
   overflow: hidden;
   background: white;
+  width: 100%;
+  border-collapse: collapse;
 }
-#expenses-table th {
+
+#expenses-page #expenses-table th {
   background-color: #6c757d;
   color: white;
+  padding: 10px;
+  text-align: center;
 }
-#expenses-table td {
+
+#expenses-page #expenses-table td {
   vertical-align: middle;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  text-align: center;
 }
-.expense-row:hover {
+
+#expenses-page .expense-row:hover {
   background-color: #f1f1f1;
   transition: background 0.2s ease-in-out;
 }
 
-/* ⋮ Action Menu */
-.action-dots {
-  font-size: 20px;
-  border: none;
-}
-.action-menu {
-  position: absolute;
-  right: 0;
-  top: 30px;
-  z-index: 1000;
-  width: 120px;
+/* 🎛️ Action Buttons */
+#expenses-page .expense-actions button {
+  margin: 0 4px;
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 0.9rem;
 }
 
 /* 📱 Responsive Design */
 @media (max-width: 768px) {
-  #expenses-container {
+  #expenses-page #expenses-container {
     padding: 10px;
   }
 
-  #expense-form .row {
+  #expenses-page #expense-form .row {
     flex-direction: column;
   }
 
-  .expense-input {
+  #expenses-page .expense-input {
     margin-bottom: 10px;
   }
 
-  #expenses-table thead {
+  #expenses-page #expenses-table thead {
     display: none;
   }
 
-  #expenses-table,
-  #expenses-table tbody,
-  #expenses-table tr,
-  #expenses-table td {
+  #expenses-page #expenses-table,
+  #expenses-page #expenses-table tbody,
+  #expenses-page #expenses-table tr,
+  #expenses-page #expenses-table td {
     display: block;
     width: 100%;
   }
 
-  #expenses-table tr {
+  #expenses-page #expenses-table tr {
     background: #fff;
     margin-bottom: 15px;
     border-radius: 10px;
@@ -115,13 +151,13 @@ body {
     padding: 10px;
   }
 
-  #expenses-table td {
+  #expenses-page #expenses-table td {
     text-align: right;
     padding-left: 50%;
     position: relative;
   }
 
-  #expenses-table td::before {
+  #expenses-page #expenses-table td::before {
     content: attr(data-label);
     position: absolute;
     left: 15px;
@@ -129,26 +165,4 @@ body {
     text-align: left;
     font-weight: bold;
   }
-
-  .action-menu {
-    position: static;
-    margin-top: 5px;
-    box-shadow: none;
-  }
-}
-/* ⚙️ Expense Action Buttons */
-.expense-actions {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.expense-actions .btn {
-  min-width: 70px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-}
-
-.expense-actions .btn:hover {
-  transform: scale(1.05);
 }

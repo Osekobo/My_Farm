@@ -31,7 +31,7 @@ function Login() {
     }
     return (
         <div className="login-page">
-            <div class="container">
+            <div className="login-container">
                 <div class="login-section">
                     <h2>Login</h2>
                     {error && <p style={{ color: "red" }}>{error}</p>}
