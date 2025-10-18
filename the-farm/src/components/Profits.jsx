@@ -1,110 +1,143 @@
-import { useState, useEffect } from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import React, { useState } from "react";
+import "./componentstyles/Profits.css";
 
-function Profits() {
-    const [profits, setProfits] = useState([]);
-    const [message, setMessage] = useState("");
-    const [error, setError] = useState("");
-    const [formData, setFormData] = useState({
-        start_date: "",
-        end_date: "",
-    });
+const Profits = () => {
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [includeSalaries, setIncludeSalaries] = useState(true);
+  const [includeExpenses, setIncludeExpenses] = useState(true);
+  const [includeTransport, setIncludeTransport] = useState(true);
+  const [profitData, setProfitData] = useState(null);
+  const [error, setError] = useState("");
 
-    useEffect(() => {
-        const fetchprofits = async () => {
-            try {
-                const response = await fetch("http://127.0.0.1:5000/profits");
-                const data = await response.json();
+  const handleCalculateProfit = async () => {
+    if (!startDate || !endDate) {
+      setError("Start date and end date are required");
+      return;
+    }
 
-                if (response.ok) {
-                    if (Array.isArray(data)) {
-                        setProfits(data);
-                    } else {
-                        setProfits([]);
-                        setError(data.message || "Data error!");
-                    }
-                } else {
-                    setError(data.message || "Couldn't fetch data from the database!");
-                }
-            } catch (err) {
-                console.error(err);
-                setError("Failed to fetch profits data.");
-            }
-        };
-        fetchprofits();
-    }, []);
+    setError("");
+    try {
+      const response = await fetch("http://127.0.0.1:5000/profits", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          start_date: startDate,
+          end_date: endDate,
+          include_salaries: includeSalaries,
+          include_expenses: includeExpenses,
+          include_transport: includeTransport,
+        }),
+      });
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.error || "Failed to fetch profit data");
+      }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch("http://127.0.0.1:5000/profits", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
-            });
-            const data = await response.json();
+      const data = await response.json();
+      setProfitData(data);
+    } catch (err) {
+      setError(err.message);
+      setProfitData(null);
+    }
+  };
 
-            if (response.ok) {
-                setMessage("Calculating...");
-                setFormData({ start_date: "", end_date: "" });
-                setError("");
-            } else {
-                setError(data.message || "Something went wrong!");
-            }
-        } catch (err) {
-            console.error(err);
-            setError("Something went terribly wrong!");
-        }
-    };
+  return (
+    <div className="profits-container">
+      <h1 className="profits-title">Profit Calculator</h1>
 
-    return (
-        <div className="container">
-            <h3 className="text-center mt-3">Profits</h3>
-            <form onSubmit={handleSubmit} className="container">
-                <input type="date" name="start_date" placeholder="Starting date" value={formData.start_date} onChange={handleChange} className="mx-3" />
-                <input type="date" name="end_date" placeholder="Ending date" value={formData.end_date} onChange={handleChange} className="mx-3" />
-                <button type="submit" className="btn btn-secondary">Calculate</button>
-            </form>
-            
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            {message && <p style={{ color: "green" }}>{message}</p>}
-
-            <div className="container">
-                {profits.map((p) => (
-                    <div key={p.id}>
-                        <h4>Starting Date: {p.start_date}</h4>
-                        <h4>Ending Date: {p.end_date}</h4>
-                        <h4>Total from Sales: {p.total_sales}</h4>
-                        <h4>Totals from Expenses and Transport: {p.total_expenses}</h4>
-                        <h4>Total Salary Paid: {p.total_salaries}</h4>
-                        <h4>
-                            {p.profit > 0 ? (
-                                <span style={{ color: "green" }}>
-                                    Profit: KES {p.profit.toLocaleString()}
-                                </span>
-                            ) : p.profit < 0 ? (
-                                <span style={{ color: "red" }}>
-                                    Loss: KES {Math.abs(p.profit).toLocaleString()}
-                                </span>
-                            ) : (
-                                <span style={{ color: "gray" }}>Break-even: KES 0</span>
-                            )}
-                        </h4>
-
-                        <hr />
-                    </div>
-                ))}
-            </div>
+      <div className="profits-form">
+        <div className="profits-field">
+          <label>Start Date</label>
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
         </div>
-    );
-}
+        <div className="profits-field">
+          <label>End Date</label>
+          <input
+            type="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </div>
+        <div className="profits-field checkbox">
+          <label>
+            <input
+              type="checkbox"
+              checked={includeSalaries}
+              onChange={(e) => setIncludeSalaries(e.target.checked)}
+            />
+            Include Salaries
+          </label>
+        </div>
+        <div className="profits-field checkbox">
+          <label>
+            <input
+              type="checkbox"
+              checked={includeExpenses}
+              onChange={(e) => setIncludeExpenses(e.target.checked)}
+            />
+            Include Expenses
+          </label>
+        </div>
+        <div className="profits-field checkbox">
+          <label>
+            <input
+              type="checkbox"
+              checked={includeTransport}
+              onChange={(e) => setIncludeTransport(e.target.checked)}
+            />
+            Include Transport
+          </label>
+        </div>
+      </div>
+
+      <button className="profits-button" onClick={handleCalculateProfit}>
+        Calculate Profit
+      </button>
+
+      {error && <p className="profits-error">{error}</p>}
+
+      {profitData && (
+        <div className="profits-grid">
+          <div className="profits-card">
+            <h3>Date Range</h3>
+            <p>
+              {profitData.start_date} - {profitData.end_date}
+            </p>
+          </div>
+          <div className="profits-card">
+            <h3>Total Sales</h3>
+            <p>{profitData.total_sales.toFixed(2)}</p>
+          </div>
+          <div className="profits-card">
+            <h3>Total Expenses</h3>
+            <p>{profitData.total_expenses.toFixed(2)}</p>
+          </div>
+          <div className="profits-card">
+            <h3>Total Salaries</h3>
+            <p>{profitData.total_salaries.toFixed(2)}</p>
+          </div>
+          <div className="profits-card">
+            <h3>Profit</h3>
+            <p>{profitData.profit.toFixed(2)}</p>
+          </div>
+          <div className="profits-card">
+            <h3>Included Options</h3>
+            <p>Salaries: {profitData.include_salaries ? "Yes" : "No"}</p>
+            <p>Expenses: {profitData.include_expenses ? "Yes" : "No"}</p>
+            <p>Transport: {profitData.include_transport ? "Yes" : "No"}</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default Profits;
