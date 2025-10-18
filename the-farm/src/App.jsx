@@ -10,6 +10,7 @@ import Profits from "./components/Profits";
 import Sales from "./components/Sales";
 import ResetPassword from "./components/ResetPassword";
 import ForgotPassword from "./components/ForgotPassword";
+import Logout from "./components/Logout";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Route path="/sales" element={<Sales /> } />
       <Route path="/resetpassword" element={<ResetPassword /> } />
       <Route path="/forgotpassword" element={<ForgotPassword /> } />
+      <Route path="/logout" element={<Logout /> } />
     </Routes>
   );
 }
