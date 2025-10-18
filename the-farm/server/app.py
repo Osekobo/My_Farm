@@ -221,13 +221,21 @@ def create_app():
 
     @app.route("/eggsproduct/<int:id>", methods=["PATCH", "DELETE"])
     def eggsproduct(id):
+        
+        egg_col =db.session.get(EggProduction, id)
+        if not egg_col:
+            return jsonify({"message": "No collection info on that ID!"})
+        
+        stock = Stock.query.first()
+        if not stock:
+            stock = Stock(crates_in_store=0)
+            db.session.add(stock)
+            db.session.commit()
+        
         if request.method == "PATCH":
             data = request.get_json()
-            egg_id = data.get("id")
             
-            eggs_col = db.session.get(EggProduction, egg_id)
-            if not eggs_col:
-                return jsonify({"message": "No collection info on that id!"}), 404
+            old_crates = egg_col.quantity_in_crates
             
             for field in ["date", "eggs_collected", "broken_eggs", "remarks"]:
                 if field in data:
@@ -239,28 +247,31 @@ def create_app():
                             try:
                                 value = datetime.strptime(value, "%m/%d/%Y").date()
                             except ValueError:
-                                return jsonify({"message": "Invalid date format. Use YYYY-MM-DD."}), 400
-                    setattr(eggs_col, field, value)
+                                return jsonify({"message": "Invalid date format. Use YYYY-MM-DD."}), 400                          
+                                
+                    setattr(egg_col, field, value)
+                    
+            egg_col.remaining_eggs = egg_col.eggs_collected - egg_col.broken_eggs
+            total_eggs = egg_col.remaining_eggs
+            egg_col.quantity_in_crates = total_eggs // 30
+            egg_col.extra_eggs = total_eggs % 30
+            
+            new_crates = egg_col.quantity_in_crates
+            stock.crates_in_store += (new_crates - old_crates)
             
             db.session.commit()
-            return jsonify({"message": "Data updated successfully!"}), 200
+            return jsonify({"message": "Data and Stock updated successfully!"}), 200
         
         elif request.method == "DELETE":
-            data = request.get_json()
-            egg_id = data.get("id")
+            stock.crates_in_store -= egg_col.quantity_in_crates
             
-            if not egg_id:
-                return jsonify({"Enter ID!"})
-            
-            egg_col = db.session.get(EggProduction, egg_id)
-            if not egg_col:
-                return ({"message": "No Eggs collection data!"})
-            
+            if stock.crates_in_store < 0:
+                stock.crates_in_store = 0 
+                
             db.session.delete(egg_col)
             db.session.commit()
             return jsonify({"message": "Deleted successfully"})
 
-    # ------------------- SALES -------------------
     @app.route("/sales", methods=["POST", "GET"])
     def sales():
         if request.method == "POST":
@@ -313,13 +324,21 @@ def create_app():
 
     @app.route("/sale/<int:id>", methods=["PATCH", "DELETE"])
     def sale(id):
+        sale = db.session.get(Sales, id)
+        if not sale:
+            return jsonify({"message": "No sale of that ID!"}), 404
+        
+        stock = Stock.query.first()
+        if not stock:
+            stock = Stock(crates_in_store = 0)
+            db.session.add()
+            db.session.commit()
+        
+        
         if request.method == "PATCH":
             data = request.get_json()
-            sale_id = data.get("id")
-
-            sale = db.session.get(Sales, sale_id)
-            if not sale:
-                return jsonify({"message": "No sale of that date"}), 404
+            
+            old_crates = sale.quantity_in_crates
 
             for field in ["date", "buyer_name", "quantity_in_crates", "price_per_tray", "transport_costs"]:
                 if field in data:
@@ -333,20 +352,20 @@ def create_app():
                             except ValueError:
                                 return jsonify({"message": "Invalid date format. Use YYYY-MM-DD."}), 400
                     setattr(sale, field, value)
+                    
+            sale.selling_price = sale.quantity_in_crates * sale.price_per_tray
+            sale.final_amount = sale.selling_price - sale.transport_costs
+            
+            new_crates = sale.quantity_in_crates
+            stock.crates_in_store += (old_crates - new_crates)
+            if stock.crates_in_store < 0:
+                stock.crates_in_store = 0
 
             db.session.commit()
             return jsonify({"message": "Sale updated successfully"}), 200
         
         elif request.method == "DELETE":
-            data = request.get_json()
-            sale_id = data.get("id")
-            
-            if not sale_id:
-                return jsonify({"message": "ID required"}), 400
-            
-            sale = db.session.get(Sales, sale_id)
-            if not sale:
-                return jsonify({"message": "No sale"}), 404
+            stock.crates_in_store += sale.quantity_in_crates
             
             db.session.delete(sale)
             db.session.commit()
