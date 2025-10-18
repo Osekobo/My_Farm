@@ -1,0 +1,35 @@
+/* ==============================
+   STOCK PAGE - Scoped Styling
+   ============================== */
+
+#stock-page {
+  font-family: 'Poppins', sans-serif;
+  background: #f9fafc;
+  min-height: 80vh;
+}
+
+#stock-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  /* box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); */
+}
+
+.stock-title {
+  color: #1d4e89;
+  font-weight: 700;
+}
+
+.stock-value {
+  font-size: 1.8rem;
+  color: #0e2a47;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+#error-message {
+  color: red;
+  font-weight: 500;
+}

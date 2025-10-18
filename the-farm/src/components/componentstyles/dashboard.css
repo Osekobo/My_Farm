@@ -1,0 +1,21 @@
+/* ===============================
+   📊 Dashboard Page (Scoped)
+   =============================== */
+
+#dashboard-page {
+  padding: 20px;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  /* light neutral background */
+  font-family: "Poppins", sans-serif;
+}
+
+/* Headings */
+#dashboard-page .dashboard-title {
+  text-align: center;
+  color: #0e2a47;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* Add widgets, stats, cards, etc. here later */

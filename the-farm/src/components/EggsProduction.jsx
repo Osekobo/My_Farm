@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "./componentstyles/eggproduction.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 function EggsProduction() {
     const [eggsData, setEggsData] = useState([]);
@@ -14,7 +16,6 @@ function EggsProduction() {
         broken_eggs: "",
         remarks: "",
     });
-
     const BASE_URL = "http://127.0.0.1:5000";
 
     // Format date for input (YYYY-MM-DD)
@@ -72,7 +73,6 @@ function EggsProduction() {
             });
 
             const data = await response.json();
-
             if (response.ok) {
                 setError("");
                 setShowForm(false);
@@ -132,150 +132,144 @@ function EggsProduction() {
     if (loading) return <p>Loading egg production data...</p>;
 
     return (
-        <div id="eggs-container" className="mt-4">
-            {/* 🧭 Header Section */}
-
-            <h2 className="eggs-title mb-3 text-center">🥚 Eggs Production</h2>
-
-
-            {/* ➕ Add Button (Right-aligned) */}
-            <div className="d-flex justify-content-end mb-3">
-                <button
-                    id="toggle-eggs-form-btn"
-                    className="btn btn-secondary shadow-sm"
-                    onClick={() => {
-                        setShowForm(!showForm);
-                        setEditingEgg(null);
-                        setFormData({
-                            batch_id: "",
-                            date: "",
-                            eggs_collected: "",
-                            broken_eggs: "",
-                            remarks: "",
-                        });
-                    }}
-                >
-                    {showForm ? "Cancel" : editingEgg ? "Edit Record" : "Add New Record"}
-                </button>
-            </div>
-
-            {/* 🧾 Form */}
-            {showForm && (
-                <form id="eggs-form" onSubmit={handleSubmit} className="mb-4">
-                    <div className="row g-3">
-                        <div className="col-md-4">
-                            <input
-                                type="number"
-                                name="batch_id"
-                                placeholder="Batch ID"
-                                value={formData.batch_id}
-                                onChange={handleChange}
-                                required
-                                className="form-control"
-                            />
-                        </div>
-                        <div className="col-md-4">
-                            <input
-                                type="date"
-                                name="date"
-                                value={formData.date}
-                                onChange={handleChange}
-                                required
-                                className="form-control"
-                            />
-                        </div>
-                        <div className="col-md-4">
-                            <input
-                                type="number"
-                                name="eggs_collected"
-                                placeholder="Eggs Collected"
-                                value={formData.eggs_collected}
-                                onChange={handleChange}
-                                required
-                                className="form-control"
-                            />
-                        </div>
-                        <div className="col-md-4">
-                            <input
-                                type="number"
-                                name="broken_eggs"
-                                placeholder="Broken Eggs"
-                                value={formData.broken_eggs}
-                                onChange={handleChange}
-                                required
-                                className="form-control"
-                            />
-                        </div>
-                        <div className="col-md-8">
-                            <input
-                                type="text"
-                                name="remarks"
-                                placeholder="Remarks"
-                                value={formData.remarks}
-                                onChange={handleChange}
-                                className="form-control"
-                            />
-                        </div>
-                    </div>
-                    <button type="submit" id="save-eggs-btn" className="btn btn-dark mt-3">
-                        {editingEgg ? "Update Record" : "Save Record"}
+        <div id="eggs-page">
+            <div id="eggs-container" className="mt-4">
+                {/* 🧭 Header Section */}
+                <h2 className="eggs-title mb-3 text-center">🥚 Eggs Production</h2>
+                {/* ➕ Add Button (Right-aligned) */}
+                <div className="d-flex justify-content-end mb-3">
+                    <button
+                        id="toggle-eggs-form-btn"
+                        className="btn btn-secondary shadow-sm"
+                        onClick={() => {
+                            setShowForm(!showForm);
+                            setEditingEgg(null);
+                            setFormData({
+                                batch_id: "",
+                                date: "",
+                                eggs_collected: "",
+                                broken_eggs: "",
+                                remarks: "",
+                            });
+                        }}
+                    >
+                        {showForm ? "Cancel" : editingEgg ? "Edit Record" : "Add New Record"}
                     </button>
-                </form>
-            )}
-
-            {error && <p className="text-danger text-center">{error}</p>}
-
-            {/* 📊 Table */}
-            <div className="table-responsive">
-                <table id="eggs-table" className="table table-hover align-middle text-center">
-                    <thead className="table-secondary">
-                        <tr>
-                            <th>Batch ID</th>
-                            <th>Date</th>
-                            <th>Eggs Collected</th>
-                            <th>Broken Eggs</th>
-                            <th>Remaining Eggs</th>
-                            <th>Crates</th>
-                            <th>Extra Eggs</th>
-                            <th>Remarks</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {eggsData.map((egg) => (
-                            <tr key={egg.id} className="eggs-row">
-                                <td data-label="Batch ID">{egg.batch_id}</td>
-                                <td data-label="Date">{formatDate(egg.date)}</td>
-                                <td data-label="Eggs Collected">{egg.eggs_collected}</td>
-                                <td data-label="Broken Eggs">{egg.broken_eggs}</td>
-                                <td data-label="Remaining Eggs">{egg.remaining_eggs}</td>
-                                <td data-label="Crates">{egg.quantity_in_crates}</td>
-                                <td data-label="Extra Eggs">{egg.extra_eggs}</td>
-                                <td data-label="Remarks">{egg.remarks}</td>
-                                <td data-label="Actions">
-                                    <div className="eggs-actions">
-                                        <button
-                                            className="btn btn-sm btn-outline-primary"
-                                            onClick={() => handleEdit(egg)}
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            className="btn btn-sm btn-outline-danger"
-                                            onClick={() => handleDelete(egg.id)}
-                                        >
-                                            Delete
-                                        </button>
-                                    </div>
-                                </td>
+                </div>
+                {/* 🧾 Form */}
+                {showForm && (
+                    <form id="eggs-form" onSubmit={handleSubmit} className="mb-4">
+                        <div className="row g-3">
+                            <div className="col-md-4">
+                                <input
+                                    type="number"
+                                    name="batch_id"
+                                    placeholder="Batch ID"
+                                    value={formData.batch_id}
+                                    onChange={handleChange}
+                                    required
+                                    className="form-control"
+                                />
+                            </div>
+                            <div className="col-md-4">
+                                <input
+                                    type="date"
+                                    name="date"
+                                    value={formData.date}
+                                    onChange={handleChange}
+                                    required
+                                    className="form-control"
+                                />
+                            </div>
+                            <div className="col-md-4">
+                                <input
+                                    type="number"
+                                    name="eggs_collected"
+                                    placeholder="Eggs Collected"
+                                    value={formData.eggs_collected}
+                                    onChange={handleChange}
+                                    required
+                                    className="form-control"
+                                />
+                            </div>
+                            <div className="col-md-4">
+                                <input
+                                    type="number"
+                                    name="broken_eggs"
+                                    placeholder="Broken Eggs"
+                                    value={formData.broken_eggs}
+                                    onChange={handleChange}
+                                    required
+                                    className="form-control"
+                                />
+                            </div>
+                            <div className="col-md-8">
+                                <input
+                                    type="text"
+                                    name="remarks"
+                                    placeholder="Remarks"
+                                    value={formData.remarks}
+                                    onChange={handleChange}
+                                    className="form-control"
+                                />
+                            </div>
+                        </div>
+                        <button type="submit" id="save-eggs-btn" className="btn btn-dark mt-3">
+                            {editingEgg ? "Update Record" : "Save Record"}
+                        </button>
+                    </form>
+                )}
+                {error && <p className="text-danger text-center">{error}</p>}
+                {/* 📊 Table */}
+                <div className="table-responsive">
+                    <table id="eggs-table" className="table table-hover align-middle text-center">
+                        <thead className="table-secondary">
+                            <tr>
+                                <th>Batch ID</th>
+                                <th>Date</th>
+                                <th>Eggs Collected</th>
+                                <th>Broken Eggs</th>
+                                <th>Remaining Eggs</th>
+                                <th>Crates</th>
+                                <th>Extra Eggs</th>
+                                <th>Remarks</th>
+                                <th>Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {eggsData.map((egg) => (
+                                <tr key={egg.id} className="eggs-row">
+                                    <td data-label="Batch ID">{egg.batch_id}</td>
+                                    <td data-label="Date">{formatDate(egg.date)}</td>
+                                    <td data-label="Eggs Collected">{egg.eggs_collected}</td>
+                                    <td data-label="Broken Eggs">{egg.broken_eggs}</td>
+                                    <td data-label="Remaining Eggs">{egg.remaining_eggs}</td>
+                                    <td data-label="Crates">{egg.quantity_in_crates}</td>
+                                    <td data-label="Extra Eggs">{egg.extra_eggs}</td>
+                                    <td data-label="Remarks">{egg.remarks}</td>
+                                    <td data-label="Actions">
+                                        <div className="eggs-actions">
+                                            <button
+                                                className="btn btn-sm btn-outline-primary"
+                                                onClick={() => handleEdit(egg)}
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                className="btn btn-sm btn-outline-danger"
+                                                onClick={() => handleDelete(egg.id)}
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-
     );
 }
-
 export default EggsProduction;

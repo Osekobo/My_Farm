@@ -1,110 +1,114 @@
-/* LOGIN PAGE STYLES ONLY APPLY INSIDE .login-page */
-
-.login-page * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
+/* ===============================
+   🔐 Login Page - Scoped Styles
+   =============================== */
 
 .login-page {
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
+  justify-content: center;
+  /* background: linear-gradient(145deg, #0e2a47, #1d4e89); */
+  font-family: 'Poppins', sans-serif;
 }
 
-.login-page .container {
-  background: #fff;
-  border-radius: 20px;
-  width: 900px;
-  max-width: 95%;
+/* Contained layout, scoped */
+.login-page .login-container {
   display: flex;
+  background: #ffffff;
+  width: 850px;
+  height: 500px;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+
+  /* 👇 Add animation here */
+  animation: slideIn 0.8s ease-out;
 }
 
+/* 🌟 Slide-in Animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Left Login Panel */
 .login-page .login-section {
   flex: 1;
-  padding: 60px 50px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }
 
 .login-page .login-section h2 {
-  font-size: 26px;
-  margin-bottom: 30px;
+  color: #0e2a47;
+  margin-bottom: 20px;
+  font-weight: 700;
 }
 
-.login-page .input-box {
+.login-page .login-section .input-box {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin-bottom: 20px;
 }
 
-.login-page input {
+.login-page .login-section .input-box input {
   padding: 12px 15px;
-  border: 1px solid #ccc;
   border-radius: 8px;
-  font-size: 14px;
+  border: 1px solid #ccc;
   outline: none;
-  transition: 0.3s;
+  font-size: 1rem;
+  transition: border 0.3s ease;
 }
 
-.login-page input:focus {
-  border-color: #1976d2;
+.login-page .login-section .input-box input:focus {
+  border-color: #1d4e89;
 }
 
-.login-page .forgot {
-  font-size: 13px;
-  margin-bottom: 20px;
+.login-page .login-section .forgot {
+  text-align: right;
+  margin-top: 10px;
 }
 
-.login-page .forgot a {
-  color: #1976d2;
+.login-page .login-section .forgot a {
+  color: #1d4e89;
   text-decoration: none;
+  font-size: 0.9rem;
 }
 
-.login-page .forgot a:hover {
+.login-page .login-section .forgot a:hover {
   text-decoration: underline;
 }
 
-.login-page .login-btn {
-  width: 100%;
-  padding: 12px;
+/* Login Button */
+.login-page .login-section .login-btn {
+  margin-top: 20px;
   background-color: #1d4e89;
+  color: white;
   border: none;
-  color: #fff;
   border-radius: 25px;
+  padding: 12px;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: 0.3s ease;
 }
 
-.login-page .login-btn:hover {
-  background: #1565c0;
+.login-page .login-section .login-btn:hover {
+  background-color: #0e2a47;
 }
 
-.login-page .social-login {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 25px;
-  font-size: 24px;
-}
-
-.login-page .social-login i {
-  cursor: pointer;
-  color: #444;
-  transition: 0.3s;
-}
-
-.login-page .social-login i:hover {
-  color: #1976d2;
-}
-
+/* Right Signup Panel */
 .login-page .right-panel {
-  width: 45%;
-  background: linear-gradient(145deg, #0e2a47, #1d4e89);
+  flex: 1;
+  background: #0e2a47;
   color: white;
   display: flex;
   flex-direction: column;
@@ -114,38 +118,47 @@
   text-align: center;
 }
 
-.login-page .right-panel h3 {
-  font-size: 22px;
+.login-page .right-panel h2 {
+  font-size: 1.6rem;
   margin-bottom: 10px;
 }
 
 .login-page .right-panel p {
-  margin-bottom: 25px;
-  font-size: 15px;
+  font-size: 1rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
 }
 
 .login-page .right-panel button {
-  background-color: transparent;
-  border: 2px solid #ffffff;
+  background: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 10px 25px;
   border-radius: 25px;
-  color: #ffffff;
-  padding: 10px 30px;
   cursor: pointer;
   transition: 0.3s ease;
 }
 
 .login-page .right-panel button:hover {
-  background-color: #ffffff;
+  background: #fff;
   color: #0e2a47;
 }
 
+/* Responsive */
 @media (max-width: 768px) {
-  .login-page .container {
+  .login-page .login-container {
     flex-direction: column;
     width: 90%;
+    height: auto;
+  }
+
+  .login-page .login-section,
+  .login-page .right-panel {
+    width: 100%;
+    padding: 30px;
   }
 
   .login-page .right-panel {
-    padding: 30px;
+    border-top: 3px solid #1d4e89;
   }
 }

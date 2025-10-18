@@ -1,0 +1,14 @@
+.navbar-section {
+  background: #0e2a47;
+  padding: 10px;
+}
+
+.navbar-section .navbar-link {
+  color: white;
+  text-decoration: none;
+  margin-right: 20px;
+}
+
+.navbar-section .navbar-link:hover {
+  text-decoration: underline;
+}
