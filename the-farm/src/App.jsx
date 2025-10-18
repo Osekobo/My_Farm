@@ -8,6 +8,8 @@ import EggsProduction from "./components/EggsProduction";
 import Stock from "./components/Stock";
 import Profits from "./components/Profits";
 import Sales from "./components/Sales";
+import ResetPassword from "./components/ResetPassword";
+import ForgotPassword from "./components/ForgotPassword";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
       <Route path="/eggsproduction" element={<EggsProduction />} />
       <Route path="/employees" element={<Employees />} />
       <Route path="/sales" element={<Sales /> } />
+      <Route path="/resetpassword" element={<ResetPassword /> } />
+      <Route path="/forgotpassword" element={<ForgotPassword /> } />
     </Routes>
   );
 }
