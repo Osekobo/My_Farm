@@ -1,4 +1,7 @@
 import { useState } from "react";
+import "./componentstyles/resertpassword.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 function ResetPassword() {
   const [email, setEmail] = useState("");
@@ -35,35 +38,50 @@ function ResetPassword() {
   };
 
   return (
-    <div>
-      <h2>Reset Password</h2>
-      {message && <p style={{ color: "green" }}>{message}</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleReset}>
-        <input
-          type="email"
-          placeholder="Your Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Reset Code"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="New Password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Reset Password</button>
-      </form>
+    <div className="reset-page">
+      <div className="reset-container">
+        <h2 className="reset-title">Reset Password</h2>
+
+        {message && <p className="reset-success">{message}</p>}
+        {error && <p className="reset-error">{error}</p>}
+
+        <form onSubmit={handleReset} className="reset-form">
+          <input
+            type="email"
+            placeholder="Your Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="reset-input"
+          />
+
+          <input
+            type="text"
+            placeholder="Reset Code"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            required
+            className="reset-input"
+          />
+
+          <input
+            type="password"
+            placeholder="New Password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            required
+            className="reset-input"
+          />
+
+          <button type="submit" className="reset-btn">Reset Password</button>
+        </form>
+
+        <p className="reset-back">
+          Remembered your password? <a href="/login">Go back to login</a>
+        </p>
+      </div>
     </div>
+
   );
 }
 
