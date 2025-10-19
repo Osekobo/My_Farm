@@ -11,6 +11,8 @@ import Sales from "./components/Sales";
 import ResetPassword from "./components/ResetPassword";
 import ForgotPassword from "./components/ForgotPassword";
 import Logout from "./components/Logout";
+import Dashboard from "./components/dashboard";
+import Userdashboard from "./components/userdashboard";
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
       <Route path="/resetpassword" element={<ResetPassword /> } />
       <Route path="/forgotpassword" element={<ForgotPassword /> } />
       <Route path="/logout" element={<Logout /> } />
+      <Route path="/dashboard" element={<Dashboard/> } />
+      <Route path="/userdashboard" element={<Userdashboard /> } />
     </Routes>
   );
 }
