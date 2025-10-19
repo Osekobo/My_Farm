@@ -1,21 +1,142 @@
-/* ===============================
-   📊 Dashboard Page (Scoped)
-   =============================== */
-
-#dashboard-page {
-  padding: 20px;
-  min-height: 100vh;
-  background-color: #f8f9fa;
-  /* light neutral background */
-  font-family: "Poppins", sans-serif;
+/* 🌿 Overall Layout */
+.dashboard-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f8f9fa;
 }
 
-/* Headings */
-#dashboard-page .dashboard-title {
-  text-align: center;
-  color: #0e2a47;
-  font-weight: 700;
-  margin-bottom: 20px;
+/* 🔝 Top Bar */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #2d3748;
+  color: #fff;
+  padding: 12px 20px;
+  height: 60px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-/* Add widgets, stats, cards, etc. here later */
+.topbar-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 🧭 Sidebar */
+.sidebar {
+  width: 180px;
+  /* Reduced from 240px */
+  background-color: #343a40;
+  color: #fff;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  transition: transform 0.3s ease-in-out;
+  height: calc(100vh - 60px);
+  position: fixed;
+  top: 60px;
+  /* below topbar */
+  left: 0;
+  overflow-y: auto;
+}
+
+.sidebar.closed {
+  transform: translateX(-100%);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar-nav .nav-item {
+  color: #adb5bd;
+  text-decoration: none;
+  padding: 8px 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  transition: background 0.3s, color 0.3s;
+}
+
+.sidebar-nav .nav-item:hover {
+  background-color: #495057;
+  color: #fff;
+}
+
+.sidebar-nav .nav-item.active {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+/* 📄 Main Content */
+.dashboard-content {
+  flex-grow: 1;
+  margin-left: 180px;
+  padding: 25px;
+  margin-top: 60px;
+  /* below topbar */
+  transition: all 0.3s ease-in-out;
+}
+
+.dashboard-content.expanded {
+  margin-left: 0;
+}
+
+/* 📱 Sidebar Toggle Button (inside topbar) */
+.sidebar-toggle {
+  background: rgba(255, 255, 255, 0.1);
+  /* semi-transparent for topbar blend */
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10%;
+  /* circular button */
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* 💡 Hover effect: subtle glow and color shift */
+.sidebar-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.08);
+}
+
+/* 🖱️ Click (active) effect: slight press */
+.sidebar-toggle:active {
+  transform: scale(0.95);
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    width: 220px;
+    height: calc(100vh - 60px);
+    z-index: 999;
+  }
+
+  .dashboard-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+}
