@@ -20,8 +20,15 @@ function Login() {
             })
             const data = await response.json()
             if (response.ok) {
+                localStorage.setItem("username", data.username);
+                localStorage.setItem("role", data.role)
                 localStorage.setItem("token", data.token);
-                navigate("/dashboard")
+                
+                if(data.role === "admin") {
+                    navigate("/dashboard")
+                } else {
+                    navigate("/userdashboard")
+                }
             } else {
                 setError(data.message || "Login failed")
             }
