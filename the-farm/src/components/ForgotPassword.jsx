@@ -1,4 +1,7 @@
 import { useState } from "react";
+import "./componentstyles/forgotpassword.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -33,21 +36,31 @@ function ForgotPassword() {
   };
 
   return (
-    <div>
-      <h2>Forgot Password</h2>
-      {message && <p style={{ color: "green" }}>{message}</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <button type="submit">Send Reset Code</button>
-      </form>
+    <div className="forgot-page">
+      <div className="forgot-container">
+        <h2 className="forgot-title">Forgot Password</h2>
+
+        {message && <p className="forgot-success">{message}</p>}
+        {error && <p className="forgot-error">{error}</p>}
+
+        <form onSubmit={handleSubmit} className="forgot-form">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="forgot-input"
+          />
+          <button type="submit" className="forgot-btn">Send Reset Code</button>
+        </form>
+
+        <p className="forgot-back">
+          Remembered your password? <a href="/login">Go back to login</a>
+        </p>
+      </div>
     </div>
+
   );
 }
 
