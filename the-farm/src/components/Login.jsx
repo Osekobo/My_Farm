@@ -39,7 +39,7 @@ function Login() {
     return (
         <div className="login-page">
             <div className="login-container">
-                <div class="login-section">
+                <div className="login-section">
                     <h2>Login</h2>
                     {error && <p style={{ color: "red" }}>{error}</p>}
                     <form onSubmit={handleSubmit} >
@@ -47,13 +47,13 @@ function Login() {
                             <input type="text" name="username" placeholder="Username or Email" value={username_or_email} onChange={(e) => setusername(e.target.value)} />
                             <input type="password" name="password" placeholder="password" value={password} onChange={(e) => setpassword(e.target.value)} />
                         </div>
-                        <div class="forgot">
+                        <div className="forgot">
                             <a href="#">Forgot password?</a>
                         </div>
-                        <button type="submit" class="login-btn">Login</button>
+                        <button type="submit" className="login-btn">Login</button>
                     </form>
                 </div>
-                <div class="right-panel">
+                <div className="right-panel">
                     <h2>Don't have an account?</h2>
                     <p>Sign up to get started!</p>
                     <button onClick={() => navigate("/signup")}>Sign Up</button>
