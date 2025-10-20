@@ -21,6 +21,9 @@ jwt = JWTManager()
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+    app.config["JWT_TOKEN_LOCATION"] = ["headers"]
+    app.config["JWT_HEADER_NAME"] = "Authorization"
+    app.config["JWT_HEADER_TYPE"] = "Bearer"
     reset_codes = {}
     mail.init_app(app)
     jwt.init_app(app)
@@ -126,12 +129,8 @@ def create_app():
         }), 200
 
     @app.route("/batch", methods=["POST", "GET"])
-    @jwt_required()
     def batch():
         if request.method == "POST":
-            current_user = get_jwt_identity()
-            if current_user["role"] != "admin":
-                return jsonify({"message": "Only admins can add batchs"}), 403
             data = request.get_json()
             batch_name = data.get("batch_name")
             breed = data.get("breed")
@@ -167,7 +166,6 @@ def create_app():
             return jsonify([b.to_dict() for b in batches]), 200
         
     @app.route("/batches/<int:id>", methods=["PATCH", "DELETE"])
-    @role_required(["admin"])
     def batches(id):
         if request.method == "PATCH":
             data = request.get_json()
@@ -210,7 +208,6 @@ def create_app():
             return jsonify({"message": "Batch deleted successfully"}), 200
 
     @app.route("/eggsproduction", methods=["POST", "GET"])
-    @role_required(["user", "admin"])
     def eggsproduction():
         if request.method == "POST":
             data = request.get_json()
@@ -272,7 +269,6 @@ def create_app():
             return jsonify([e.to_dict() for e in eggs_data]), 200
 
     @app.route("/eggsproduct/<int:id>", methods=["PATCH", "DELETE"])
-    @role_required(["user", "admin"])
     def eggsproduct(id):
         
         egg_col =db.session.get(EggProduction, id)
@@ -326,7 +322,6 @@ def create_app():
             return jsonify({"message": "Deleted successfully"})
 
     @app.route("/sales", methods=["POST", "GET"])
-    @role_required(["user", "admin"])
     def sales():
         if request.method == "POST":
             data = request.get_json()
@@ -377,7 +372,6 @@ def create_app():
             return jsonify([s.to_dict() for s in sales]), 200
 
     @app.route("/sale/<int:id>", methods=["PATCH", "DELETE"])
-    @role_required(["user", "admin"])
     def sale(id):
         sale = db.session.get(Sales, id)
         if not sale:
@@ -427,7 +421,6 @@ def create_app():
             return jsonify({"message": "Deleted Successfully"})
         
     @app.route("/stock", methods=["GET"])
-    @role_required(["user", "admin"])
     def get_stock():
         stock = Stock.query.all()
         if not stock:
@@ -518,7 +511,6 @@ def create_app():
 
 
     @app.route("/employeedata", methods=["POST", "PATCH", "GET", "DELETE"])
-    @role_required(["user", "admin"])
     def employeedata():
         if request.method == "POST":
             data = request.get_json()
@@ -584,7 +576,6 @@ def create_app():
 
     # ------------------- PROFITS -------------------
     @app.route("/profits", methods=["POST"])
-    @role_required(["admin"])
     def calculate_and_store_profit():
         data = request.get_json()
         start_date = data.get("start_date")
@@ -608,7 +599,6 @@ def create_app():
         return jsonify(result), 201
     
     @app.route("/forgot-password", methods=["POST"])
-    @role_required(["user", "admin"])
     def forgot_password():
         data = request.get_json()
         email = data.get("email")

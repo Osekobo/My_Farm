@@ -22,7 +22,7 @@ function Login() {
             if (response.ok) {
                 localStorage.setItem("username", data.username);
                 localStorage.setItem("role", data.role)
-                localStorage.setItem("token", data.token);
+                localStorage.setItem("token", data.access_token);
                 
                 if(data.role === "admin") {
                     navigate("/dashboard")

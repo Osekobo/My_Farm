@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
-import GetUserRole from "./Auth"; 
+import GetUserRole from "./Auth";
 import "./componentstyles/batch.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 function Batch() {
-  const [batch, setBatch] = useState([]);
+  const [batches, setBatches] = useState([]);
   const [error, setError] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [editingBatch, setEditingBatch] = useState(null);
+  const [role, setRole] = useState(null);
+
+  const BASE_URL = "http://127.0.0.1:5000";
+
   const [formData, setFormData] = useState({
     batch_name: "",
     breed: "",
@@ -18,23 +22,64 @@ function Batch() {
     status: "",
   });
 
-  const [role, setRole] = useState(null);
-  const BASE_URL = "http://127.0.0.1:5000";
-
   useEffect(() => {
     const r = GetUserRole();
     setRole(r);
-    fetchBatch();
+
+    const token = localStorage.getItem("access_token") || localStorage.getItem("token");
+    if (token) {
+      fetchBatches();
+    } else {
+      setError("Missing token! Please log in again.");
+    }
   }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // ✅ Fetch all batches (requires token)
+  const fetchBatches = async () => {
+    const token = localStorage.getItem("access_token") || localStorage.getItem("token");
+    if (!token) {
+      setError("Missing authorization token!");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${BASE_URL}/batch`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setBatches(Array.isArray(data) ? data : []);
+        setError("");
+      } else {
+        setError(data.message || "Failed to load batch data!");
+      }
+    } catch (err) {
+      setError("Server error: " + err.message);
+    }
+  };
+
+  // ✅ Add or edit batch
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (role !== "admin") {
       alert("You are not authorized to perform this action!");
+      return;
+    }
+
+    const token = localStorage.getItem("access_token") || localStorage.getItem("token");
+    if (!token) {
+      setError("Missing token! Please log in again.");
       return;
     }
 
@@ -48,14 +93,14 @@ function Batch() {
         method,
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
 
       const data = await response.json();
+
       if (response.ok) {
-        setError("");
         setShowForm(false);
         setEditingBatch(null);
         setFormData({
@@ -66,7 +111,7 @@ function Batch() {
           current_number: "",
           status: "",
         });
-        fetchBatch();
+        fetchBatches();
       } else {
         setError(data.message || "Something went wrong!");
       }
@@ -75,43 +120,30 @@ function Batch() {
     }
   };
 
-  const fetchBatch = async () => {
-    try {
-      const response = await fetch(`${BASE_URL}/batch`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setBatch(Array.isArray(data) ? data : []);
-      } else {
-        setError(data.message || "Failed to load batch data!");
-      }
-    } catch (err) {
-      setError("Server error: " + err.message);
-    }
-  };
-
+  // ✅ Delete a batch
   const handleDelete = async (id) => {
     if (role !== "admin") {
       alert("You are not authorized to delete batches!");
       return;
     }
+
     if (!window.confirm(`Are you sure you want to delete batch ID ${id}?`)) return;
+
+    const token = localStorage.getItem("access_token") || localStorage.getItem("token");
 
     try {
       const response = await fetch(`${BASE_URL}/batches/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
       const data = await response.json();
+
       if (response.ok) {
-        fetchBatch();
+        fetchBatches();
       } else {
         setError(data.message || "Failed to delete batch!");
       }
@@ -120,11 +152,13 @@ function Batch() {
     }
   };
 
+  // ✅ Edit batch handler
   const handleEdit = (b) => {
     if (role !== "admin") {
       alert("You are not authorized to edit batches!");
       return;
     }
+
     setEditingBatch(b);
     setFormData({
       batch_name: b.batch_name,
@@ -143,7 +177,6 @@ function Batch() {
         <h3 className="batch-title text-center mb-3">🐣 Batch Records</h3>
         {error && <p className="text-danger text-center">{error}</p>}
 
-        {/* Only Admin Can See Add Button */}
         {role === "admin" && (
           <div className="batch-controls d-flex justify-content-end mb-3">
             <button
@@ -159,10 +192,80 @@ function Batch() {
           </div>
         )}
 
-        {/* Show Form only if admin */}
         {showForm && role === "admin" && (
           <form id="batch-form" onSubmit={handleSubmit} className="mb-4">
-            {/* your form fields here */}
+            <div className="row g-3">
+              <div className="col-md-4">
+                <input
+                  type="text"
+                  name="batch_name"
+                  value={formData.batch_name}
+                  onChange={handleChange}
+                  placeholder="Batch Name"
+                  className="form-control"
+                  required
+                />
+              </div>
+              <div className="col-md-4">
+                <input
+                  type="text"
+                  name="breed"
+                  value={formData.breed}
+                  onChange={handleChange}
+                  placeholder="Breed"
+                  className="form-control"
+                  required
+                />
+              </div>
+              <div className="col-md-4">
+                <input
+                  type="date"
+                  name="acquisition_date"
+                  value={formData.acquisition_date}
+                  onChange={handleChange}
+                  className="form-control"
+                  required
+                />
+              </div>
+              <div className="col-md-4">
+                <input
+                  type="number"
+                  name="initial_number"
+                  value={formData.initial_number}
+                  onChange={handleChange}
+                  placeholder="Initial Number"
+                  className="form-control"
+                  required
+                />
+              </div>
+              <div className="col-md-4">
+                <input
+                  type="number"
+                  name="current_number"
+                  value={formData.current_number}
+                  onChange={handleChange}
+                  placeholder="Current Number"
+                  className="form-control"
+                  required
+                />
+              </div>
+              <div className="col-md-4">
+                <input
+                  type="text"
+                  name="status"
+                  value={formData.status}
+                  onChange={handleChange}
+                  placeholder="Status"
+                  className="form-control"
+                  required
+                />
+              </div>
+            </div>
+            <div className="text-center mt-3">
+              <button type="submit" className="btn btn-primary">
+                {editingBatch ? "Update Batch" : "Add Batch"}
+              </button>
+            </div>
           </form>
         )}
 
@@ -181,7 +284,7 @@ function Batch() {
               </tr>
             </thead>
             <tbody>
-              {batch.map((b) => (
+              {batches.map((b) => (
                 <tr key={b.id}>
                   <td>{b.id}</td>
                   <td>{b.batch_name}</td>
@@ -193,7 +296,7 @@ function Batch() {
                   {role === "admin" && (
                     <td>
                       <button
-                        className="btn btn-sm btn-outline-primary"
+                        className="btn btn-sm btn-outline-primary me-2"
                         onClick={() => handleEdit(b)}
                       >
                         Edit
