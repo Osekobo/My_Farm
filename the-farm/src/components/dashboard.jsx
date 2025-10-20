@@ -15,24 +15,24 @@ function Dashboard() {
           className="sidebar-toggle"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         >
-          {isSidebarOpen ? "x" : "☰"}
+          {isSidebarOpen ? "×" : "☰"}
         </button>
-        <h1 className="topbar-title">Golden - Yolk</h1>
+        <h1 className="topbar-title">Golden Yolk</h1>
         <div className="topbar-right">
-          {/* Add future icons, username, or logout button here */}
-          <button className="btn btn-outline-danger">Logout</button>
+          <button className="btn btn-outline-danger btn-sm">Logout</button>
         </div>
       </header>
 
       {/* 🧭 Sidebar */}
       <aside className={`sidebar ${isSidebarOpen ? "open" : "closed"}`}>
         <nav className="sidebar-nav">
-          <NavLink to="/dashboard/batch" className="nav-item">Batch</NavLink>
-          <NavLink to="/dashboard/eggproduction" className="nav-item">Egg Production</NavLink>
-          <NavLink to="/dashboard/employees" className="nav-item">Employees</NavLink>
-          <NavLink to="/dashboard/expenses" className="nav-item">Expenses</NavLink>
-          <NavLink to="/dashboard/profits" className="nav-item">Profits</NavLink>
-          <NavLink to="/dashboard/sales" className="nav-item">Sales</NavLink>
+          <NavLink to="batch" className="nav-item">Batch</NavLink>
+          <NavLink to="eggsproduction" className="nav-item">Egg Production</NavLink>
+          <NavLink to="employees" className="nav-item">Employees</NavLink>
+          <NavLink to="expenses" className="nav-item">Expenses</NavLink>
+          <NavLink to="profits" className="nav-item">Profits</NavLink>
+          <NavLink to="sales" className="nav-item">Sales</NavLink>
+          <NavLink to="stock" className="nav-item">Stock</NavLink>
         </nav>
       </aside>
 

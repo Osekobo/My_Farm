@@ -1,142 +1,113 @@
-/* 🌿 Overall Layout */
+/* ===============================
+   🧭 Dashboard Layout Styles
+   =============================== */
+
 .dashboard-layout {
   display: flex;
-  flex-direction: column;
   height: 100vh;
-  background: #f8f9fa;
+  overflow: hidden;
+  background-color: #f8f9fa;
 }
 
-/* 🔝 Top Bar */
+/* === Top Bar === */
 .topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #2d3748;
-  color: #fff;
-  padding: 12px 20px;
-  height: 60px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: #1d4e89;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
   z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .topbar-title {
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 1.5rem;
+  font-weight: 600;
   letter-spacing: 0.5px;
-  margin: 0;
 }
 
-.topbar-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.sidebar-toggle {
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
 }
 
-/* 🧭 Sidebar */
+/* === Sidebar === */
 .sidebar {
   width: 180px;
-  /* Reduced from 240px */
-  background-color: #343a40;
-  color: #fff;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  padding: 15px;
-  transition: transform 0.3s ease-in-out;
-  height: calc(100vh - 60px);
+  background-color: #0e2a47;
+  color: white;
+  height: 100vh;
+  padding-top: 70px;
   position: fixed;
-  top: 60px;
-  /* below topbar */
   left: 0;
+  top: 0;
   overflow-y: auto;
+  transition: width 0.3s ease, transform 0.3s ease;
 }
 
 .sidebar.closed {
   transform: translateX(-100%);
 }
 
+.sidebar.open {
+  transform: translateX(0);
+}
+
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  padding: 15px;
 }
 
-.sidebar-nav .nav-item {
-  color: #adb5bd;
+.nav-item {
+  color: white;
   text-decoration: none;
-  padding: 8px 10px;
-  border-radius: 5px;
-  font-size: 0.9rem;
-  transition: background 0.3s, color 0.3s;
+  padding: 12px 15px;
+  border-radius: 8px;
+  transition: background 0.3s;
 }
 
-.sidebar-nav .nav-item:hover {
-  background-color: #495057;
-  color: #fff;
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
-.sidebar-nav .nav-item.active {
-  background-color: #6c757d;
-  color: #fff;
+.nav-item.active {
+  background-color: #1d4e89;
+  font-weight: 600;
 }
 
-/* 📄 Main Content */
+/* === Main Content === */
 .dashboard-content {
-  flex-grow: 1;
-  margin-left: 180px;
-  padding: 25px;
+  flex: 1;
   margin-top: 60px;
-  /* below topbar */
-  transition: all 0.3s ease-in-out;
+  margin-left: 220px;
+  padding: 25px;
+  transition: margin-left 0.3s ease;
 }
 
 .dashboard-content.expanded {
   margin-left: 0;
 }
 
-/* 📱 Sidebar Toggle Button (inside topbar) */
-.sidebar-toggle {
-  background: rgba(255, 255, 255, 0.1);
-  /* semi-transparent for topbar blend */
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 10%;
-  /* circular button */
-  font-size: 1.5rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 42px;
-  height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
-}
-
-/* 💡 Hover effect: subtle glow and color shift */
-.sidebar-toggle:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: scale(1.08);
-}
-
-/* 🖱️ Click (active) effect: slight press */
-.sidebar-toggle:active {
-  transform: scale(0.95);
-}
-
-/* 📱 Responsive Design */
-@media (max-width: 768px) {
+/* === Responsive === */
+@media (max-width: 992px) {
   .sidebar {
     position: fixed;
-    width: 220px;
     height: calc(100vh - 60px);
-    z-index: 999;
+    top: 60px;
   }
 
   .dashboard-content {
     margin-left: 0;
-    padding: 20px;
   }
 }
