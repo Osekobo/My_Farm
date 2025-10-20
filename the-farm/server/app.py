@@ -10,7 +10,6 @@ import pytz
 from flask_cors import CORS
 from flask_mail import Message
 import random
-from flask_login import logout_user
 from flask_jwt_extended import (JWTManager, create_access_token, jwt_required, get_jwt_identity, verify_jwt_in_request)
 from functools import wraps
 
@@ -28,7 +27,7 @@ def create_app():
     db.init_app(app)
     bcrypt.init_app(app)
     migrate.init_app(app, db)
-    CORS(app, resources={r"/*": {"origins": ["http://localhost:5173"]}}, supports_credentials=True)
+    CORS(app)
     
     def role_required(allowed_roles):
         """Restrict access based on user roles"""
@@ -42,6 +41,16 @@ def create_app():
                 return fn(*args, **kwargs)
             return wrapper
         return decoder
+    
+    @app.route("/admin/data", methods=["GET"])
+    @jwt_required()
+    def admin_data():
+        current_user = get_jwt_identity()
+        
+        if current_user["role"] != "admin":
+            return jsonify({"message": "Access denied!!"})
+        
+        return jsonify({"data": "Sensitive admin data!"})
  
     @app.route("/signup", methods=["POST"])
     def signup():
@@ -89,7 +98,7 @@ def create_app():
             )
             mail.send(msg)
         except Exception as e:
-            print("Email sending failded:", e)
+            print("Email sending failed:", e)
 
         return jsonify({"message": f"{role.capitalize()} account created successfully, A confirmation email has been sent.!"}), 201
 
@@ -377,7 +386,7 @@ def create_app():
         stock = Stock.query.first()
         if not stock:
             stock = Stock(crates_in_store = 0)
-            db.session.add()
+            db.session.add(stock)
             db.session.commit()
         
         
@@ -628,7 +637,6 @@ def create_app():
             return jsonify({"message": "Failed to send email, please reenter your email or ensure your email is valid"}), 500
         
     @app.route("/reset-password", methods=["POST"])
-    @role_required(["user", "admin"])
     def reset_password():
         data = request.get_json()
         email = data.get("email")
@@ -661,13 +669,7 @@ def create_app():
 
         del reset_codes[email]
 
-        return jsonify({"message": "Password has been reset successfully"}), 200 
-    
-    @app.route("/logout", methods=["POST"])
-    @role_required(["user", "admin"])
-    def logout():
-        logout_user()
-        return jsonify({"message": "Logged out successfully"}), 200
+        return jsonify({"message": "Password has been reset successfully"}), 200
 
     return app
 

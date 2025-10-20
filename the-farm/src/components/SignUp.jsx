@@ -38,23 +38,20 @@ function SignUp() {
       } else {
         setMessage(data.message);
       }
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
       setMessage("Something went wrong!");
     }
   };
 
-  // ✅ Move the JSX return here (outside handleSubmit)
   return (
     <div className="signup-page">
       <div className="signup-container">
-        {/* Left Side */}
         <div className="signup-left">
           <h2>Already have an account?</h2>
           <p>Log in to get started!</p>
           <button onClick={() => navigate("/login")}>Log In</button>
         </div>
-        {/* Right Side */}
         <div className="signup-right">
           <h2>Sign Up</h2>
           <form
