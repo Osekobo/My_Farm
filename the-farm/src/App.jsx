@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import Expenses from "./components/Expenses";
@@ -17,31 +18,38 @@ import Userdashboard from "./components/userdashboard";
 function App() {
   return (
     <Routes>
-      {/* Public routes */}
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<Login />} />
       <Route path="/resetpassword" element={<ResetPassword />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
 
-      {/* 🔐 Admin Dashboard (nested routes) */}
-      <Route path="/dashboard" element={<Dashboard />}>
-        <Route path="batch" element={<Batch />} />
-        <Route path="employees" element={<Employees />} />
-        <Route path="expenses" element={<Expenses />} />
-        <Route path="profits" element={<Profits />} />
-        <Route path="sales" element={<Sales />} />
-        <Route path="eggsproduction" element={<EggsProduction />} />
-        <Route path="stock" element={<Stock />} />
-      </Route>
+      <Route
+        path="/*"
+        element={
+          <ProtectedRoute>
+            <Routes>
 
-      {/* 👤 User Dashboard (nested routes) */}
-      <Route path="/userdashboard" element={<Userdashboard />}>
-        <Route path="batch" element={<Batch />} />
-        <Route path="eggsproduction" element={<EggsProduction />} />
-        <Route path="sales" element={<Sales />} />
-      </Route>
+              <Route path="/dashboard" element={<Dashboard />}>
+                <Route path="batch" element={<Batch />} />
+                <Route path="employees" element={<Employees />} />
+                <Route path="expenses" element={<Expenses />} />
+                <Route path="profits" element={<Profits />} />
+                <Route path="sales" element={<Sales />} />
+                <Route path="eggsproduction" element={<EggsProduction />} />
+                <Route path="stock" element={<Stock />} />
+              </Route>
 
-      <Route path="/logout" element={<Logout />} />
+              <Route path="/userdashboard" element={<Userdashboard />}>
+                <Route path="batch" element={<Batch />} />
+                <Route path="eggsproduction" element={<EggsProduction />} />
+                <Route path="sales" element={<Sales />} />
+              </Route>
+
+              <Route path="/logout" element={<Logout />} />
+            </Routes>
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }

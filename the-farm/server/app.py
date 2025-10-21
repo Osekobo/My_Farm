@@ -510,7 +510,7 @@ def create_app():
             return jsonify({"message": f"Expense with id {expense_id} deleted successfully!"}), 200
 
 
-    @app.route("/employeedata", methods=["POST", "PATCH", "GET", "DELETE"])
+    @app.route("/employeedata", methods=["POST", "GET"])
     def employeedata():
         if request.method == "POST":
             data = request.get_json()
@@ -540,15 +540,17 @@ def create_app():
             if not employees:
                 return jsonify([]), 200
             return jsonify([e.to_dict() for e in employees]), 200
-
-        elif request.method == "PATCH":
+        
+    @app.route("/employeeinfo", methods=["PATCH", "DELETE"])
+    def employeeinfo(id):
+        if request.method == "PATCH":
             data = request.get_json()
             emp_id = data.get("id")
 
             if not emp_id:
                 return jsonify({"message": "Employee ID required"}), 400
 
-            employee = EmployeeData.query.get(emp_id)
+            employee = db.session.get(EmployeeData, id)
             if not employee:
                 return jsonify({"message": "Employee not found"}), 404
 
@@ -574,7 +576,6 @@ def create_app():
             db.session.commit()
             return jsonify({"Employee deleted successfully"})
 
-    # ------------------- PROFITS -------------------
     @app.route("/profits", methods=["POST"])
     def calculate_and_store_profit():
         data = request.get_json()
