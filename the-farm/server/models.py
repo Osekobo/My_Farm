@@ -151,6 +151,27 @@ class EmployeeData(db.Model):
             'salary': self.salary
         }
         
+class VaccinationInfo(db.Model):
+    __tablename__ = "Vaccination_data"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    batch_id = db.Column(db.Integer, db.ForeignKey("batch.id", name="fk_batch_id"), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    drug_administered = db.Column(db.String, nullable=False)
+    veterinary_name = db.Column(db.String, nullable=False)
+    comments = db.Column(db.String, nullable=False)
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'batch_id': self.batch_id,
+            'date': self.date.strftime("%Y-%m-%d") if self.date else None,
+            'drug_administered': self.drug_administered,
+            'veterinary_name': self.veterinary_name,
+            'comments': self.comments
+        }
+    
+        
 class Profit(db.Model):
     __tablename__ = "profit"
 

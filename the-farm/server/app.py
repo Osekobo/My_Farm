@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from extensions import db, bcrypt, migrate, mail
 from config import Config
 from dotenv import load_dotenv
-from models import User, Batch, EggProduction, Sales, Expenses, EmployeeData, Profit, Stock
+from models import User, Batch, EggProduction, Sales, Expenses, EmployeeData, Profit, Stock, VaccinationInfo
 from profits_util import generate_profit_record
 from datetime import datetime, timedelta, timezone
 from sqlalchemy import func
@@ -508,8 +508,75 @@ def create_app():
             db.session.delete(expense)
             db.session.commit()
             return jsonify({"message": f"Expense with id {expense_id} deleted successfully!"}), 200
-
-
+        
+    @app.route("/vaccinationinfo", methods=["POST", "GET"])
+    def vaccinationinfo():
+        if request.method == "POST":
+            data = request.get_json()
+            batch_id = data.get("batch_id")
+            date_str = data.get("date")
+            if date_str:
+                try:
+                    date = datetime.strptime(date_str, "%Y-%m-%d").date()
+                except ValueError:
+                    try:
+                        date = datetime.strptime(date_str, "%m/%d/%Y").date()
+                    except ValueError:
+                        return jsonify({"message": "Invalid date format, use MM/DD/YYYY"}), 400
+            else:
+                date = datetime.now(kenya_tz).date()
+                
+            drug_administered = data.get("drug_administered")
+            veterinary_name = data.get("veterinary_name")
+            comments = data.get("comments")
+            
+            new_vacc = VaccinationInfo(
+                batch_id=batch_id,
+                date=date,
+                drug_administered=drug_administered,
+                veterinary_name=veterinary_name,
+                comments=comments
+            )
+            db.session.add(new_vacc)
+            db.session.commit()
+            return jsonify({"message": "New vaccination data added!"}), 201
+        
+        elif request.method == "GET":
+            vaccination = VaccinationInfo.query.all()
+            if not vaccination:
+                return jsonify([]), 200
+            return jsonify([v.to_dict() for v in vaccination]), 200
+        
+    @app.route("/vaccination/<int:id>", methods=["PATCH", "DELETE"])
+    def vaccination(id):
+        data = request.get_json(silent=True) or {}
+        vaccine = db.session.get(VaccinationInfo, id)
+        if not vaccine:
+            return jsonify({"message": "Vaccination info not found!"})
+        
+        if request.method == "PATCH":
+            for field in ["batch_id", "date", "drug_administered", "veterinary_name", "comments"]:
+                if field in data:
+                    if field == "date" and isinstance(data["date"], str):
+                        try:
+                            data["date"] = datetime.strptime(data["date"], "%Y-%m-%d").date()
+                        except ValueError:
+                            try:
+                                data["date"] = datetime.strptime(data["date"], "%m/%d/%Y").date()
+                            except ValueError:
+                                return jsonify({"message": "Invalid date format. Use YYYY-MM-DD."}), 400
+                            
+                    setattr(vaccine, field, data[field]) 
+                    
+            db.session.commit()
+            return jsonify({"message": "Vaccination info updated successfully!"}), 200
+        
+        elif request.method == "DELETE":
+            db.session.delete(vaccine)
+            db.session.commit()
+            
+            return jsonify({"message": "Vaccination info deleted successfully!"}), 200
+            
     @app.route("/employeedata", methods=["POST", "GET"])
     def employeedata():
         if request.method == "POST":
