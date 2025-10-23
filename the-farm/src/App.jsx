@@ -14,6 +14,8 @@ import ForgotPassword from "./components/ForgotPassword";
 import Logout from "./components/Logout";
 import Dashboard from "./components/dashboard";
 import Userdashboard from "./components/userdashboard";
+import VaccinationInfo from "./components/VaccinationInfo";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -22,6 +24,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/resetpassword" element={<ResetPassword />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
+      <Route path="vaccinationinfo" element={<VaccinationInfo />} />
 
       <Route
         path="/*"
@@ -37,12 +40,14 @@ function App() {
                 <Route path="sales" element={<Sales />} />
                 <Route path="eggsproduction" element={<EggsProduction />} />
                 <Route path="stock" element={<Stock />} />
+                <Route path="vaccinationinfo" element={<VaccinationInfo />} />
               </Route>
 
               <Route path="/userdashboard" element={<Userdashboard />}>
                 <Route path="batch" element={<Batch />} />
                 <Route path="eggsproduction" element={<EggsProduction />} />
                 <Route path="sales" element={<Sales />} />
+                <Route path="vaccinationinfo" element={<VaccinationInfo />} />
               </Route>
 
               <Route path="/logout" element={<Logout />} />
@@ -51,6 +56,7 @@ function App() {
         }
       />
     </Routes>
+    
   );
 }
 

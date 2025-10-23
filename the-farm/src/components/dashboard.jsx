@@ -45,6 +45,7 @@ function Dashboard() {
           <NavLink to="profits" className="nav-item">Profits</NavLink>
           <NavLink to="sales" className="nav-item">Sales</NavLink>
           <NavLink to="stock" className="nav-item">Stock</NavLink>
+          <NavLink to="vaccinationinfo" className="nav-item">Vaccination Records</NavLink>
         </nav>
       </aside>
 

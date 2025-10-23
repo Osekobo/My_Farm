@@ -1,11 +1,20 @@
 import { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, Navigate, useNavigate } from "react-router-dom";
 import "./componentstyles/dashboard.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 function Userdashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("username");
+    navigate("/login", { replace: true });
+  };
 
   return (
     <div className="dashboard-layout">
@@ -19,14 +28,12 @@ function Userdashboard() {
         </button>
         <h1 className="topbar-title">Golden - Yolk</h1>
         <div className="topbar-right">
-          <button className="btn btn-outline-danger">Logout</button>
+          <button className="btn btn-outline-danger" onClick={handleLogout}>Logout</button>
         </div>
       </header>
 
-      {/* 🧭 Sidebar */}
       <aside className={`sidebar ${isSidebarOpen ? "open" : "closed"}`}>
         <nav className="sidebar-nav">
-          {/* Use relative paths for nested routes under /userdashboard */}
           <NavLink to="batch" className="nav-item">
             Batch
           </NavLink>
@@ -36,10 +43,11 @@ function Userdashboard() {
           <NavLink to="sales" className="nav-item">
             Sales
           </NavLink>
+          <NavLink to="vaccinationinfo" className="nav-item">
+            Vaccination Records
+          </NavLink>
         </nav>
       </aside>
-
-      {/* 📄 Main Content */}
       <main className="dashboard-content">
         <Outlet />
       </main>

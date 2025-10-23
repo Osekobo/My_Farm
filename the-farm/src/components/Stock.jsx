@@ -7,27 +7,34 @@ function Stock() {
     const [stock, setStock] = useState([]);
     const [error, setError] = useState("");
 
-    useEffect(() => {
-        const fetchStocks = async () => {
-            try {
-                const response = await fetch("http://127.0.0.1:5000/stock");
-                const data = await response.json();
+    const fetchStocks = async () => {
+        try {
+            const response = await fetch("http://127.0.0.1:5000/stock");
+            const data = await response.json();
 
-                if (response.ok) {
-                    if (Array.isArray(data)) {
-                        setStock(data);
-                    } else {
-                        setStock([]);
-                        setError(data.message || "Data error");
-                    }
+            if (response.ok) {
+                if (Array.isArray(data)) {
+                    setStock(data);
                 } else {
-                    setError(data.message || "Server error");
+                    setStock([]);
+                    setError(data.message || "Data error");
                 }
-            } catch (err) {
-                setError(`${err.message}`);
+            } else {
+                setError(data.message || "Server error");
             }
-        };
+        } catch (err) {
+            setError(`${err.message}`);
+        }
+    };
+
+    useEffect(() => {
         fetchStocks();
+
+        const interval = setInterval(() => {
+            fetchStocks();
+        }, 3000);
+
+        return () => clearInterval(interval);
     }, []);
 
     return (

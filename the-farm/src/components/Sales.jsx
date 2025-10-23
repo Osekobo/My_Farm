@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Stock from "./Stock";
 import "./componentstyles/Sales.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -19,7 +20,6 @@ function Sales() {
 
     const BASE_URL = "http://127.0.0.1:5000";
 
-    // Convert date to YYYY-MM-DD for date input
     const formatDate = (dateStr) => {
         if (!dateStr) return "";
         const date = new Date(dateStr);
@@ -137,6 +137,7 @@ function Sales() {
         <div id="sales-page">
             <div id="sales-container" className="mt-4">
                 <h1 className="sales-title mb-3">Sales</h1>
+
                 <div className="d-flex justify-content-end mb-3">
                     <button
                         id="toggle-form-btn"
@@ -256,6 +257,7 @@ function Sales() {
                     </table>
                 </div>
             </div>
+            <Stock />
         </div>
     );
 }
