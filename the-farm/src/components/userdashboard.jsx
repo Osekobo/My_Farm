@@ -3,6 +3,7 @@ import { NavLink, Outlet, Navigate, useNavigate } from "react-router-dom";
 import "./componentstyles/dashboard.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import EggProductionChart from "./EggsProductionChart";
 
 function Userdashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -18,7 +19,6 @@ function Userdashboard() {
 
   return (
     <div className="dashboard-layout">
-      {/* 🔝 Topbar */}
       <header className="topbar">
         <button
           className="sidebar-toggle"
@@ -51,6 +51,7 @@ function Userdashboard() {
       <main className="dashboard-content">
         <Outlet />
       </main>
+      <EggProductionChart />
     </div>
   );
 }

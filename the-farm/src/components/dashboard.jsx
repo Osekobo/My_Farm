@@ -4,6 +4,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import "./componentstyles/dashboard.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import EggProductionChart from "./EggsProductionChart";
 
 function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -52,6 +53,7 @@ function Dashboard() {
       <main className={`dashboard-content ${isSidebarOpen ? "" : "expanded"}`}>
         <Outlet />
       </main>
+      <EggProductionChart />
     </div>
   );
 }

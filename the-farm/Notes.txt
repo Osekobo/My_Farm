@@ -1,0 +1,11 @@
+Dashboard content
+Mortality bar chart
+Eggs/day line graph
+Sales graph
+
+Smart Alerts
+⚠️ Low feed stock
+⚠️ Increasing mortality
+⚠️ Vaccination overdue
+⚠️ Low production drop
+⚠️ Expiring medicine

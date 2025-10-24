@@ -728,6 +728,20 @@ def create_app():
         del reset_codes[email]
 
         return jsonify({"message": "Password has been reset successfully"}), 200
+    
+    @app.route("/eggproduction/chartdata", methods=["GET"])
+    def eggproduction_chart():
+        records = EggProduction.query.order_by(EggProduction.date).all()
+        
+        data = [] 
+        for r in records:
+            data.append({
+                "date": r.date.strftime("%m/%d"),
+                "eggs": r.eggs_collected,
+                "broken": r.broken_eggs,
+                "extra": r.extra_eggs
+            })
+            return jsonify(data), 200
 
     return app
 
