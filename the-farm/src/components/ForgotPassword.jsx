@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./componentstyles/forgotpassword.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -7,6 +8,7 @@ function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,9 +27,10 @@ function ForgotPassword() {
       const data = await response.json();
 
       if (response.ok) {
+        navigate("/resetpassword")
         setMessage("A reset code has been sent to your email.");
       } else {
-        setError(data.message || "Error sending reset code.");
+        setError(data.message || "Error sending reset code, account not found.");
       }
     } catch (err) {
       console.error(err)

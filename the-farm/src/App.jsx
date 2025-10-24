@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import Expenses from "./components/Expenses";
@@ -13,36 +14,49 @@ import ForgotPassword from "./components/ForgotPassword";
 import Logout from "./components/Logout";
 import Dashboard from "./components/dashboard";
 import Userdashboard from "./components/userdashboard";
+import VaccinationInfo from "./components/VaccinationInfo";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <Routes>
-      {/* Public routes */}
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<Login />} />
       <Route path="/resetpassword" element={<ResetPassword />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
+      <Route path="vaccinationinfo" element={<VaccinationInfo />} />
 
-      {/* 🔐 Admin Dashboard (nested routes) */}
-      <Route path="/dashboard" element={<Dashboard />}>
-        <Route path="batch" element={<Batch />} />
-        <Route path="employees" element={<Employees />} />
-        <Route path="expenses" element={<Expenses />} />
-        <Route path="profits" element={<Profits />} />
-        <Route path="sales" element={<Sales />} />
-        <Route path="eggsproduction" element={<EggsProduction />} />
-        <Route path="stock" element={<Stock />} />
-      </Route>
+      <Route
+        path="/*"
+        element={
+          <ProtectedRoute>
+            <Routes>
 
-      {/* 👤 User Dashboard (nested routes) */}
-      <Route path="/userdashboard" element={<Userdashboard />}>
-        <Route path="batch" element={<Batch />} />
-        <Route path="eggsproduction" element={<EggsProduction />} />
-        <Route path="sales" element={<Sales />} />
-      </Route>
+              <Route path="/dashboard" element={<Dashboard />}>
+                <Route path="batch" element={<Batch />} />
+                <Route path="employees" element={<Employees />} />
+                <Route path="expenses" element={<Expenses />} />
+                <Route path="profits" element={<Profits />} />
+                <Route path="sales" element={<Sales />} />
+                <Route path="eggsproduction" element={<EggsProduction />} />
+                <Route path="stock" element={<Stock />} />
+                <Route path="vaccinationinfo" element={<VaccinationInfo />} />
+              </Route>
 
-      <Route path="/logout" element={<Logout />} />
+              <Route path="/userdashboard" element={<Userdashboard />}>
+                <Route path="batch" element={<Batch />} />
+                <Route path="eggsproduction" element={<EggsProduction />} />
+                <Route path="sales" element={<Sales />} />
+                <Route path="vaccinationinfo" element={<VaccinationInfo />} />
+              </Route>
+
+              <Route path="/logout" element={<Logout />} />
+            </Routes>
+          </ProtectedRoute>
+        }
+      />
     </Routes>
+    
   );
 }
 

@@ -1,5 +1,5 @@
 /* ===============================
-   🔐 Login Page - Scoped Styles
+   Poultry Farm Themed Login Page
    =============================== */
 
 .login-page {
@@ -7,158 +7,148 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background: linear-gradient(145deg, #0e2a47, #1d4e89); */
-  font-family: 'Poppins', sans-serif;
+
+  /* background farm image */
+  background: url("https://images.unsplash.com/photo-1598514982954-4dfd1fbf61b5")
+    no-repeat center center/cover;
+
+  padding: 20px;
 }
 
-/* Contained layout, scoped */
-.login-page .login-container {
+.login-container {
   display: flex;
-  background: #ffffff;
   width: 850px;
-  height: 500px;
-  border-radius: 20px;
+  max-width: 96%;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
-
-  /* 👇 Add animation here */
-  animation: slideIn 0.8s ease-out;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
 }
 
-/* 🌟 Slide-in Animation */
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
+/* =========== Left/Login Section =========== */
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.login-section {
+  flex: 2;
+  padding: 50px;
 }
 
-/* Left Login Panel */
-.login-page .login-section {
-  flex: 1;
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.login-section h2 {
   text-align: center;
+  color: #5f8a3a;
+  font-size: 28px;
+  font-weight: bold;
 }
 
-.login-page .login-section h2 {
-  color: #0e2a47;
-  margin-bottom: 20px;
-  font-weight: 700;
-}
-
-.login-page .login-section .input-box {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.login-page .login-section .input-box input {
-  padding: 12px 15px;
+.input-box input {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #bfbfbf;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.input-box input:focus {
+  border-color: #5f8a3a;
+  box-shadow: 0 0 6px rgba(95, 138, 58, 0.5);
   outline: none;
-  font-size: 1rem;
-  transition: border 0.3s ease;
 }
 
-.login-page .login-section .input-box input:focus {
-  border-color: #1d4e89;
-}
-
-.login-page .login-section .forgot {
+/* Forgot link */
+.forgot {
   text-align: right;
   margin-top: 10px;
 }
 
-.login-page .login-section .forgot a {
-  color: #1d4e89;
+.forgot a {
+  color: #5f8a3a;
+  font-size: 14px;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-weight: 600;
 }
 
-.login-page .login-section .forgot a:hover {
+.forgot a:hover {
   text-decoration: underline;
 }
 
 /* Login Button */
-.login-page .login-section .login-btn {
-  margin-top: 20px;
-  background-color: #1d4e89;
-  color: white;
-  border: none;
-  border-radius: 25px;
+
+.login-btn {
+  width: 100%;
+  margin-top: 25px;
   padding: 12px;
+  background: #f9a825; /* Egg yolk */
+  border: none;
+  border-radius: 8px;
+  font-size: 17px;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: 0.3s;
 }
 
-.login-page .login-section .login-btn:hover {
-  background-color: #0e2a47;
+.login-btn:hover {
+  background: #ffb347;
+  transform: translateY(-2px);
 }
 
-/* Right Signup Panel */
-.login-page .right-panel {
-  flex: 1;
-  background: #0e2a47;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 40px;
+.login-section p {
   text-align: center;
-}
-
-.login-page .right-panel h2 {
-  font-size: 1.6rem;
   margin-bottom: 10px;
 }
 
-.login-page .right-panel p {
-  font-size: 1rem;
-  margin-bottom: 30px;
+.right-panel {
+  flex: 1;
+  background: #5f8a3a;
+  color: white;
+  padding: 50px 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.right-panel h2 {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+.right-panel p {
   opacity: 0.9;
 }
 
-.login-page .right-panel button {
-  background: transparent;
-  border: 2px solid #fff;
-  color: #fff;
-  padding: 10px 25px;
-  border-radius: 25px;
+.right-panel button {
+  background: #ffd54f;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 15px;
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: 0.3s;
 }
 
-.login-page .right-panel button:hover {
-  background: #fff;
-  color: #0e2a47;
+.right-panel button:hover {
+  background: #ffe57f;
+  transform: translateY(-2px);
 }
 
-/* Responsive */
+/* ===============================
+   Responsive
+   =============================== */
+
 @media (max-width: 768px) {
-  .login-page .login-container {
+  .login-container {
     flex-direction: column;
-    width: 90%;
-    height: auto;
   }
 
-  .login-page .login-section,
-  .login-page .right-panel {
-    width: 100%;
+  .right-panel {
     padding: 30px;
   }
 
-  .login-page .right-panel {
-    border-top: 3px solid #1d4e89;
+  .login-section {
+    padding: 30px;
   }
 }

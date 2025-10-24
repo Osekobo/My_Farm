@@ -1,175 +1,146 @@
-/* ===============================
-   Sign Up Page Styles (Scoped)
-   =============================== */
+/* ================================
+   Poultry Farm Themed SignUp Page
+   ================================ */
 
 .signup-page {
   min-height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
-  font-family: 'Poppins', sans-serif;
-  /* background: #0e2a47; */
-  overflow: hidden;
+  align-items: center;
+  background: url("https://images.unsplash.com/photo-1555758969-9ec8c42f68c8")
+    no-repeat center center/cover;
+  backdrop-filter: blur(2px);
+  padding: 20px;
 }
 
-/* Container */
-.signup-page .signup-container {
+.signup-container {
   display: flex;
-  width: 850px;
-  height: 500px;
-  background: #ffffff;
-  border-radius: 20px;
+  width: 900px;
+  max-width: 95%;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
+  border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
-  animation: slideIn 0.7s ease;
+  background: rgba(255, 255, 255, 0.95);
 }
 
-/* Slide-in Animation */
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* ===== Left Side ===== */
 
-/* Left Panel */
-.signup-page .signup-left {
-  width: 45%;
-  background: linear-gradient(145deg, #0e2a47, #1d4e89);
-  color: white;
+.signup-left {
+  flex: 1;
+  background: #5f8a3a; /* Fresh farm-like green */
+  color: #fff;
+  padding: 50px 30px;
+  text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  padding: 40px;
-  text-align: center;
 }
 
-.signup-page .signup-left h2 {
-  font-size: 1.8rem;
+.signup-left h2 {
+  font-size: 28px;
   margin-bottom: 10px;
 }
 
-.signup-page .signup-left p {
-  font-size: 1rem;
+.signup-left p {
   opacity: 0.9;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
-.signup-page .signup-left button {
-  background-color: transparent;
-  border: 2px solid #ffffff;
-  border-radius: 25px;
-  color: #ffffff;
-  padding: 10px 30px;
+.signup-left button {
+  background: #ffd54f;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: bold;
   transition: 0.3s ease;
 }
 
-.signup-page .signup-left button:hover {
-  background-color: #ffffff;
-  color: #0e2a47;
+.signup-left button:hover {
+  background: #ffe57f;
+  transform: translateY(-2px);
 }
 
-/* Right Panel */
-.signup-page .signup-right {
-  width: 55%;
-  padding: 40px 50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+/* ===== Right Side ===== */
+
+.signup-right {
+  flex: 2;
+  padding: 50px;
 }
 
-.signup-page .signup-right h2 {
-  color: #0e2a47;
-  margin-bottom: 10px;
+.signup-right h2 {
+  text-align: center;
+  color: #5f8a3a;
   font-weight: 700;
 }
 
-/* Form Elements */
-.signup-page .signup-right form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.signup-page .signup-right input,
-.signup-page .signup-right select {
-  padding: 12px 15px;
+.signup-right form input,
+.signup-right form select {
   border-radius: 8px;
-  border: 1px solid #ccc;
-  outline: none;
-  font-size: 0.95rem;
+  border: 1px solid #cfcfcf;
+  padding: 10px;
+  transition: 0.3s;
 }
 
-.signup-page .signup-right input:focus,
-.signup-page .signup-right select:focus {
-  border-color: #1d4e89;
+.signup-right form input:focus,
+.signup-right form select:focus {
+  border-color: #5f8a3a;
+  box-shadow: 0 0 6px rgba(95, 138, 58, 0.5);
 }
 
-/* Buttons */
-.signup-page .signup-right button {
-  margin-top: 15px;
-  background-color: #1d4e89;
+.signup-right button {
+  background: #f9a825; /* Egg yolk color */
   border: none;
-  color: white;
   padding: 12px;
-  border-radius: 25px;
-  cursor: pointer;
+  font-size: 17px;
+  border-radius: 10px;
   font-weight: bold;
-  transition: background 0.3s;
+  transition: 0.3s;
 }
 
-.signup-page .signup-right button:hover {
-  background-color: #0e2a47;
+.signup-right button:hover {
+  background: #ffb74d;
+  transform: translateY(-1.5px);
 }
 
-/* Text & Links */
-.signup-page .signup-right p {
+/* Admin Code Field Highlight */
+input[name="admin_code"] {
+  background: #fffbea;
+  border-color: #ffcc00;
+}
+
+/* Message Text */
+.signup-right p {
+  margin-top: 12px;
   text-align: center;
-  margin-top: 15px;
-  color: #444;
+  font-size: 14px;
 }
 
-.signup-page .signup-right a {
-  color: #1d4e89;
+.signup-right a {
+  color: #5f8a3a;
+  font-weight: 600;
   text-decoration: none;
-  font-weight: bold;
 }
 
-.signup-page .signup-right a:hover {
+.signup-right a:hover {
   text-decoration: underline;
 }
 
-/* Checkbox Section (if needed) */
-.signup-page .checkbox-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.9rem;
-  margin-top: 5px;
-}
+/* ===============================
+   Responsive Design
+   =============================== */
 
-/* Responsive Layout */
 @media (max-width: 768px) {
-  .signup-page .signup-container {
+  .signup-container {
     flex-direction: column;
-    width: 90%;
-    height: auto;
   }
 
-  .signup-page .signup-left,
-  .signup-page .signup-right {
-    width: 100%;
+  .signup-left {
     padding: 30px;
   }
 
-  .signup-page .signup-left {
-    border-bottom: 3px solid #1d4e89;
+  .signup-right {
+    padding: 30px;
   }
 }
-

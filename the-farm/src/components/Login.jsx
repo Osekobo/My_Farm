@@ -48,7 +48,7 @@ function Login() {
                             <input type="password" name="password" placeholder="password" value={password} onChange={(e) => setpassword(e.target.value)} />
                         </div>
                         <div className="forgot">
-                            <a href="#">Forgot password?</a>
+                            <a href="/forgotpassword">Forgot password?</a>
                         </div>
                         <button type="submit" className="login-btn">Login</button>
                     </form>

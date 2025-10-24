@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Stock from "./Stock";
 import "./componentstyles/eggproduction.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -269,6 +270,7 @@ function EggsProduction() {
                     </table>
                 </div>
             </div>
+            <Stock />
         </div>
     );
 }
