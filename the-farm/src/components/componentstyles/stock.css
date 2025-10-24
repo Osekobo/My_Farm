@@ -9,9 +9,9 @@
 }
 
 #stock-container {
-  max-width: 600px;
+  max-width: 300px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 5px;
   background: white;
   border-radius: 10px;
   /* box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); */
@@ -26,7 +26,7 @@
   font-size: 1.8rem;
   color: #0e2a47;
   font-weight: bold;
-  margin: 10px 0;
+  margin: 0px 0px;
 }
 
 #error-message {
