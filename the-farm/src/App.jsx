@@ -15,8 +15,11 @@ import Logout from "./components/Logout";
 import Dashboard from "./components/dashboard";
 import Userdashboard from "./components/userdashboard";
 import VaccinationInfo from "./components/VaccinationInfo";
-import { Toaster } from "react-hot-toast";
 import EggProductionChart from "./components/EggsProductionChart";
+import SalesGraph from "./components/SalesGraph";
+import PopulationGraph from "./components/PopulationGraph";
+import VaccinationAlert from "./components/VaccinationAlert";
+import VaccinationSchedule from "./components/VaccinationSchedule";
 
 function App() {
   return (
@@ -27,6 +30,11 @@ function App() {
       <Route path="/forgotpassword" element={<ForgotPassword />} />
       <Route path="vaccinationinfo" element={<VaccinationInfo />} />
       <Route path="eggproductionchart" element={<EggProductionChart />} />
+      <Route path="eggproductionchart" element={<EggProductionChart />} />
+      <Route path="salesgraph" element={<SalesGraph />} />
+      <Route path="populationgraph" element={<PopulationGraph />} />
+      <Route path="vaccinationschedule" element={<VaccinationSchedule />} />
+      <Route path="vaccinationalert" element={<VaccinationAlert />} />
 
       <Route
         path="/*"

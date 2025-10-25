@@ -1,0 +1,48 @@
+.vaccination-wrapper {
+  padding: 20px;
+}
+
+.add-btn {
+  background: #3498db;
+  color: white;
+  padding: 10px;
+  border: none;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.vaccination-form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.vaccination-form input {
+  padding: 6px;
+}
+
+.submit-btn {
+  padding: 8px;
+  background: green;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.vaccination-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.vaccination-table th,
+.vaccination-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.vaccination-table th {
+  background: #eee;
+}
