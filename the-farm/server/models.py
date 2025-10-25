@@ -171,6 +171,25 @@ class VaccinationInfo(db.Model):
             'comments': self.comments
         }
     
+class VaccinationSchedule(db.Model):
+    __tablename__ = "Vaccination_Schedule"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    batch_id = db.Column(db.Integer, db.ForeignKey("batch.id"), nullable=False)
+    vaccination_name = db.Column(db.String, nullable=False)
+    vaccination_date = db.Column(db.Date, nullable=False)
+    created_at = db.Column(db.Date, default=datetime.utcnow)
+
+    batch = db.relationship("Batch", backref="vaccination_schedules")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "batch_id": self.batch_id,
+            "batch_name": self.batch.batch_name,
+            "vaccination_name": self.vaccination_name,
+            "vaccination_date": self.vaccination_date.strftime("%Y-%m-%d")
+        }
         
 class Profit(db.Model):
     __tablename__ = "profit"

@@ -7,5 +7,3 @@ Smart Alerts
 ⚠️ Low feed stock
 ⚠️ Increasing mortality
 ⚠️ Vaccination overdue
-⚠️ Low production drop
-⚠️ Expiring medicine

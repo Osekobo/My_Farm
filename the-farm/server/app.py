@@ -2,9 +2,9 @@ from flask import Flask, request, jsonify
 from extensions import db, bcrypt, migrate, mail
 from config import Config
 from dotenv import load_dotenv
-from models import User, Batch, EggProduction, Sales, Expenses, EmployeeData, Profit, Stock, VaccinationInfo
+from models import User, Batch, EggProduction, Sales, Expenses, EmployeeData, Profit, Stock, VaccinationInfo, VaccinationSchedule
 from profits_util import generate_profit_record
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone, date
 from sqlalchemy import func
 import pytz
 from flask_cors import CORS
@@ -731,7 +731,7 @@ def create_app():
     
     @app.route("/eggproduction/chartdata", methods=["GET"])
     def eggproduction_chart():
-        records = EggProduction.query.order_by(EggProduction.date.desc()).limit(5).all()
+        records = EggProduction.query.order_by(EggProduction.date.desc()).limit(8).all()
         
         data = [] 
         for r in records:
@@ -740,10 +740,89 @@ def create_app():
                 "eggs": r.eggs_collected,
                 "broken": r.broken_eggs,
             })
+        data.reverse()
         return jsonify(data), 200
-        if not records:
-            return jsonify([]), 200
+    
+    @app.route("/sales/graph", methods=["GET"])
+    def sales_graph():
+        records = Sales.query.order_by(Sales.date.desc()).limit(8).all()
+        data = []
+        for r in records:
+            data.append({
+                "date": r.date.strftime("%m/%d"),
+                "quantity in crates": r.quantity_in_crates
+            })
+        data.reverse()
+        return jsonify(data), 200
+    
+    @app.route("/batch/<int:batch_id>/population_graph", methods=["GET"])
+    def population_graph(batch_id):
+        batch = Batch.query.get_or_404(batch_id)
 
+        acquisition = batch.acquisition_date
+        today = date.today()
+
+        data = [
+            {
+                "date": acquisition.strftime("%Y-%m-%d"),
+                "birds": batch.initial_number
+            },
+            {
+                "date": today.strftime("%Y-%m-%d"),
+                "birds": batch.current_number
+            }
+        ]
+
+        return jsonify(data), 200
+    
+    @app.route("/batches", methods=["GET"])
+    def get_batches():
+        batches = Batch.query.all()
+        return jsonify([
+            {
+                "id": batch.id,
+                "name": batch.batch_name
+            } for batch in batches
+    ])
+        
+    @app.route("/vaccination/upcoming", methods=["GET"])
+    def get_upcoming_vaccinations():
+        today = datetime.today().date()
+        
+        schedules = schedules = VaccinationSchedule.query.filter(VaccinationSchedule.vaccination_date >= today).order_by(VaccinationSchedule.vaccination_date).all()
+        
+        return jsonify([s.to_dict() for s in schedules]), 200
+    
+    @app.route("/batch/<int:batch_id>/vaccinations", methods=["GET"])
+    def get_batch_vaccinations(batch_id):
+        schedules = VaccinationSchedule.query.filter_by(batch_id=batch_id).all()
+        return jsonify([s.to_dict() for s in schedules]), 200
+    
+    @app.route("/vaccination/add", methods=["POST"])
+    def add_vaccination():
+        data = request.get_json()
+        new = VaccinationSchedule(
+            batch_id=data['batch_id'],
+            vaccination_name=data['vaccination_name'],
+            vaccination_date=datetime.strptime(data['vaccination_date'], "%Y-%m-%d").date()
+        )
+        db.session.add(new)
+        db.session.commit()
+        return jsonify({"message": "Vacination schedule added!"}), 201
+    
+    @app.route("/vaccination/clean", methods=["DELETE"])
+    def clean_vaccin():
+        today = datetime.today().date()
+        
+        expired = VaccinationSchedule.query.filter(VaccinationSchedule.vaccination_date < today).all()
+        
+        for e in expired:
+            db.session.delete(e)
+            
+        db.session.commit()
+        return jsonify({"message": "Expired Schedules cleaned!"})
+
+   
     return app
 
 
