@@ -16,6 +16,7 @@ import Dashboard from "./components/dashboard";
 import Userdashboard from "./components/userdashboard";
 import VaccinationInfo from "./components/VaccinationInfo";
 import { Toaster } from "react-hot-toast";
+import EggProductionChart from "./components/EggsProductionChart";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Route path="/resetpassword" element={<ResetPassword />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
       <Route path="vaccinationinfo" element={<VaccinationInfo />} />
+      <Route path="eggproductionchart" element={<EggProductionChart />} />
 
       <Route
         path="/*"

@@ -35,7 +35,6 @@ function EggProductionChart() {
             <Legend />
             <Line type="monotone" dataKey="eggs" stroke="#5f8a3a" strokeWidth={3} />
             <Line type="monotone" dataKey="broken" stroke="#d32f2f" strokeWidth={3} />
-            <Line type="monotone" dataKey="extra" stroke="#f9a825" strokeWidth={3} />
           </LineChart>
         </ResponsiveContainer>
       </div>

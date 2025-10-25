@@ -731,7 +731,7 @@ def create_app():
     
     @app.route("/eggproduction/chartdata", methods=["GET"])
     def eggproduction_chart():
-        records = EggProduction.query.order_by(EggProduction.date).all()
+        records = EggProduction.query.order_by(EggProduction.date.desc()).limit(5).all()
         
         data = [] 
         for r in records:
@@ -739,9 +739,10 @@ def create_app():
                 "date": r.date.strftime("%m/%d"),
                 "eggs": r.eggs_collected,
                 "broken": r.broken_eggs,
-                "extra": r.extra_eggs
             })
-            return jsonify(data), 200
+        return jsonify(data), 200
+        if not records:
+            return jsonify([]), 200
 
     return app
 
