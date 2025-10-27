@@ -191,6 +191,23 @@ class VaccinationSchedule(db.Model):
             "vaccination_date": self.vaccination_date.strftime("%Y-%m-%d")
         }
         
+class FeedRecord(db.Model):
+    __tablename__ = "Feed_records"
+    
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    feed_name = db.Column(db.String, nullable=False)  
+    sacks_in_storage = db.Column(db.Integer, nullable=False)
+    sacks_used = db.Column(db.Integer, default = 0)
+    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "feed_name": self.feed_name,
+            "sacks_in_storage": self.sacks_in_storage,
+            "sacks_used": self.sacks_used
+        }       
+        
+        
 class Profit(db.Model):
     __tablename__ = "profit"
 

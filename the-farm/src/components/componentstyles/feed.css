@@ -1,0 +1,112 @@
+.feed-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.feed-table th,
+.feed-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.feed-table th {
+  background: #333;
+  color: white;
+  text-align: left;
+}
+
+button {
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}
+
+.action-menu {
+  position: relative;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.dots-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  min-width: 80px;
+  border-radius: 4px;
+  z-index: 10;
+}
+
+.dropdown p {
+  margin: 0;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown p:hover {
+  background: #f0f0f0;
+}
+
+/* Show menu on hover */
+.action-menu:hover .dropdown {
+  display: block;
+}
+
+.floating-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: wheat;
+  padding: 10px 20px;
+  color: green;
+  border-radius: 10px solid black;
+  opacity: 0.95;
+  animation: fadeout 2.5s forwards;
+  z-index: 9999;
+}
+
+@keyframes fadeout {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.dots-menu {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 30px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 5px 0;
+}
+
+.dropdown p {
+  margin: 0;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.dropdown p:hover {
+  background: #eee;
+}
