@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from extensions import db, bcrypt, migrate, mail
 from config import Config
 from dotenv import load_dotenv
-from models import User, Batch, EggProduction, Sales, Expenses, EmployeeData, Profit, Stock, VaccinationInfo, VaccinationSchedule
+from models import User, Batch, EggProduction, Sales, Expenses, EmployeeData, Profit, Stock, VaccinationInfo, VaccinationSchedule, FeedRecord
 from profits_util import generate_profit_record
 from datetime import datetime, timedelta, timezone, date
 from sqlalchemy import func
@@ -464,6 +464,19 @@ def create_app():
                 return jsonify([]), 200
             return jsonify([e.to_dict() for e in expenses]), 200
         
+    @app.route("/expenses/graph", methods=["GET"])
+    def expense_graph():
+        records = Expenses.query.order_by(Expenses.date.desc()).limit(8).all()
+        data = []
+        for  r in records:
+            data.append({
+                "date": r.date.strftime("%m/%d"),
+                "category": r.category,
+                "amount_spent": r.amount_spent
+            })
+        data.reverse()
+        return jsonify(data), 200
+        
     @app.route("/expense/<int:id>", methods=["PATCH", "DELETE"])
     @role_required(["admin"])
     def expense(id):
@@ -608,7 +621,7 @@ def create_app():
                 return jsonify([]), 200
             return jsonify([e.to_dict() for e in employees]), 200
         
-    @app.route("/employeeinfo", methods=["PATCH", "DELETE"])
+    @app.route("/employeeinfo/<int:id>", methods=["PATCH", "DELETE"])
     def employeeinfo(id):
         if request.method == "PATCH":
             data = request.get_json()
@@ -821,7 +834,66 @@ def create_app():
             
         db.session.commit()
         return jsonify({"message": "Expired Schedules cleaned!"})
+    
+    @app.route("/feeds/use/<int:feed_id>", methods=["POST"])
+    def use_feed(feed_id):
+        feed = FeedRecord.query.get_or_404(feed_id)
+        
+        if feed.sacks_in_storage <= 0:
+            return jsonify({"message": "No sacks left!"})
+        
+        feed.sacks_in_storage -= 1
+        feed.sacks_used += 1
+        
+        db.session.commit()
+        
+        return jsonify({"message": "Feeds records updated successfully!"}), 200
+    
+    @app.route("/feeds", methods=["GET"])
+    def get_feeds():
+        feeds = FeedRecord.query.all()
+        return jsonify([
+            {
+                "id": feed.id,
+                "feed_name": feed.feed_name,
+                "sacks_in_storage": feed.sacks_in_storage,
+                "sacks_used": feed.sacks_used
+            } for feed in feeds
+        ])
+        
+    @app.route("/feeds", methods=["POST"])
+    def new_feed():
+        data = request.get_json()
+        feed = FeedRecord(
+            feed_name = data.get("feed_name"),
+            sacks_in_storage = data.get("sacks_in_storage"),
+            sacks_used = 0
+        )
+        
+        db.session.add(feed)
+        db.session.commit()
+        return jsonify({"message": "New feed added successfully!"}), 201
 
+    @app.route("/feeds/<int:id>", methods=["PATCH", "DELETE"])
+    def patch_and_delete(id):
+        feed = db.session.get(FeedRecord, id)
+        if not feed:
+            return jsonify({"message": "No feed of that ID!"}), 404
+        
+        if request.method == "PATCH":
+            data = request.get_json()
+            
+            for field in ["feed_name", "sacks_in_storage"]:
+                if field in data: 
+                    setattr(feed, field, data[field])      
+            
+            db.session.commit()
+            return jsonify({"message": "Feed updated successfully"}), 200
+        
+        if request.method == "DELETE":
+            db.session.delete(feed)
+            db.session.commit()
+            return jsonify({"message": "Feed deleted succesfully!"}), 200
    
     return app
 

@@ -20,6 +20,9 @@ import SalesGraph from "./components/SalesGraph";
 import PopulationGraph from "./components/PopulationGraph";
 import VaccinationAlert from "./components/VaccinationAlert";
 import VaccinationSchedule from "./components/VaccinationSchedule";
+import FeedRecords from "./components/FeedRecords";
+import FeedAlert from "./components/FeedAlert";
+import ExpenseGraph from "./components/ExpenseGraph";
 
 function App() {
   return (
@@ -32,9 +35,7 @@ function App() {
       <Route path="eggproductionchart" element={<EggProductionChart />} />
       <Route path="eggproductionchart" element={<EggProductionChart />} />
       <Route path="salesgraph" element={<SalesGraph />} />
-      <Route path="populationgraph" element={<PopulationGraph />} />
       <Route path="vaccinationschedule" element={<VaccinationSchedule />} />
-      <Route path="vaccinationalert" element={<VaccinationAlert />} />
 
       <Route
         path="/*"
@@ -51,6 +52,16 @@ function App() {
                 <Route path="eggsproduction" element={<EggsProduction />} />
                 <Route path="stock" element={<Stock />} />
                 <Route path="vaccinationinfo" element={<VaccinationInfo />} />
+                <Route path="populationgraph" element={<PopulationGraph />} />
+                <Route path="expensegraph" element={<ExpenseGraph />} />
+                <Route path="feedrecords" element={<FeedRecords />} />
+                <Route path="vaccinationalert" element={<VaccinationAlert />} />
+                <Route path="feedalert" element={<FeedAlert />} />
+                <Route path="vaccinationinfo" element={<VaccinationInfo />} />
+                <Route path="eggproductionchart" element={<EggProductionChart />} />
+                <Route path="eggproductionchart" element={<EggProductionChart />} />
+                <Route path="salesgraph" element={<SalesGraph />} />
+                <Route path="vaccinationschedule" element={<VaccinationSchedule />} />
               </Route>
 
               <Route path="/userdashboard" element={<Userdashboard />}>
@@ -58,6 +69,10 @@ function App() {
                 <Route path="eggsproduction" element={<EggsProduction />} />
                 <Route path="sales" element={<Sales />} />
                 <Route path="vaccinationinfo" element={<VaccinationInfo />} />
+                <Route path="populationgraph" element={<PopulationGraph />} />
+                <Route path="feedrecords" element={<FeedRecords />} />
+                <Route path="vaccinationalert" element={<VaccinationAlert />} />
+                <Route path="feedalert" element={<FeedAlert />} />
               </Route>
 
               <Route path="/logout" element={<Logout />} />

@@ -7,7 +7,6 @@ function PopulationGraph() {
   const [currentBatchIndex, setCurrentBatchIndex] = useState(0);
   const [graphData, setGraphData] = useState([]);
 
-  // Fetch all batches
   useEffect(() => {
     fetch("http://127.0.0.1:5000/batches")
       .then(res => res.json())
@@ -16,7 +15,6 @@ function PopulationGraph() {
       });
   }, []);
 
-  // Load graph when batch changes
   useEffect(() => {
     if (batchList.length > 0) {
       const batchId = batchList[currentBatchIndex].id;
@@ -26,7 +24,6 @@ function PopulationGraph() {
     }
   }, [batchList, currentBatchIndex]);
 
-  // Buttons to move between batches
   const nextBatch = () => {
     if (currentBatchIndex < batchList.length - 1) {
       setCurrentBatchIndex(prev => prev + 1);

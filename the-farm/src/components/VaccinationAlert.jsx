@@ -1,40 +1,43 @@
 import { useState, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function VaccinationAlert() {
-    const [vaccinations, setVaccinations] = useState([]);
-    const navigate = useNavigate()
+function FeedAlert() {
+    const [feeds, setFeeds] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("http://127.0.0.1:5000/vaccination/upcoming")
+        fetch("http://127.0.0.1:5000/feeds")
             .then(res => res.json())
-            .then(data => setVaccinations(data))
+            .then(data => setFeeds(data))
             .catch(err => console.log(err));
     }, []);
 
-    const daysLeft = (date) => {
-        const now = new Date();
-        const target = new Date(date);
-        return Math.ceil((target - now) / (1000 * 60 * 60 * 24));
-    };
-
     return (
-        <div className="dashboard-vaccination-alert">
-            <h3>Upcoming Vaccinations</h3>
-            {vaccinations.map((v) => {
-                const left = daysLeft(v.vaccination_date);
+        <div className="dashboard-feed-alert">
+            <h3>Feed Storage Alerts</h3>
+            {feeds.map((f) => {
                 let color = "yellow";
-                if (left <= 1) color = "red"
+
+                if (f.quantity <= 1) {
+                    color = "red";
+                } else if (f.quantity < 5) {
+                    color = "orange";
+                }
+
                 return (
-                    <div key={v.id} className="vaccination-alert-card" style={{ background: color }} onClick={() => navigate(`/vaccinations/${v.batch_id}`)}>
-                        <strong>{v.batch_name}</strong>
-                        <p>{v.vaccination_name}</p>
-                        <p>{left} days left</p>
+                    <div
+                        key={f.id}
+                        className="feed-alert-card"
+                        style={{ background: color, padding: "8px", marginBottom: "6px", cursor: "pointer" }}
+                        onClick={() => navigate("/feedrecords")}
+                    >
+                        <strong>{f.feed_name}</strong>
+                        <p>{f.quantity} sacks remaining</p>
                     </div>
-                )
+                );
             })}
         </div>
-    )
+    );
 }
 
-export default VaccinationAlert;
+export default FeedAlert;
