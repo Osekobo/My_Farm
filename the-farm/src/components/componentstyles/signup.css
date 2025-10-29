@@ -1,7 +1,3 @@
-/* ================================
-   Poultry Farm Themed SignUp Page
-   ================================ */
-
 .signup-page {
   min-height: 100vh;
   display: flex;
@@ -23,11 +19,9 @@
   background: rgba(255, 255, 255, 0.95);
 }
 
-/* ===== Left Side ===== */
-
 .signup-left {
   flex: 1;
-  background: #5f8a3a; /* Fresh farm-like green */
+  background: #5f8a3a;
   color: #fff;
   padding: 50px 30px;
   text-align: center;
@@ -62,8 +56,6 @@
   transform: translateY(-2px);
 }
 
-/* ===== Right Side ===== */
-
 .signup-right {
   flex: 2;
   padding: 50px;
@@ -89,28 +81,28 @@
   box-shadow: 0 0 6px rgba(95, 138, 58, 0.5);
 }
 
-.signup-right button {
-  background: #f9a825; /* Egg yolk color */
+.signup-submit {
+  background: #f9a825;
   border: none;
   padding: 12px;
   font-size: 17px;
   border-radius: 10px;
   font-weight: bold;
   transition: 0.3s;
+  width: 100%;
+  cursor: pointer;
 }
 
-.signup-right button:hover {
+.signup-submit:hover {
   background: #ffb74d;
   transform: translateY(-1.5px);
 }
 
-/* Admin Code Field Highlight */
 input[name="admin_code"] {
   background: #fffbea;
   border-color: #ffcc00;
 }
 
-/* Message Text */
 .signup-right p {
   margin-top: 12px;
   text-align: center;
@@ -127,10 +119,7 @@ input[name="admin_code"] {
   text-decoration: underline;
 }
 
-/* ===============================
-   Responsive Design
-   =============================== */
-
+/* Responsive */
 @media (max-width: 768px) {
   .signup-container {
     flex-direction: column;
@@ -143,4 +132,33 @@ input[name="admin_code"] {
   .signup-right {
     padding: 30px;
   }
+}
+
+.password-field {
+  position: relative;
+  width: 100%;
+}
+
+.password-field input {
+  width: 100%;
+  padding: 10px 40px 10px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.eye-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #555;
+  padding: 0;
+}
+
+.eye-btn:hover {
+  color: #5f8a3a; 
 }
