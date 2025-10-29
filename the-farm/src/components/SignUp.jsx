@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 import "./componentstyles/signup.css";
 
 function SignUp() {
@@ -12,6 +13,7 @@ function SignUp() {
     admin_code: "",
   });
 
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
@@ -52,6 +54,7 @@ function SignUp() {
           <p>Log in to get started!</p>
           <button onClick={() => navigate("/login")}>Log In</button>
         </div>
+
         <div className="signup-right">
           <h2>Sign Up</h2>
           <form
@@ -67,6 +70,7 @@ function SignUp() {
               <option value="user">User</option>
               <option value="admin">Admin</option>
             </select>
+
             <input
               type="text"
               name="username"
@@ -76,6 +80,7 @@ function SignUp() {
               required
               className="form-control"
             />
+
             <input
               type="email"
               name="email"
@@ -85,6 +90,7 @@ function SignUp() {
               required
               className="form-control"
             />
+
             <input
               type="text"
               name="phone_number"
@@ -94,15 +100,27 @@ function SignUp() {
               required
               className="form-control"
             />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="form-control"
-            />
+
+            <div className="password-field">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="form-control"
+              />
+              <button
+                type="button"
+                className="eye-btn"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+
             {formData.role === "admin" && (
               <input
                 type="text"
@@ -113,10 +131,12 @@ function SignUp() {
                 className="form-control"
               />
             )}
-            <button type="submit" className="btn btn-primary w-100">
+
+            <button type="submit" className="signup-submit">
               Sign Up
             </button>
           </form>
+
           <p>
             Already have an account? <a href="/login">Login here</a>
           </p>
