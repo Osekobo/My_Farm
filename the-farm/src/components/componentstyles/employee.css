@@ -35,7 +35,7 @@
 }
 
 #employees-page #toggle-form-btn:hover {
-  background-color: #5a6268;
+  /* background-color: #5a6268; */
   transform: scale(1.05);
 }
 
@@ -59,20 +59,6 @@
   outline: none;
 }
 
-/* 💾 Save Button */
-#employees-page #save-btn {
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-weight: 500;
-  background-color: #1d4e89;
-  color: white;
-  border: none;
-  transition: background 0.3s ease;
-}
-
-#employees-page #save-btn:hover {
-  background-color: #0e2a47;
-}
 
 /* ❌ Error & ✅ Success Messages */
 #employees-page #error-message {

@@ -135,14 +135,14 @@ function Employees() {
     return (
         <div id="employees-page">
             <div id="employees-container" className="mt-4">
-                <h3 className="employees-title text-center mb-3">👥 Employees</h3>
+                <h3 className="employees-title text-center mb-3">Employees</h3>
                 {error && <p id="error-message" className="text-danger text-center">{error}</p>}
                 {message && <p id="success-message" className="text-success text-center">{message}</p>}
                 
                 <div className="employees-controls d-flex justify-content-end mb-3">
                     <button
                         id="toggle-form-btn"
-                        className="btn btn-secondary"
+                        className="btn btn-outline-warning"
                         onClick={() => {
                             setShowForm(!showForm);
                             setEditMode(false);
@@ -213,7 +213,7 @@ function Employees() {
                             />
                         </div>
 
-                        <button type="submit" id="save-btn" className="btn btn-secondary mt-3">
+                        <button type="submit" id="save-btn" className="btn btn-outline-warning mt-3">
                             {editMode ? "Update Employee" : "Save Employee"}
                         </button>
                     </form>

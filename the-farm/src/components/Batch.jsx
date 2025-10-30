@@ -131,13 +131,14 @@ function Batch() {
 
   return (
     <div id="batch-page">
-      <div id="batch-container" className="container mt-4">
-        <h3 className="batch-title text-center mb-3">🐣 Batch Records</h3>
+      <div id="batch-container">
+
+        <h3 className="batch-title">Batch Records</h3>
         {error && <p className="text-danger text-center">{error}</p>}
         <div className="batch-controls d-flex justify-content-end mb-3">
           <button
             id="toggle-batch-form-btn"
-            className="btn btn-secondary"
+            className="btn btn-outline-warning"
             onClick={() => {
               setShowForm(!showForm);
               setEditingBatch(null);
@@ -226,7 +227,7 @@ function Batch() {
                 />
               </div>
             </div>
-            <button type="submit" id="save-batch-btn" className="btn btn-secondary mt-3">
+            <button type="submit" id="save-batch-btn" className="btn btn-outline-warning mt-3">
               {editingBatch ? "Update Batch" : "Save Batch"}
             </button>
           </form>

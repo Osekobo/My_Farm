@@ -136,13 +136,15 @@ function VaccinationInfo() {
     if (loading) return <p>Loading vaccination data...</p>;
 
     return (
-        <div id="vaccination-page">
-            <div id="vacc-container" className="mt-4">
-                <h2 className="text-center mb-3">💉 Vaccination Records</h2>
+        <div id="vaccine-page" className="p-3" style={{ overflowY: "auto", height: "100%" }}>
+            <div id="vaccine-container" className="container-fluid mt-3">
+
+
+                <h2 className="text-center mb-3">Vaccination Records</h2>
 
                 <div className="d-flex justify-content-end mb-3">
                     <button
-                        className="btn btn-secondary shadow-sm"
+                        className="btn btn-outline-warning shadow-sm"
                         onClick={() => {
                             setShowForm(!showForm);
                             setEditingRecord(null);
@@ -212,7 +214,7 @@ function VaccinationInfo() {
                             </div>
                         </div>
 
-                        <button type="submit" className="btn btn-dark mt-3">
+                        <button type="submit" className="btn btn-outline-warning mt-3">
                             {editingRecord ? "Update Record" : "Save Record"}
                         </button>
                     </form>

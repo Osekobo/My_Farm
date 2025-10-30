@@ -141,7 +141,7 @@ function Sales() {
                 <div className="d-flex justify-content-end mb-3">
                     <button
                         id="toggle-form-btn"
-                        className="btn btn-secondary"
+                        className="btn btn-outline-warning"
                         onClick={() => {
                             setShowForm(!showForm);
                             setEditingSale(null);
@@ -215,7 +215,7 @@ function Sales() {
                                 />
                             </div>
                             <div className="col-md-2">
-                                <button type="submit" id="save-btn" className="btn btn-secondary w-100">
+                                <button type="submit" id="save-btn" className="btn btn-outline-warning w-100">
                                     {editingSale ? "Update" : "Save"}
                                 </button>
                             </div>

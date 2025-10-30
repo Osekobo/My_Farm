@@ -136,12 +136,12 @@ function EggsProduction() {
         <div id="eggs-page">
             <div id="eggs-container" className="mt-4">
                 {/* 🧭 Header Section */}
-                <h2 className="eggs-title mb-3 text-center">🥚 Eggs Production</h2>
+                <h2 className="eggs-title mb-3 text-center">Eggs Production</h2>
                 {/* ➕ Add Button (Right-aligned) */}
                 <div className="d-flex justify-content-end mb-3">
                     <button
                         id="toggle-eggs-form-btn"
-                        className="btn btn-secondary shadow-sm"
+                        className="btn btn-outline-warning shadow-sm"
                         onClick={() => {
                             setShowForm(!showForm);
                             setEditingEgg(null);
@@ -215,7 +215,7 @@ function EggsProduction() {
                                 />
                             </div>
                         </div>
-                        <button type="submit" id="save-eggs-btn" className="btn btn-dark mt-3">
+                        <button type="submit" id="save-eggs-btn" className="btn btn-outline-warning mt-3">
                             {editingEgg ? "Update Record" : "Save Record"}
                         </button>
                     </form>
