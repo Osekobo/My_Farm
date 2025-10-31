@@ -9,6 +9,7 @@ import {
   ResponsiveContainer,
   Legend
 } from "recharts";
+import "./componentstyles/Expense.css"; // External CSS for styling
 
 function ExpenseGraph() {
   const [data, setData] = useState([]);
@@ -18,50 +19,37 @@ function ExpenseGraph() {
       .then((res) => res.json())
       .then((records) => {
         const grouped = {};
-
         records.forEach((r) => {
           if (!grouped[r.date]) grouped[r.date] = { date: r.date };
           grouped[r.date][r.category] = r.amount_spent;
         });
-
         setData(Object.values(grouped));
-      });
+      })
+      .catch((err) => console.error(err));
   }, []);
 
-  const colors = ["#0088FE", "#FF8042", "#FFBB28", "#00C49F", "#d00000"];
-
-  const categories = [...new Set(data.flatMap(Object.keys))].filter(
-    (key) => key !== "date"
-  );
-
-  const wrapperStyle = {
-    width: "100%",
-    height: "350px",
-    minWidth: 0,
-    minHeight: 0,
-    overflow: "visible",
-    display: "flex",
-    flexDirection: "column",
-  };
-
-  const titleStyle = {
-    textAlign: "center",
-    marginBottom: 10,
-    fontWeight: "bold"
-  };
+  const colors = ["#FF6B6B", "#FFD93D", "#6BCB77", "#4D96FF", "#845EC2", "#FF9671", "#FFC75F", "#00C9A7"];
+  const categories = [...new Set(data.flatMap(Object.keys))].filter(key => key !== "date");
 
   return (
-    <div style={wrapperStyle}>
-      <h3 style={titleStyle}>Last 8 Expenses</h3>
+    <div className="expenses-wrapper">
+      <h3 className="expenses-title">Last 8 Expenses</h3>
 
-      {/* ✅ Guaranteed non-negative dimensions */}
-      <ResponsiveContainer width="100%" height={250}>
-        <BarChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
+      <ResponsiveContainer width="100%" height={350}>
+        <BarChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+          <CartesianGrid strokeDasharray="5 5" stroke="rgba(255,255,255,0.2)" />
+          <XAxis dataKey="date" stroke="#fff" tick={{ fontSize: 12, fill: "#fff" }} />
+          <YAxis stroke="#fff" tick={{ fontSize: 12, fill: "#fff" }} />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "#222",
+              borderRadius: "8px",
+              border: "none",
+              color: "#fff",
+            }}
+            labelStyle={{ fontWeight: "bold" }}
+          />
+          <Legend wrapperStyle={{ color: "#fff", fontWeight: 600 }} />
 
           {categories.map((category, index) => (
             <Bar
@@ -69,7 +57,9 @@ function ExpenseGraph() {
               dataKey={category}
               stackId={false}
               fill={colors[index % colors.length]}
-              radius={[6, 6, 0, 0]}
+              radius={[10, 10, 0, 0]}
+              barSize={30}
+              animationDuration={800}
             />
           ))}
         </BarChart>

@@ -1,18 +1,22 @@
 /* ===============================
-   🐣 Batch Page - Scoped Styling
+   🐣 Batch Page - Works With Dashboard Layout
    =============================== */
 
 #batch-page {
-  display: block;
-  height: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   font-family: "Poppins", sans-serif;
+  background-color: transparent;
+  padding-bottom: 40px; /* ✅ ensures bottom spacing for scroll */
 }
 
 /* 🧾 Main Container */
 #batch-page #batch-container {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 20px;
+  background: transparent;
 }
 
 /* 🏷️ Title */
@@ -20,6 +24,7 @@
   font-weight: 700;
   color: #343a40;
   text-align: center;
+  margin-bottom: 20px;
 }
 
 /* 🔘 Form Toggle Button */
@@ -29,7 +34,7 @@
 }
 
 #batch-page #toggle-batch-form-btn:hover {
-  background-color: #5a6268;
+  /* background-color: #5a6268; */
   transform: scale(1.05);
 }
 
@@ -39,6 +44,7 @@
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 25px;
 }
 
 #batch-page .batch-input {
@@ -56,20 +62,33 @@
   font-weight: 500;
 }
 
-/* 📊 Table Styling */
-#batch-page #batch-table {
-  border-radius: 10px;
-  overflow: hidden;
+/* 📊 Table Section */
+#batch-page .table-responsive {
+  overflow-x: auto; /* ✅ allows horizontal scroll if needed */
+  overflow-y: visible; /* ✅ prevents cutting off content */
+  max-height: unset;
   background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Table */
+#batch-page #batch-table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
 #batch-page #batch-table th {
   background-color: #6c757d;
   color: white;
+  padding: 10px;
+  text-align: center;
 }
 
 #batch-page #batch-table td {
   vertical-align: middle;
+  text-align: center;
+  padding: 8px;
 }
 
 #batch-page .batch-row:hover {
@@ -92,6 +111,13 @@
 
 #batch-page .batch-actions .btn:hover {
   transform: scale(1.05);
+}
+
+/* ✅ Fix for pages not scrolling */
+.dashboard-content {
+  overflow-y: auto !important;
+  height: calc(100vh - 60px);
+  padding-bottom: 50px; /* extra space for end of content */
 }
 
 /* 📱 Responsive Design */

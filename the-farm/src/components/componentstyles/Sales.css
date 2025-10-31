@@ -42,7 +42,7 @@
 }
 
 #sales-page #toggle-form-btn:hover {
-  background-color: #5a6268;
+  /* background-color: #5a6268; */
   transform: scale(1.05);
 }
 

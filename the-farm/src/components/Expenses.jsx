@@ -127,12 +127,12 @@ function Expenses() {
   return (
     <div id="expenses-page">
       <div id="expenses-container" className="mt-4">
-        <h3 className="expenses-title text-center mb-3">💰 Expenses Tracker</h3>
+        <h3 className="expenses-title text-center mb-3">Expenses Tracker</h3>
         {/* Top Controls */}
         <div className="expenses-controls d-flex justify-content-end mb-3">
           <button
             id="toggle-form-btn"
-            className="btn btn-secondary"
+            className="btn btn-outline-warning"
             onClick={() => {
               setShowForm(!showForm);
               setEditingExpense(null);
@@ -189,7 +189,7 @@ function Expenses() {
                 />
               </div>
             </div>
-            <button type="submit" id="save-btn" className="btn btn-secondary mt-3">
+            <button type="submit" id="save-btn" className="btn btn-outline-warning mt-3">
               {editingExpense ? "Update Expense" : "Save Expense"}
             </button>
           </form>

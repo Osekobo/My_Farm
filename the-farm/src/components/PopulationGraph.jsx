@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
+import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, Legend } from "recharts";
 import toast from "react-hot-toast";
+import "./componentstyles/populationgraph.css"; // shared graph CSS
 
 function PopulationGraph() {
   const [batchList, setBatchList] = useState([]);
@@ -10,9 +11,8 @@ function PopulationGraph() {
   useEffect(() => {
     fetch("http://127.0.0.1:5000/batches")
       .then(res => res.json())
-      .then(data => {
-        setBatchList(data);
-      });
+      .then(data => setBatchList(data))
+      .catch(err => console.error(err));
   }, []);
 
   useEffect(() => {
@@ -20,7 +20,8 @@ function PopulationGraph() {
       const batchId = batchList[currentBatchIndex].id;
       fetch(`http://127.0.0.1:5000/batch/${batchId}/population_graph`)
         .then(res => res.json())
-        .then(data => setGraphData(data));
+        .then(data => setGraphData(data))
+        .catch(err => console.error(err));
     }
   }, [batchList, currentBatchIndex]);
 
@@ -41,25 +42,33 @@ function PopulationGraph() {
   };
 
   return (
-    <div>
+    <div className="graph-wrapper">
       {batchList.length > 0 && (
-        <h2>
+        <h3 className="graph-title text-center">
           Viewing: {batchList[currentBatchIndex].name}
-        </h2>
+        </h3>
       )}
 
-      <div>
-        <button onClick={previousBatch}>Previous Batch</button>
-        <button onClick={nextBatch}>Next Batch</button>
+      <div className="graph-container">
+        <ResponsiveContainer width="100%" height={350}>
+          <LineChart data={graphData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="5 5" stroke="rgba(255,255,255,0.2)" />
+            <XAxis dataKey="date" stroke="#fff" tick={{ fontSize: 12, fill: "#fff" }} />
+            <YAxis stroke="#fff" tick={{ fontSize: 12, fill: "#fff" }} />
+            <Tooltip
+              contentStyle={{ backgroundColor: "#222", borderRadius: "8px", border: "none", color: "#fff" }}
+              labelStyle={{ fontWeight: "bold" }}
+            />
+            <Legend wrapperStyle={{ color: "#fff", fontWeight: 600 }} />
+            <Line type="monotone" dataKey="birds" stroke="#FFD93D" strokeWidth={4} dot={{ r: 5, fill: "#6BCB77" }} activeDot={{ r: 8, fill: "#6BCB77" }} />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
 
-      <LineChart width={600} height={300} data={graphData}>
-        <CartesianGrid />
-        <XAxis dataKey="date" />
-        <YAxis />
-        <Tooltip />
-        <Line type="monotone" dataKey="birds" stroke="blue" strokeWidth={2} />
-      </LineChart>
+      <div className="d-flex justify-content-center gap-3 mt-3">
+        <button className="btn btn-outline-light" onClick={previousBatch}>Previous Batch</button>
+        <button className="btn btn-outline-light" onClick={nextBatch}>Next Batch</button>
+      </div>
     </div>
   );
 }

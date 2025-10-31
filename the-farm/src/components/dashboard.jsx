@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import "./componentstyles/dashboard.css";
@@ -9,11 +9,12 @@ import SalesGraph from "./SalesGraph";
 import PopulationGraph from "./PopulationGraph";
 import ExpenseGraph from "./ExpenseGraph";
 import VaccinationAlert from "./VaccinationAlert";
-import FeedAlert from "./VaccinationAlert";
+import FeedAlert from "./FeedAlert";
 
 function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation(); // <-- Add this hook to detect current route
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -21,6 +22,9 @@ function Dashboard() {
     localStorage.removeItem("username");
     navigate("/login", { replace: true });
   };
+
+  // Check if we are on the dashboard home route
+  const isDashboardHome = location.pathname === "/dashboard" || location.pathname === "/";
 
   return (
     <div className="dashboard-layout">
@@ -31,10 +35,10 @@ function Dashboard() {
         >
           {isSidebarOpen ? "×" : "☰"}
         </button>
-        <h1 className="topbar-title">Golden Yolk</h1>
+        <h1 className="topbar-title text-warning">Golden Yolk</h1>
         <div className="topbar-right">
           <button
-            className="btn btn-outline-danger btn-sm"
+            className="btn btn-outline-warning btn-sm"
             onClick={handleLogout}
           >
             Logout
@@ -56,14 +60,22 @@ function Dashboard() {
       </aside>
 
       <main className={`dashboard-content ${isSidebarOpen ? "" : "expanded"}`}>
+        {/* Nested routes render here */}
         <Outlet />
+
+        {/* Show graphs ONLY on dashboard home */}
+        {isDashboardHome && (
+          <div className="charts-grid">
+            {/* <VaccinationAlert /> */}
+            {/* <FeedAlert /> */}
+            <EggProductionChart />
+            <SalesGraph />
+            <PopulationGraph />
+            <ExpenseGraph />
+          </div>
+        )}
       </main>
-      <EggProductionChart />
-      <SalesGraph />
-      <PopulationGraph />
-      <ExpenseGraph/>
-      <VaccinationAlert />
-      <FeedAlert />
+
     </div>
   );
 }

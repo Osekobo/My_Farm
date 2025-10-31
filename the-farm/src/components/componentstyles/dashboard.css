@@ -1,10 +1,28 @@
 /* ===============================
-   🧭 Dashboard Layout Styles
+   🧭 Dashboard Layout Styles (Final Scroll Fix)
    =============================== */
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+html {
+  height: 100%;
+  overflow-x: hidden;
+  /* ✅ Allow vertical scroll */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+}
+
+/* === Dashboard Layout === */
 .dashboard-layout {
   display: flex;
-  height: 100vh;
+  flex-direction: column;
+  min-height: 100vh;
+  /* ✅ Allow flexible full height */
   overflow: hidden;
   background-color: #f8f9fa;
 }
@@ -16,7 +34,8 @@
   left: 0;
   right: 0;
   height: 60px;
-  background-color: #1d4e89;
+  /* background-color: #1d4e89; */
+  background: #5f8a3a;
   color: #fff;
   display: flex;
   align-items: center;
@@ -42,16 +61,19 @@
 
 /* === Sidebar === */
 .sidebar {
-  width: 180px;
-  background-color: #0e2a47;
+  width: 200px;
+  /* background-color: #0e2a47; */
+  background: #5f8a3a;
   color: white;
-  height: 100vh;
-  padding-top: 70px;
+  height: calc(100vh - 60px);
+  padding-top: 10px;
   position: fixed;
   left: 0;
-  top: 0;
+  top: 60px;
   overflow-y: auto;
-  transition: width 0.3s ease, transform 0.3s ease;
+  /* ✅ Sidebar scrolls independently */
+  transition: transform 0.3s ease-in-out;
+  z-index: 999;
 }
 
 .sidebar.closed {
@@ -65,49 +87,128 @@
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 15px;
+  gap: 5px;
 }
 
+
 .nav-item {
+  position: relative;
+  padding: 12px 20px;
   color: white;
   text-decoration: none;
-  padding: 12px 15px;
-  border-radius: 8px;
-  transition: background 0.3s;
 }
+
 
 .nav-item:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
 .nav-item.active {
-  background-color: #1d4e89;
   font-weight: 600;
+  background: linear-gradient(to right, #FFD93D 5%, #d3d3d3 0%);
+  color: black;
 }
 
 /* === Main Content === */
 .dashboard-content {
-  flex: 1;
+  flex-grow: 1;
   margin-top: 60px;
-  margin-left: 220px;
+  /* space for topbar */
+  margin-left: 200px;
+  /* space for sidebar */
   padding: 25px;
-  transition: margin-left 0.3s ease;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  /* ✅ Enables scroll for all content pages */
+  overflow-x: hidden;
+  background-color: #f8f9fa;
+  scroll-behavior: smooth;
 }
 
 .dashboard-content.expanded {
   margin-left: 0;
 }
 
-/* === Responsive === */
+/* === Internal Pages (Batch, Vaccine, Employees, etc.) === */
+.dashboard-content>div {
+  min-height: 100%;
+  overflow-y: visible;
+  /* ✅ allow child content to render naturally */
+  padding-bottom: 30px;
+  /* ✅ prevent last items from being hidden */
+}
+
+/* === Charts Grid (Dashboard Home) === */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* === Responsive Design === */
 @media (max-width: 992px) {
   .sidebar {
     position: fixed;
-    height: calc(100vh - 60px);
     top: 60px;
+    height: calc(100vh - 60px);
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
   }
 
   .dashboard-content {
     margin-left: 0;
+    padding: 15px;
+  }
+
+  .topbar {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 600px) {
+  .topbar-title {
+    font-size: 1.2rem;
+  }
+
+  .nav-item {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* 2 equal-width columns */
+  gap: 30px;
+  /* equal space between rows and columns */
+  padding: 2px;
+  /* adds even space around the whole grid */
+  align-items: stretch;
+  /* all charts same height in each row */
+  justify-items: stretch;
+  /* all charts same width */
+  box-sizing: border-box;
+}
+
+.charts-grid>* {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+    /* 1 per row on mobile */
   }
 }
