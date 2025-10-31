@@ -1,20 +1,33 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import {
+  LayoutDashboard,
+  Layers,
+  Egg,
+  Users,
+  Receipt,
+  BarChart3,
+  ShoppingCart,
+  Syringe,
+  LogOut,
+  Wheat, 
+} from "lucide-react";
+import VaccinationAlert from "./VaccinationAlert";
 import "./componentstyles/dashboard.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 import EggProductionChart from "./EggsProductionChart";
 import SalesGraph from "./SalesGraph";
 import PopulationGraph from "./PopulationGraph";
 import ExpenseGraph from "./ExpenseGraph";
-import VaccinationAlert from "./VaccinationAlert";
 import FeedAlert from "./FeedAlert";
 
 function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const navigate = useNavigate();
-  const location = useLocation(); // <-- Add this hook to detect current route
+  const location = useLocation();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -23,8 +36,8 @@ function Dashboard() {
     navigate("/login", { replace: true });
   };
 
-  // Check if we are on the dashboard home route
-  const isDashboardHome = location.pathname === "/dashboard" || location.pathname === "/";
+  const isDashboardHome =
+    location.pathname === "/dashboard" || location.pathname === "/";
 
   return (
     <div className="dashboard-layout">
@@ -38,44 +51,63 @@ function Dashboard() {
         <h1 className="topbar-title text-warning">Golden Yolk</h1>
         <div className="topbar-right">
           <button
-            className="btn btn-outline-warning btn-sm"
+            className="btn btn-outline-warning btn-sm d-flex align-items-center gap-2"
             onClick={handleLogout}
           >
-            Logout
+            <LogOut size={16} /> Logout
           </button>
         </div>
       </header>
 
       <aside className={`sidebar ${isSidebarOpen ? "open" : "closed"}`}>
         <nav className="sidebar-nav">
-          <NavLink to="" className="nav-item">Dashboard</NavLink>
-          <NavLink to="batch" className="nav-item">Batch</NavLink>
-          <NavLink to="eggsproduction" className="nav-item">Egg Production</NavLink>
-          <NavLink to="employees" className="nav-item">Employees</NavLink>
-          <NavLink to="expenses" className="nav-item">Expenses</NavLink>
-          <NavLink to="profits" className="nav-item">Profits</NavLink>
-          <NavLink to="sales" className="nav-item">Sales</NavLink>
-          <NavLink to="vaccinationinfo" className="nav-item">Vaccination Records</NavLink>
+          <NavLink to="" className="nav-item">
+            <LayoutDashboard size={18} /> <span>Dashboard</span>
+          </NavLink>
+          <NavLink to="batch" className="nav-item">
+            <Layers size={18} /> <span>Batch</span>
+          </NavLink>
+          <NavLink to="eggsproduction" className="nav-item">
+            <Egg size={18} /> <span>Egg Production</span>
+          </NavLink>
+          <NavLink to="employees" className="nav-item">
+            <Users size={18} /> <span>Employees</span>
+          </NavLink>
+          <NavLink to="expenses" className="nav-item">
+            <Receipt size={18} /> <span>Expenses</span>
+          </NavLink>
+          <NavLink to="profits" className="nav-item">
+            <BarChart3 size={18} /> <span>Profits</span>
+          </NavLink>
+          <NavLink to="sales" className="nav-item">
+            <ShoppingCart size={18} /> <span>Sales</span>
+          </NavLink>
+          <NavLink to="vaccinationinfo" className="nav-item">
+            <Syringe size={18} /> <span>Vaccination Records</span>
+          </NavLink>
+
+          <NavLink to="feedrecords" className="nav-item">
+            <Wheat size={18} /> <span>Feeds</span>
+          </NavLink>
         </nav>
       </aside>
 
       <main className={`dashboard-content ${isSidebarOpen ? "" : "expanded"}`}>
-        {/* Nested routes render here */}
         <Outlet />
 
-        {/* Show graphs ONLY on dashboard home */}
         {isDashboardHome && (
-          <div className="charts-grid">
-            {/* <VaccinationAlert /> */}
-            {/* <FeedAlert /> */}
-            <EggProductionChart />
-            <SalesGraph />
-            <PopulationGraph />
-            <ExpenseGraph />
+          <div>
+            <FeedAlert />
+            <VaccinationAlert />
+            <div className="charts-grid">
+              <EggProductionChart />
+              <SalesGraph />
+              <PopulationGraph />
+              <ExpenseGraph />
+            </div>
           </div>
         )}
       </main>
-
     </div>
   );
 }

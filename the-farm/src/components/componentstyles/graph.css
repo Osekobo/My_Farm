@@ -1,31 +1,96 @@
-.graph-wrapper {
-  background-color: #fff; /* make background white */
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* softer shadow for white */
-  color: #000; /* dark text for contrast */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* === FARM THEME CHART STYLES === */
+
+/* Wrapper around each chart box */
+.graph-wrapper,
+.expenses-wrapper {
+  background: linear-gradient(145deg, #e9f6e2, #f7fff3); /* pale green gradient */
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(114, 140, 90, 0.25);
+  padding: 1.5rem;
+  color: #2b331b;
+  border: 1px solid #d8e4cf; /* light green-gray border */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Add hover lift effect */
+.graph-wrapper:hover,
+.expenses-wrapper:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(114, 140, 90, 0.3);
+}
+
+/* Chart title styling */
+.graph-title,
+.expenses-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #40572b; /* deep olive */
+  text-align: center;
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+}
+
+/* Container holding the chart */
+.graph-container {
+  background: linear-gradient(160deg, #2e4a28, #3f5c2b); /* deep green gradient */
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Buttons below chart */
+button.btn-outline-light {
+  border: 2px solid #b7d37a;
+  color: #f1f7e8;
+  background-color: #4f6b35;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+button.btn-outline-light:hover {
+  background-color: #b7d37a;
+  color: #2b331b;
+  border-color: #a3c969;
+  box-shadow: 0 0 10px rgba(164, 209, 110, 0.5);
+}
+
+/* Tooltip custom style (optional override) */
+.recharts-default-tooltip {
+  background: rgba(39, 58, 33, 0.95) !important;
+  border-radius: 10px !important;
+  border: 1px solid #a3c969 !important;
+  color: #f4ffe8 !important;
+}
+
+/* Legend text */
+.recharts-legend-item-text {
+  color: #eaf7d5 !important;
+  font-weight: 500 !important;
+}
+
+/* Smooth chart transitions */
+.recharts-line,
+.recharts-bar {
+  transition: all 0.4s ease;
+}
+
+/* Make sure the charts are responsive and centered */
+.graph-wrapper,
+.expenses-wrapper {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  justify-content: center;
 }
 
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .graph-wrapper,
+  .expenses-wrapper {
+    padding: 1rem;
+  }
 
-.graph-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 20px;
-  letter-spacing: 0.5px;
-  text-align: center;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
-}
-
-.graph-container {
-  width: 100%;
-  height: 100%;
-}
-
-/* Optional: Animate line chart (smooth entry) */
-.recharts-line {
-  transition: all 0.6s ease-out;
+  .graph-title {
+    font-size: 1.1rem;
+  }
 }

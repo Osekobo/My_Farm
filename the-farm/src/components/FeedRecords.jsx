@@ -1,173 +1,180 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Plus, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import "./componentstyles/feed.css";
 
-function FeedRecords() {
+const FeedRecords = () => {
   const [feeds, setFeeds] = useState([]);
+  const [newFeed, setNewFeed] = useState({ feed_name: "", sacks_in_storage: "" });
   const [showForm, setShowForm] = useState(false);
-  const [showToast, setShowToast] = useState("");
-  const [activeId, setActiveId] = useState(null);
+  const [editFeedData, setEditFeedData] = useState(null); // stores feed being edited
 
-  const [formData, setFormData] = useState({
-    feed_name: "",
-    sacks_in_storage: "",
-  });
-
-  const loadFeeds = () => {
-    fetch("http://127.0.0.1:5000/feeds")
-      .then((res) => res.json())
-      .then((data) => setFeeds(data));
+  const fetchFeeds = async () => {
+    const res = await fetch("http://localhost:5000/feeds");
+    const data = await res.json();
+    setFeeds(data);
   };
 
   useEffect(() => {
-    loadFeeds();
+    fetchFeeds();
   }, []);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const notify = (msg) => {
-    setShowToast(msg);
-    setTimeout(() => {
-      setShowToast("");
-    }, 2500);
-  };
-
-  const handleSubmit = (e) => {
+  const addFeed = async (e) => {
     e.preventDefault();
-
-    fetch("http://127.0.0.1:5000/feeds", {
+    const res = await fetch("http://localhost:5000/feeds", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    })
-      .then((res) => res.json())
-      .then(() => {
-        notify("Feed added successfully");
-        loadFeeds();
-        setShowForm(false);
-      });
+      body: JSON.stringify(newFeed),
+    });
+    if (res.ok) {
+      setNewFeed({ feed_name: "", sacks_in_storage: "" });
+      setShowForm(false);
+      fetchFeeds();
+    }
   };
 
-  const handleUseSack = (id) => {
-    fetch(`http://127.0.0.1:5000/feeds/use/${id}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) notify(data.error);
-        else notify("Sack used successfully");
-        loadFeeds();
-      });
+  const useFeed = async (id) => {
+    await fetch(`http://localhost:5000/feeds/use/${id}`, { method: "POST" });
+    fetchFeeds();
   };
 
-  const handlePatch = (id, current) => {
-    const updated = prompt("Enter new sacks in storage:", current);
-    if (updated === null) return;
+  const deleteFeed = async (id) => {
+    await fetch(`http://localhost:5000/feeds/${id}`, { method: "DELETE" });
+    fetchFeeds();
+  };
 
-    fetch(`http://127.0.0.1:5000/feeds/${id}`, {
+  const updateFeed = async (e) => {
+    e.preventDefault();
+    await fetch(`http://localhost:5000/feeds/${editFeedData.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sacks_in_storage: updated }),
-    })
-      .then((res) => res.json())
-      .then(() => {
-        notify("Feed updated successfully");
-        loadFeeds();
-      });
-  };
-
-  const handleDelete = (id) => {
-    fetch(`http://127.0.0.1:5000/feeds/${id}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then(() => {
-        notify("Feed deleted successfully");
-        loadFeeds();
-      });
+      body: JSON.stringify({
+        feed_name: editFeedData.feed_name,
+        sacks_in_storage: parseInt(editFeedData.sacks_in_storage),
+      }),
+    });
+    setEditFeedData(null);
+    fetchFeeds();
   };
 
   return (
-    <div className="feed-records">
-      {showToast && <div className="floating-toast">{showToast}</div>}
+    <div className="feed-page">
+      {/* Add Feed Button */}
+      <div className="feed-add-section">
+        <button className="feed-add-btn" onClick={() => setShowForm((prev) => !prev)}>
+          <Plus size={18} />
+          {showForm ? "Cancel" : "Add New Feed"}
+        </button>
+      </div>
 
-      <h2>Feed Records</h2>
+      {/* Add Feed Form */}
+      <AnimatePresence>
+        {showForm && (
+          <motion.form
+            onSubmit={addFeed}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.4 }}
+            className="feed-form"
+          >
+            <input
+              type="text"
+              placeholder="Feed Name"
+              value={newFeed.feed_name}
+              onChange={(e) => setNewFeed({ ...newFeed, feed_name: e.target.value })}
+              required
+            />
+            <input
+              type="number"
+              placeholder="Sacks in Storage"
+              value={newFeed.sacks_in_storage}
+              onChange={(e) => setNewFeed({ ...newFeed, sacks_in_storage: e.target.value })}
+              required
+            />
+            <button type="submit" className="feed-save-btn">
+              Save Feed
+            </button>
+          </motion.form>
+        )}
+      </AnimatePresence>
 
-      <button onClick={() => setShowForm(!showForm)}>
-        {showForm ? "Close Form" : "Add New Feed"}
-      </button>
+      {/* Feed Grid */}
+      <div className="feed-grid">
+        {feeds.map((feed) => (
+          <motion.div
+            key={feed.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            whileHover={{ scale: 1.03 }}
+            className="feed-card"
+          >
+            <div className="feed-info">
+              <h2>{feed.feed_name}</h2>
+              <p><strong>Sacks in Storage:</strong> {feed.sacks_in_storage}</p>
+              <p><strong>Sacks Used:</strong> {feed.sacks_used}</p>
+            </div>
+            <div className="feed-actions">
+              <button onClick={() => useFeed(feed.id)}>Use</button>
+              <button onClick={() => setEditFeedData(feed)}>Edit</button>
+              <button className="delete-btn" onClick={() => deleteFeed(feed.id)}>Delete</button>
+            </div>
+          </motion.div>
+        ))}
+      </div>
 
-      {showForm && (
-        <form onSubmit={handleSubmit} className="feed-form">
-          <input
-            type="text"
-            name="feed_name"
-            placeholder="Feed Name"
-            onChange={handleChange}
-            required
-          />
-
-          <input
-            type="number"
-            name="sacks_in_storage"
-            placeholder="Sacks in Storage"
-            min="0"
-            onChange={handleChange}
-            required
-          />
-
-          <button type="submit">Save</button>
-        </form>
-      )}
-
-      <table className="feed-table">
-        <thead>
-          <tr>
-            <th>Feed Name</th>
-            <th>Sacks in Storage</th>
-            <th>Sacks Used</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {feeds.map((f) => (
-            <tr key={f.id}>
-              <td>{f.feed_name}</td>
-              <td>{f.sacks_in_storage}</td>
-              <td>{f.sacks_used}</td>
-              <td style={{ position: "relative" }}>
-                <button
-                  disabled={f.sacks_in_storage <= 0}
-                  onClick={() => handleUseSack(f.id)}
-                >
-                  Use Sack
+      {/* Edit Modal */}
+      <AnimatePresence>
+        {editFeedData && (
+          <motion.div
+            className="feed-edit-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="feed-edit-modal"
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+            >
+              <div className="modal-header">
+                <h3>Edit Feed</h3>
+                <button onClick={() => setEditFeedData(null)} className="close-btn">
+                  <X size={20} />
                 </button>
+              </div>
+              <form onSubmit={updateFeed}>
+                <label>Feed Name:</label>
+                <input
+                  type="text"
+                  value={editFeedData.feed_name}
+                  onChange={(e) =>
+                    setEditFeedData({ ...editFeedData, feed_name: e.target.value })
+                  }
+                  required
+                />
 
-                <button
-                  onClick={() => setActiveId(activeId === f.id ? null : f.id)}
-                  className="dots-menu"
-                >
-                  ⋮
+                <label>Sacks in Storage:</label>
+                <input
+                  type="number"
+                  value={editFeedData.sacks_in_storage}
+                  onChange={(e) =>
+                    setEditFeedData({ ...editFeedData, sacks_in_storage: e.target.value })
+                  }
+                  required
+                />
+
+                <button type="submit" className="feed-save-btn">
+                  Update Feed
                 </button>
-
-                {activeId === f.id && (
-                  <div className="dropdown">
-                    <p onClick={() => handlePatch(f.id, f.sacks_in_storage)}>
-                      Update
-                    </p>
-                    <p onClick={() => handleDelete(f.id)}>Delete</p>
-                  </div>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
-}
+};
 
 export default FeedRecords;
