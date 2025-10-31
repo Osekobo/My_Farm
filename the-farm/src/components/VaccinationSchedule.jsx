@@ -1,32 +1,25 @@
 import { useEffect, useState } from "react";
 import "./componentstyles/vaccination.css";
 
-function VaccinationSchedule() {
+function VaccinationSchedule({ onClose }) {
   const [schedules, setSchedules] = useState([]);
   const [showForm, setShowForm] = useState(false);
-
   const [formData, setFormData] = useState({
     batch_id: "",
     vaccination_name: "",
     vaccination_date: "",
   });
 
-  // Fetch schedules
   useEffect(() => {
     fetch("http://127.0.0.1:5000/vaccination/upcoming")
       .then((res) => res.json())
       .then((data) => setSchedules(data));
   }, []);
 
-  // Handle input change
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Submit vaccination schedule
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch("http://127.0.0.1:5000/vaccination/add", {
@@ -36,71 +29,69 @@ function VaccinationSchedule() {
     })
       .then((res) => res.json())
       .then(() => {
-        alert("Vaccination Schedule Added!");
-
-        // Refresh data
         fetch("http://127.0.0.1:5000/vaccination/upcoming")
           .then((res) => res.json())
           .then((data) => setSchedules(data));
-
-        // Reset form
         setFormData({
           batch_id: "",
           vaccination_name: "",
           vaccination_date: "",
         });
         setShowForm(false);
+        onClose();
       });
   };
 
   return (
     <div className="vaccination-wrapper">
-      <h2>Vaccination Records</h2>
+      <h2>Vaccination Schedule</h2>
 
-      {/* ADD BUTTON */}
-      <button className="add-btn" onClick={() => setShowForm(!showForm)}>
-        {showForm ? "Close" : "Add Vaccination Schedule"}
+      <button className="btn btn-outline-success mb-3" onClick={() => setShowForm(!showForm)}>
+        {showForm ? "Close Form" : "Add New Schedule"}
       </button>
 
-      {/* FORM */}
       {showForm && (
         <form className="vaccination-form" onSubmit={handleSubmit}>
-          <label>Batch ID:</label>
-          <input
-            type="number"
-            name="batch_id"
-            value={formData.batch_id}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Vaccination Name:</label>
-          <input
-            type="text"
-            name="vaccination_name"
-            value={formData.vaccination_name}
-            onChange={handleChange}
-            required
-          />
-
-          <label>Date:</label>
-          <input
-            type="date"
-            name="vaccination_date"
-            value={formData.vaccination_date}
-            onChange={handleChange}
-            required
-          />
-
-          <button type="submit" className="submit-btn">
-            Save
-          </button>
+          <div className="row g-3">
+            <div className="col-md-4">
+              <input
+                type="number"
+                name="batch_id"
+                value={formData.batch_id}
+                onChange={handleChange}
+                placeholder="Batch ID"
+                required
+                className="form-control"
+              />
+            </div>
+            <div className="col-md-4">
+              <input
+                type="text"
+                name="vaccination_name"
+                value={formData.vaccination_name}
+                onChange={handleChange}
+                placeholder="Vaccination Name"
+                required
+                className="form-control"
+              />
+            </div>
+            <div className="col-md-4">
+              <input
+                type="date"
+                name="vaccination_date"
+                value={formData.vaccination_date}
+                onChange={handleChange}
+                required
+                className="form-control"
+              />
+            </div>
+          </div>
+          <button type="submit" className="btn btn-success mt-3">Save</button>
         </form>
       )}
 
-      {/* TABLE */}
-      <table className="vaccination-table">
-        <thead>
+      <table className="table table-hover align-middle text-center mt-4">
+        <thead className="table-success">
           <tr>
             <th>Batch</th>
             <th>Vaccination</th>
@@ -111,10 +102,8 @@ function VaccinationSchedule() {
         <tbody>
           {schedules.map((s) => {
             const left = Math.ceil(
-              (new Date(s.vaccination_date) - new Date()) /
-                (1000 * 60 * 60 * 24)
+              (new Date(s.vaccination_date) - new Date()) / (1000 * 60 * 60 * 24)
             );
-
             return (
               <tr key={s.id} style={{ color: left <= 1 ? "red" : "black" }}>
                 <td>{s.batch_name}</td>

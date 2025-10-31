@@ -56,6 +56,7 @@ function App() {
                 <Route path="expensegraph" element={<ExpenseGraph />} />
                 <Route path="feedrecords" element={<FeedRecords />} />
                 <Route path="vaccinationalert" element={<VaccinationAlert />} />
+                <Route path="feedrecords" element={<FeedRecords />} />
                 <Route path="feedalert" element={<FeedAlert />} />
                 <Route path="vaccinationinfo" element={<VaccinationInfo />} />
                 <Route path="eggproductionchart" element={<EggProductionChart />} />

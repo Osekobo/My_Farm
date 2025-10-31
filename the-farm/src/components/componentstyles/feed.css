@@ -1,112 +1,234 @@
-.feed-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+:root {
+  --green: #6b8e23;
+  --dark-green: #3c5521;
+  --yolk-yellow: #f9c74f;
+  --soft-yellow: #fef9e6;
+  --cream: #fdfcf7;
+  --orange: #f9844a;
+  --shadow: rgba(0, 0, 0, 0.1);
 }
 
-.feed-table th,
-.feed-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
+/* ===== Page Layout ===== */
+.feed-page {
+  min-height: 100vh;
+  background: var(--soft-yellow);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.feed-table th {
-  background: #333;
+/* ===== Add Feed Section ===== */
+.feed-add-section {
+  margin-bottom: 2rem;
+}
+.feed-add-btn {
+  background: var(--green);
   color: white;
-  text-align: left;
+  font-weight: 600;
+  border: none;
+  padding: 0.8rem 1.4rem;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.feed-add-btn:hover {
+  background: var(--dark-green);
+  transform: scale(1.05);
 }
 
-button {
-  padding: 6px 10px;
+/* ===== Add Feed Form ===== */
+.feed-form {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px var(--shadow);
+  margin-bottom: 2rem;
+}
+.feed-form input {
+  padding: 0.6rem 0.8rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+.feed-form input:focus {
+  border-color: var(--green);
+  outline: none;
+}
+.feed-save-btn {
+  background: var(--dark-green);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
   cursor: pointer;
 }
-
-button:disabled {
-  background: #aaa;
-  cursor: not-allowed;
+.feed-save-btn:hover {
+  background: var(--green);
 }
 
-.action-menu {
-  position: relative;
-  display: inline-block;
-  margin-left: 10px;
+/* ===== Feed Grid ===== */
+.feed-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  justify-items: center;
 }
 
-.dots-btn {
+/* ===== Feed Card ===== */
+.feed-card {
+  width: 400px;
+  height: 300px;
+  background: var(--cream);
+  border-radius: 20px;
+  display: flex;
+  box-shadow: 0 6px 15px var(--shadow);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.feed-card:hover {
+  transform: translateY(-6px);
+}
+
+/* Feed info (left side) */
+.feed-info {
+  flex: 1;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.feed-info h2 {
+  color: var(--dark-green);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+}
+.feed-info p {
+  color: #333;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* Feed actions (right side) */
+.feed-actions {
+  width: 100px;
+  background: var(--yolk-yellow);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+.feed-actions button {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 6px 12px;
+  width: 70px;
+  font-weight: 600;
+  color: var(--dark-green);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.feed-actions button:hover {
+  background: var(--green);
+  color: #fff;
+}
+.feed-actions .delete-btn {
+  background: var(--orange);
+  color: white;
+  border: none;
+}
+.feed-actions .delete-btn:hover {
+  background: #d75425;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 640px) {
+  .feed-form {
+    flex-direction: column;
+  }
+  .feed-card {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+  }
+  .feed-actions {
+    width: 100%;
+    flex-direction: row;
+    border-radius: 0 0 20px 20px;
+    padding: 0.8rem;
+  }
+}
+
+/* ---------- Edit Modal ---------- */
+.feed-edit-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.feed-edit-modal {
+  background: white;
+  width: 400px;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease;
+}
+
+.feed-edit-modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.feed-edit-modal label {
+  font-weight: bold;
+  color: #333;
+}
+
+.feed-edit-modal input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.close-btn {
   background: none;
   border: none;
-  font-size: 20px;
   cursor: pointer;
+  color: #666;
 }
 
-.dropdown {
-  display: none;
-  position: absolute;
-  right: 0;
-  background: white;
-  border: 1px solid #ccc;
-  min-width: 80px;
-  border-radius: 4px;
-  z-index: 10;
+.close-btn:hover {
+  color: #000;
 }
 
-.dropdown p {
-  margin: 0;
-  padding: 8px;
-  cursor: pointer;
-}
-
-.dropdown p:hover {
-  background: #f0f0f0;
-}
-
-/* Show menu on hover */
-.action-menu:hover .dropdown {
-  display: block;
-}
-
-.floating-toast {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: wheat;
-  padding: 10px 20px;
-  color: green;
-  border-radius: 10px solid black;
-  opacity: 0.95;
-  animation: fadeout 2.5s forwards;
-  z-index: 9999;
-}
-
-@keyframes fadeout {
-  0% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-.dots-menu {
-  background: transparent;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-.dropdown {
-  position: absolute;
-  right: 0;
-  top: 30px;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 5px 0;
-}
-
-.dropdown p {
-  margin: 0;
-  padding: 8px 12px;
-  cursor: pointer;
-}
-
-.dropdown p:hover {
-  background: #eee;
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }
