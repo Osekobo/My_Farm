@@ -1,0 +1,146 @@
+/* ================================
+   Poultry Farm Themed SignUp Page
+   ================================ */
+
+.signup-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("https://images.unsplash.com/photo-1555758969-9ec8c42f68c8")
+    no-repeat center center/cover;
+  backdrop-filter: blur(2px);
+  padding: 20px;
+}
+
+.signup-container {
+  display: flex;
+  width: 900px;
+  max-width: 95%;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
+  border-radius: 15px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* ===== Left Side ===== */
+
+.signup-left {
+  flex: 1;
+  background: #5f8a3a; /* Fresh farm-like green */
+  color: #fff;
+  padding: 50px 30px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.signup-left h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.signup-left p {
+  opacity: 0.9;
+  margin-bottom: 20px;
+}
+
+.signup-left button {
+  background: #ffd54f;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+.signup-left button:hover {
+  background: #ffe57f;
+  transform: translateY(-2px);
+}
+
+/* ===== Right Side ===== */
+
+.signup-right {
+  flex: 2;
+  padding: 50px;
+}
+
+.signup-right h2 {
+  text-align: center;
+  color: #5f8a3a;
+  font-weight: 700;
+}
+
+.signup-right form input,
+.signup-right form select {
+  border-radius: 8px;
+  border: 1px solid #cfcfcf;
+  padding: 10px;
+  transition: 0.3s;
+}
+
+.signup-right form input:focus,
+.signup-right form select:focus {
+  border-color: #5f8a3a;
+  box-shadow: 0 0 6px rgba(95, 138, 58, 0.5);
+}
+
+.signup-right button {
+  background: #f9a825; /* Egg yolk color */
+  border: none;
+  padding: 12px;
+  font-size: 17px;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.signup-right button:hover {
+  background: #ffb74d;
+  transform: translateY(-1.5px);
+}
+
+/* Admin Code Field Highlight */
+input[name="admin_code"] {
+  background: #fffbea;
+  border-color: #ffcc00;
+}
+
+/* Message Text */
+.signup-right p {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.signup-right a {
+  color: #5f8a3a;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.signup-right a:hover {
+  text-decoration: underline;
+}
+
+/* ===============================
+   Responsive Design
+   =============================== */
+
+@media (max-width: 768px) {
+  .signup-container {
+    flex-direction: column;
+  }
+
+  .signup-left {
+    padding: 30px;
+  }
+
+  .signup-right {
+    padding: 30px;
+  }
+}

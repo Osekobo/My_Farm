@@ -1,0 +1,113 @@
+/* ===============================
+   🧭 Dashboard Layout Styles
+   =============================== */
+
+.dashboard-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f8f9fa;
+}
+
+/* === Top Bar === */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: #1d4e89;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.topbar-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-toggle {
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* === Sidebar === */
+.sidebar {
+  width: 180px;
+  background-color: #0e2a47;
+  color: white;
+  height: 100vh;
+  padding-top: 70px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+  transition: width 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar.closed {
+  transform: translateX(-100%);
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+}
+
+.nav-item {
+  color: white;
+  text-decoration: none;
+  padding: 12px 15px;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav-item.active {
+  background-color: #1d4e89;
+  font-weight: 600;
+}
+
+/* === Main Content === */
+.dashboard-content {
+  flex: 1;
+  margin-top: 60px;
+  margin-left: 220px;
+  padding: 25px;
+  transition: margin-left 0.3s ease;
+}
+
+.dashboard-content.expanded {
+  margin-left: 0;
+}
+
+/* === Responsive === */
+@media (max-width: 992px) {
+  .sidebar {
+    position: fixed;
+    height: calc(100vh - 60px);
+    top: 60px;
+  }
+
+  .dashboard-content {
+    margin-left: 0;
+  }
+}

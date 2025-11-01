@@ -1,0 +1,164 @@
+/* ===============================
+   👥 Employees Page - Scoped
+   =============================== */
+
+#employees-page {
+  display: block;
+  height: auto;
+  font-family: "Poppins", sans-serif;
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+/* 🧾 Main Container */
+#employees-page #employees-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* 🏷️ Title */
+#employees-page .employees-title {
+  font-weight: 700;
+  color: #343a40;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* 🔘 Toggle Form Button */
+#employees-page #toggle-form-btn {
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+#employees-page #toggle-form-btn:hover {
+  background-color: #5a6268;
+  transform: scale(1.05);
+}
+
+/* 🧍 Form Section */
+#employees-page #employee-form {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#employees-page .employee-input {
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+}
+
+#employees-page .employee-input:focus {
+  border-color: #1d4e89;
+  outline: none;
+}
+
+/* 💾 Save Button */
+#employees-page #save-btn {
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 500;
+  background-color: #1d4e89;
+  color: white;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+#employees-page #save-btn:hover {
+  background-color: #0e2a47;
+}
+
+/* ❌ Error & ✅ Success Messages */
+#employees-page #error-message {
+  font-weight: 500;
+  color: red;
+}
+
+#employees-page #success-message {
+  font-weight: 500;
+  color: green;
+}
+
+/* 📊 Table Styling */
+#employees-page #employees-table {
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#employees-page #employees-table th {
+  background-color: #6c757d;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+#employees-page #employees-table td {
+  vertical-align: middle;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  text-align: center;
+}
+
+#employees-page .employee-row:hover {
+  background-color: #f1f1f1;
+  transition: background 0.2s ease-in-out;
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 768px) {
+  #employees-page #employees-container {
+    padding: 10px;
+  }
+
+  #employees-page #employee-form .row {
+    flex-direction: column;
+  }
+
+  #employees-page .employee-input {
+    margin-bottom: 10px;
+  }
+
+  #employees-page #employees-table thead {
+    display: none;
+  }
+
+  #employees-page #employees-table,
+  #employees-page #employees-table tbody,
+  #employees-page #employees-table tr,
+  #employees-page #employees-table td {
+    display: block;
+    width: 100%;
+  }
+
+  #employees-page #employees-table tr {
+    background: #fff;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+  }
+
+  #employees-page #employees-table td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  #employees-page #employees-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    width: 45%;
+    text-align: left;
+    font-weight: bold;
+  }
+}

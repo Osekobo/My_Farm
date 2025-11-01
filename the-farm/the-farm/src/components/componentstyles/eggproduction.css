@@ -1,0 +1,175 @@
+/* ===============================
+   🥚 Eggs Production Page - Scoped
+   =============================== */
+
+#eggs-page {
+  display: block;
+  height: auto;
+  font-family: "Poppins", sans-serif;
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+/* 🧭 Main Container */
+#eggs-page #eggs-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* 🏷️ Page Title */
+#eggs-page .eggs-title {
+  font-weight: 700;
+  color: #343a40;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* 🔘 Toggle Form Button */
+#eggs-page #toggle-eggs-form-btn {
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+#eggs-page #toggle-eggs-form-btn:hover {
+  background-color: #5a6268;
+  transform: scale(1.05);
+}
+
+/* 🧍 Form Styling */
+#eggs-page #eggs-form {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#eggs-page #eggs-form input {
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+}
+
+#eggs-page #eggs-form input:focus {
+  border-color: #1d4e89;
+  outline: none;
+}
+
+#eggs-page #save-eggs-btn {
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 500;
+  background-color: #1d4e89;
+  color: white;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+#eggs-page #save-eggs-btn:hover {
+  background-color: #0e2a47;
+}
+
+/* ❌ Error Message */
+#eggs-page .text-danger {
+  font-weight: 500;
+  color: red;
+}
+
+/* 📊 Table Styling */
+#eggs-page #eggs-table {
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#eggs-page #eggs-table th {
+  background-color: #6c757d;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+#eggs-page #eggs-table td {
+  vertical-align: middle;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  text-align: center;
+}
+
+#eggs-page .eggs-row:hover {
+  background-color: #f1f1f1;
+  transition: background 0.2s ease-in-out;
+}
+
+/* ⚙️ Action Buttons */
+#eggs-page .eggs-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+#eggs-page .eggs-actions .btn {
+  min-width: 70px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+#eggs-page .eggs-actions .btn:hover {
+  transform: scale(1.05);
+}
+
+/* 📱 Responsive Layout */
+@media (max-width: 768px) {
+  #eggs-page #eggs-container {
+    padding: 10px;
+  }
+
+  #eggs-page #eggs-form .row {
+    flex-direction: column;
+  }
+
+  #eggs-page #eggs-form input {
+    margin-bottom: 10px;
+  }
+
+  #eggs-page #eggs-table thead {
+    display: none;
+  }
+
+  #eggs-page #eggs-table,
+  #eggs-page #eggs-table tbody,
+  #eggs-page #eggs-table tr,
+  #eggs-page #eggs-table td {
+    display: block;
+    width: 100%;
+  }
+
+  #eggs-page #eggs-table tr {
+    background: #fff;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+  }
+
+  #eggs-page #eggs-table td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  #eggs-page #eggs-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    width: 45%;
+    text-align: left;
+    font-weight: bold;
+  }
+}

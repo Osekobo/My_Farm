@@ -1,0 +1,154 @@
+/* ===============================
+   Poultry Farm Themed Login Page
+   =============================== */
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* background farm image */
+  background: url("https://images.unsplash.com/photo-1598514982954-4dfd1fbf61b5")
+    no-repeat center center/cover;
+
+  padding: 20px;
+}
+
+.login-container {
+  display: flex;
+  width: 850px;
+  max-width: 96%;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+}
+
+/* =========== Left/Login Section =========== */
+
+.login-section {
+  flex: 2;
+  padding: 50px;
+}
+
+.login-section h2 {
+  text-align: center;
+  color: #5f8a3a;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.input-box input {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 8px;
+  border: 1px solid #bfbfbf;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.input-box input:focus {
+  border-color: #5f8a3a;
+  box-shadow: 0 0 6px rgba(95, 138, 58, 0.5);
+  outline: none;
+}
+
+/* Forgot link */
+.forgot {
+  text-align: right;
+  margin-top: 10px;
+}
+
+.forgot a {
+  color: #5f8a3a;
+  font-size: 14px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.forgot a:hover {
+  text-decoration: underline;
+}
+
+/* Login Button */
+
+.login-btn {
+  width: 100%;
+  margin-top: 25px;
+  padding: 12px;
+  background: #f9a825; /* Egg yolk */
+  border: none;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background: #ffb347;
+  transform: translateY(-2px);
+}
+
+.login-section p {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.right-panel {
+  flex: 1;
+  background: #5f8a3a;
+  color: white;
+  padding: 50px 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.right-panel h2 {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+.right-panel p {
+  opacity: 0.9;
+}
+
+.right-panel button {
+  background: #ffd54f;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.right-panel button:hover {
+  background: #ffe57f;
+  transform: translateY(-2px);
+}
+
+/* ===============================
+   Responsive
+   =============================== */
+
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+  }
+
+  .right-panel {
+    padding: 30px;
+  }
+
+  .login-section {
+    padding: 30px;
+  }
+}

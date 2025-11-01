@@ -1,0 +1,145 @@
+/* ===============================
+   🐣 Batch Page - Scoped Styling
+   =============================== */
+
+#batch-page {
+  display: block;
+  height: auto;
+  font-family: "Poppins", sans-serif;
+}
+
+/* 🧾 Main Container */
+#batch-page #batch-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 🏷️ Title */
+#batch-page .batch-title {
+  font-weight: 700;
+  color: #343a40;
+  text-align: center;
+}
+
+/* 🔘 Form Toggle Button */
+#batch-page #toggle-batch-form-btn {
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+#batch-page #toggle-batch-form-btn:hover {
+  background-color: #5a6268;
+  transform: scale(1.05);
+}
+
+/* 🧍 Form Section */
+#batch-page #batch-form {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#batch-page .batch-input {
+  border-radius: 6px;
+}
+
+#batch-page #save-batch-btn {
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-weight: 500;
+}
+
+/* ❌ Error Message */
+#batch-page .text-danger {
+  font-weight: 500;
+}
+
+/* 📊 Table Styling */
+#batch-page #batch-table {
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+}
+
+#batch-page #batch-table th {
+  background-color: #6c757d;
+  color: white;
+}
+
+#batch-page #batch-table td {
+  vertical-align: middle;
+}
+
+#batch-page .batch-row:hover {
+  background-color: #f1f1f1;
+  transition: background 0.2s ease-in-out;
+}
+
+/* ⚙️ Action Buttons */
+#batch-page .batch-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+#batch-page .batch-actions .btn {
+  min-width: 70px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+#batch-page .batch-actions .btn:hover {
+  transform: scale(1.05);
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 768px) {
+  #batch-page #batch-container {
+    padding: 10px;
+  }
+
+  #batch-page #batch-form .row {
+    flex-direction: column;
+  }
+
+  #batch-page .batch-input {
+    margin-bottom: 10px;
+  }
+
+  #batch-page #batch-table thead {
+    display: none;
+  }
+
+  #batch-page #batch-table,
+  #batch-page #batch-table tbody,
+  #batch-page #batch-table tr,
+  #batch-page #batch-table td {
+    display: block;
+    width: 100%;
+  }
+
+  #batch-page #batch-table tr {
+    background: #fff;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+  }
+
+  #batch-page #batch-table td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  #batch-page #batch-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    width: 45%;
+    text-align: left;
+    font-weight: bold;
+  }
+}

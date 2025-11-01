@@ -1,0 +1,119 @@
+/* ===============================
+   💵 SALES PAGE - Scoped Styling
+   =============================== */
+
+/* Page Wrapper */
+#sales-page {
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  padding: 20px;
+}
+
+/* Container */
+#sales-page #sales-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Title */
+#sales-page .sales-title {
+  font-weight: 700;
+  color: #343a40;
+  text-align: center;
+}
+
+/* Form */
+#sales-page #sales-form {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#sales-page .sales-input {
+  border-radius: 6px;
+}
+
+/* Buttons */
+#sales-page #toggle-form-btn,
+#sales-page #save-btn {
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+#sales-page #toggle-form-btn:hover {
+  background-color: #5a6268;
+  transform: scale(1.05);
+}
+
+/* Table */
+#sales-page #sales-table {
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+}
+
+#sales-page #sales-table th {
+  background-color: #6c757d;
+  color: white;
+}
+
+#sales-page #sales-table td {
+  vertical-align: middle;
+}
+
+/* Hover Row */
+#sales-page .sales-row:hover {
+  background-color: #f1f1f1;
+  transition: background 0.2s ease-in-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #sales-page #sales-container {
+    padding: 10px;
+  }
+
+  #sales-page #sales-form .row {
+    flex-direction: column;
+  }
+
+  #sales-page .sales-input {
+    margin-bottom: 10px;
+  }
+
+  #sales-page #sales-table thead {
+    display: none;
+  }
+
+  #sales-page #sales-table,
+  #sales-page #sales-table tbody,
+  #sales-page #sales-table tr,
+  #sales-page #sales-table td {
+    display: block;
+    width: 100%;
+  }
+
+  #sales-page #sales-table tr {
+    background: #fff;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+  }
+
+  #sales-page #sales-table td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  #sales-page #sales-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    width: 45%;
+    text-align: left;
+    font-weight: bold;
+  }
+}
