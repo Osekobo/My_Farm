@@ -8,23 +8,25 @@
   --shadow: rgba(0, 0, 0, 0.1);
 }
 
-/* ===== Page Layout ===== */
 .feed-page {
   min-height: 100vh;
-  background: var(--soft-yellow);
-  padding: 2rem;
+  padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: "Poppins", sans-serif;
 }
 
-/* ===== Add Feed Section ===== */
 .feed-add-section {
-  margin-bottom: 2rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
 }
+
 .feed-add-btn {
   background: var(--green);
-  color: white;
+  color: #fff;
   font-weight: 600;
   border: none;
   padding: 0.8rem 1.4rem;
@@ -35,70 +37,123 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
+
 .feed-add-btn:hover {
   background: var(--dark-green);
   transform: scale(1.05);
 }
 
-/* ===== Add Feed Form ===== */
 .feed-form {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  align-items: flex-start;
   gap: 1rem;
-  background: white;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
   padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px var(--shadow);
-  margin-bottom: 2rem;
-}
-.feed-form input {
-  padding: 0.6rem 0.8rem;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  font-size: 0.95rem;
-}
-.feed-form input:focus {
-  border-color: var(--green);
-  outline: none;
-}
-.feed-save-btn {
-  background: var(--dark-green);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 0.6rem 1rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-.feed-save-btn:hover {
-  background: var(--green);
+  background: linear-gradient(to bottom right, #ffffff, #f9fbe7);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px var(--shadow);
+  transition: all 0.3s ease;
+  position: relative;
 }
 
-/* ===== Feed Grid ===== */
+.feed-form::before {
+  content: "Add New Feed Record";
+  display: block;
+  width: 100%;
+  text-align: center;
+  color: var(--dark-green);
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.feed-form input {
+  flex: 1 1 260px;
+  max-width: 350px;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 2px solid #dcdcdc;
+  border-radius: 10px;
+  font-size: 1rem;
+  background-color: #fafafa;
+  transition: all 0.3s ease;
+}
+
+.feed-form input:focus {
+  border-color: var(--green);
+  background-color: #fff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(107, 142, 35, 0.3);
+}
+
+.feed-save-btn {
+  background: var(--dark-green);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.8rem 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 180px;
+}
+
+.feed-save-btn:hover {
+  background: var(--green);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .feed-form {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem;
+  }
+
+  .feed-form input {
+    flex: unset;
+    width: 100%;
+    max-width: 100%;
+    font-size: 0.95rem;
+    padding: 0.7rem 0.9rem;
+  }
+
+  .feed-save-btn {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+  }
+}
+
 .feed-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
   width: 100%;
+  max-width: 1200px;
   justify-items: center;
 }
 
-/* ===== Feed Card ===== */
 .feed-card {
-  width: 400px;
-  height: 300px;
+  width: 100%;
+  max-width: 400px;
   background: var(--cream);
   border-radius: 20px;
   display: flex;
+  flex-direction: row;
   box-shadow: 0 6px 15px var(--shadow);
   overflow: hidden;
   transition: all 0.3s ease;
 }
+
 .feed-card:hover {
   transform: translateY(-6px);
 }
 
-/* Feed info (left side) */
 .feed-info {
   flex: 1;
   padding: 1.5rem;
@@ -106,19 +161,20 @@
   flex-direction: column;
   justify-content: center;
 }
+
 .feed-info h2 {
   color: var(--dark-green);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
   margin-bottom: 0.8rem;
 }
+
 .feed-info p {
   color: #333;
-  font-size: 1rem;
-  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  margin-top: 0.4rem;
 }
 
-/* Feed actions (right side) */
 .feed-actions {
   width: 100px;
   background: var(--yolk-yellow);
@@ -126,51 +182,72 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  padding: 0.5rem;
 }
+
 .feed-actions button {
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 6px 12px;
+  padding: 6px 10px;
   width: 70px;
   font-weight: 600;
   color: var(--dark-green);
   cursor: pointer;
   transition: all 0.2s ease;
 }
+
 .feed-actions button:hover {
   background: var(--green);
   color: #fff;
 }
+
 .feed-actions .delete-btn {
   background: var(--orange);
   color: white;
   border: none;
 }
+
 .feed-actions .delete-btn:hover {
   background: #d75425;
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 640px) {
-  .feed-form {
-    flex-direction: column;
-  }
+@media (max-width: 900px) {
   .feed-card {
-    width: 100%;
-    height: auto;
     flex-direction: column;
+    width: 100%;
   }
+
   .feed-actions {
     width: 100%;
     flex-direction: row;
+    justify-content: space-around;
     border-radius: 0 0 20px 20px;
     padding: 0.8rem;
   }
 }
 
-/* ---------- Edit Modal ---------- */
+@media (max-width: 640px) {
+  .feed-add-section {
+    justify-content: center;
+  }
+
+  .feed-add-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .feed-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feed-edit-modal {
+    width: 90%;
+    padding: 20px;
+  }
+}
+
 .feed-edit-overlay {
   position: fixed;
   top: 0;
@@ -229,6 +306,13 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

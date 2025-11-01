@@ -1,44 +1,37 @@
-/* === FARM THEME CHART STYLES === */
-
-/* Wrapper around each chart box */
 .graph-wrapper,
 .expenses-wrapper {
-  background: linear-gradient(145deg, #e9f6e2, #f7fff3); /* pale green gradient */
+  background: linear-gradient(145deg, #e9f6e2, #f7fff3);
   border-radius: 20px;
   box-shadow: 0 4px 12px rgba(114, 140, 90, 0.25);
   padding: 1.5rem;
   color: #2b331b;
-  border: 1px solid #d8e4cf; /* light green-gray border */
+  border: 1px solid #d8e4cf;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Add hover lift effect */
 .graph-wrapper:hover,
 .expenses-wrapper:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 15px rgba(114, 140, 90, 0.3);
 }
 
-/* Chart title styling */
 .graph-title,
 .expenses-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #40572b; /* deep olive */
+  color: #40572b;
   text-align: center;
   margin-bottom: 1rem;
   letter-spacing: 0.5px;
 }
 
-/* Container holding the chart */
 .graph-container {
-  background: linear-gradient(160deg, #2e4a28, #3f5c2b); /* deep green gradient */
+  background: linear-gradient(160deg, #2e4a28, #3f5c2b);
   border-radius: 15px;
   padding: 1rem;
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Buttons below chart */
 button.btn-outline-light {
   border: 2px solid #b7d37a;
   color: #f1f7e8;
@@ -55,7 +48,6 @@ button.btn-outline-light:hover {
   box-shadow: 0 0 10px rgba(164, 209, 110, 0.5);
 }
 
-/* Tooltip custom style (optional override) */
 .recharts-default-tooltip {
   background: rgba(39, 58, 33, 0.95) !important;
   border-radius: 10px !important;
@@ -63,19 +55,16 @@ button.btn-outline-light:hover {
   color: #f4ffe8 !important;
 }
 
-/* Legend text */
 .recharts-legend-item-text {
   color: #eaf7d5 !important;
   font-weight: 500 !important;
 }
 
-/* Smooth chart transitions */
 .recharts-line,
 .recharts-bar {
   transition: all 0.4s ease;
 }
 
-/* Make sure the charts are responsive and centered */
 .graph-wrapper,
 .expenses-wrapper {
   display: flex;
@@ -83,8 +72,8 @@ button.btn-outline-light:hover {
   justify-content: center;
 }
 
-/* Responsive tweaks */
 @media (max-width: 768px) {
+
   .graph-wrapper,
   .expenses-wrapper {
     padding: 1rem;

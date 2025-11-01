@@ -1,150 +1,173 @@
-/* ===============================
-   👥 Employees Page - Scoped
-   =============================== */
-
 #employees-page {
-  display: block;
-  height: auto;
+  padding: 1rem;
   font-family: "Poppins", sans-serif;
-  background-color: #f8f9fa;
-  padding: 20px;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
-/* 🧾 Main Container */
-#employees-page #employees-container {
-  max-width: 1000px;
-  margin: 0 auto;
-  background: #ffffff;
+#employees-container h3 {
+  color: #5a7c3b;
+  font-weight: 600;
+  font-size: 1.8rem;
+}
+
+@media (max-width: 576px) {
+  #employees-container h2 {
+    font-size: 1.4rem;
+  }
+}
+
+.employees-controls {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.employees-controls .btn {
+  min-width: 150px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.employees-controls .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(29, 78, 137, 0.3);
+}
+
+#employee-form {
+  background-color: #ffffff;
   border-radius: 10px;
-  padding: 20px;
+  padding: 1.25rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* 🏷️ Title */
-#employees-page .employees-title {
-  font-weight: 700;
-  color: #343a40;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-/* 🔘 Toggle Form Button */
-#employees-page #toggle-form-btn {
-  border-radius: 8px;
-  transition: 0.3s ease;
-}
-
-#employees-page #toggle-form-btn:hover {
-  /* background-color: #5a6268; */
-  transform: scale(1.05);
-}
-
-/* 🧍 Form Section */
-#employees-page #employee-form {
-  background: #f8f9fa;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-#employees-page .employee-input {
-  border-radius: 6px;
-  padding: 10px;
+#employee-form .form-control {
   font-size: 0.95rem;
-  border: 1px solid #ccc;
+  min-height: 45px;
 }
 
-#employees-page .employee-input:focus {
+#employee-form button[type="submit"] {
+  transition: all 0.3s ease;
+}
+
+#employee-form button[type="submit"]:hover {
+  background-color: #1d4e89;
   border-color: #1d4e89;
-  outline: none;
+  color: #fff;
 }
 
-
-/* ❌ Error & ✅ Success Messages */
-#employees-page #error-message {
-  font-weight: 500;
-  color: red;
-}
-
-#employees-page #success-message {
-  font-weight: 500;
-  color: green;
-}
-
-/* 📊 Table Styling */
-#employees-page #employees-table {
-  border-radius: 10px;
-  overflow: hidden;
-  background: white;
-  width: 100%;
-  border-collapse: collapse;
-}
-
-#employees-page #employees-table th {
-  background-color: #6c757d;
-  color: white;
-  padding: 10px;
-  text-align: center;
-}
-
-#employees-page #employees-table td {
-  vertical-align: middle;
-  padding: 10px;
-  border-top: 1px solid #ddd;
-  text-align: center;
-}
-
-#employees-page .employee-row:hover {
-  background-color: #f1f1f1;
-  transition: background 0.2s ease-in-out;
-}
-
-/* 📱 Responsive Design */
 @media (max-width: 768px) {
-  #employees-page #employees-container {
-    padding: 10px;
+  #employee-form .col-md-3 {
+    flex: 0 0 100%;
+    max-width: 100%;
   }
 
-  #employees-page #employee-form .row {
-    flex-direction: column;
+  #employee-form button[type="submit"] {
+    width: 100%;
   }
+}
 
-  #employees-page .employee-input {
-    margin-bottom: 10px;
-  }
+#employees-table {
+  background-color: #fff;
+  overflow: hidden;
+  width: 100%;
+}
 
-  #employees-page #employees-table thead {
+#employees-table th {
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+
+#employees-table td {
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 0.6rem;
+}
+
+.employee-actions .btn {
+  min-width: 70px;
+  font-size: 0.85rem;
+  margin: 0 3px;
+  transition: all 0.3s ease;
+}
+
+.employee-actions .btn-outline-primary:hover {
+  background-color: #1d4e89;
+  border-color: #1d4e89;
+  color: #fff;
+}
+
+.employee-actions .btn-danger:hover {
+  background-color: #b91c1c;
+  border-color: #b91c1c;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  #employees-container thead {
     display: none;
   }
 
-  #employees-page #employees-table,
-  #employees-page #employees-table tbody,
-  #employees-page #employees-table tr,
-  #employees-page #employees-table td {
+  #employees-container table,
+  #employees-container tbody,
+  #employees-container tr,
+  #employees-container td {
     display: block;
     width: 100%;
   }
 
-  #employees-page #employees-table tr {
+  #employees-container tr {
     background: #fff;
-    margin-bottom: 15px;
+    border: 1px solid #ddd;
     border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 10px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   }
 
-  #employees-page #employees-table td {
-    text-align: right;
-    padding-left: 50%;
-    position: relative;
+  #employees-container td {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6rem 1rem;
+    border: none;
+    border-bottom: 1px solid #eee;
   }
 
-  #employees-page #employees-table td::before {
+  #employees-container td:last-child {
+    border-bottom: none;
+    justify-content: center;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  #employees-container td::before {
     content: attr(data-label);
-    position: absolute;
-    left: 15px;
-    width: 45%;
-    text-align: left;
-    font-weight: bold;
+    font-weight: 600;
+    color: #555;
+  }
+
+  #employees-container .btn {
+    width: 100%;
+  }
+}
+
+.text-danger {
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .employee-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .employee-actions .btn {
+    width: 100%;
   }
 }

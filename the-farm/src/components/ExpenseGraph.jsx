@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
   Legend
 } from "recharts";
-import "./componentstyles/Expense.css"; // External CSS for styling
+import "./componentstyles/Expense.css";
 
 function ExpenseGraph() {
   const [data, setData] = useState([]);
@@ -34,36 +34,37 @@ function ExpenseGraph() {
   return (
     <div className="expenses-wrapper">
       <h3 className="expenses-title">Last 8 Expenses</h3>
-
-      <ResponsiveContainer width="100%" height={350}>
-        <BarChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="5 5" stroke="rgba(255,255,255,0.2)" />
-          <XAxis dataKey="date" stroke="#fff" tick={{ fontSize: 12, fill: "#fff" }} />
-          <YAxis stroke="#fff" tick={{ fontSize: 12, fill: "#fff" }} />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: "#222",
-              borderRadius: "8px",
-              border: "none",
-              color: "#fff",
-            }}
-            labelStyle={{ fontWeight: "bold" }}
-          />
-          <Legend wrapperStyle={{ color: "#fff", fontWeight: 600 }} />
-
-          {categories.map((category, index) => (
-            <Bar
-              key={category}
-              dataKey={category}
-              stackId={false}
-              fill={colors[index % colors.length]}
-              radius={[10, 10, 0, 0]}
-              barSize={30}
-              animationDuration={800}
+      <div className="graph-container">
+        <ResponsiveContainer width="100%" height={350}>
+          <BarChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="5 5" stroke="rgba(255,255,255,0.2)" />
+            <XAxis dataKey="date" stroke="#fff" tick={{ fontSize: 12, fill: "#fff" }} />
+            <YAxis stroke="#fff" tick={{ fontSize: 12, fill: "#fff" }} />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#222",
+                borderRadius: "8px",
+                border: "none",
+                color: "#fff",
+              }}
+              labelStyle={{ fontWeight: "bold" }}
             />
-          ))}
-        </BarChart>
-      </ResponsiveContainer>
+            <Legend wrapperStyle={{ color: "#fff", fontWeight: 600 }} />
+
+            {categories.map((category, index) => (
+              <Bar
+                key={category}
+                dataKey={category}
+                stackId={false}
+                fill={colors[index % colors.length]}
+                radius={[10, 10, 0, 0]}
+                barSize={30}
+                animationDuration={800}
+              />
+            ))}
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }

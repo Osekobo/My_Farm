@@ -131,9 +131,9 @@ function Batch() {
 
   return (
     <div id="batch-page">
-      <div id="batch-container">
+      <div id="batch-container" className="mt-4">
 
-        <h3 className="batch-title">Batch Records</h3>
+        <h3 className="batch-title text-center mb-3">Batch Records</h3>
         {error && <p className="text-danger text-center">{error}</p>}
         <div className="batch-controls d-flex justify-content-end mb-3">
           <button
@@ -235,7 +235,7 @@ function Batch() {
 
         <div className="table-responsive">
           <table id="batch-table" className="table table-hover align-middle text-center">
-            <thead className="">
+            <thead className="table-secondary">
               <tr>
                 <th>ID</th>
                 <th>Batch Name</th>
@@ -260,7 +260,7 @@ function Batch() {
                   <td data-label="Actions">
                     <div className="batch-actions">
                       <button
-                        className="btn btn-sm btn-outline-primary"
+                        className="btn btn-sm btn-outline-success"
                         onClick={() => handleEdit(b)}
                       >
                         Edit

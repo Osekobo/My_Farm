@@ -1,5 +1,4 @@
 .expenses-wrapper {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
   padding: 20px;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -8,6 +7,10 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.graph-container {
+  background: linear-gradient(160deg, #2e4a28, #3f5c2b);
 }
 
 .expenses-title {
@@ -19,7 +22,176 @@
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
 }
 
-/* Optional: Smooth bar animation on load */
+
 .recharts-bar-rectangle {
   transition: all 0.6s ease-out;
+}
+
+#expenses-page {
+  padding: 1rem;
+  font-family: "Poppins", sans-serif;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+#expenses-container h3 {
+  color: #5a7c3b;
+  font-weight: 600;
+  font-size: 1.8rem;
+}
+
+@media (max-width: 576px) {
+  #expenses-container h2 {
+    font-size: 1.4rem;
+  }
+}
+
+.expenses-controls {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.expenses-controls .btn {
+  min-width: 150px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.expenses-controls .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(167, 112, 0, 0.3);
+}
+
+#expense-form {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+#expense-form .form-control {
+  font-size: 0.95rem;
+  min-height: 45px;
+}
+
+#expense-form button[type="submit"] {
+  transition: all 0.3s ease;
+}
+
+#expense-form button[type="submit"]:hover {
+  background-color: #a77000;
+  border-color: #a77000;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  #expense-form .col-md-3 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  #expense-form button[type="submit"] {
+    width: 100%;
+  }
+}
+
+#expenses-table {
+  background-color: #fff;
+  overflow: hidden;
+  width: 100%;
+}
+
+#expenses-table th {
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+
+#expenses-table td {
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 0.6rem;
+}
+
+.expense-actions .btn {
+  min-width: 70px;
+  font-size: 0.85rem;
+  margin: 0 3px;
+  transition: all 0.3s ease;
+}
+
+.expense-actions .btn-outline-primary:hover {
+  background-color: #a77000;
+  border-color: #a77000;
+  color: #fff;
+}
+
+.expense-actions .btn-outline-danger:hover {
+  background-color: #b91c1c;
+  border-color: #b91c1c;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  #expenses-container thead {
+    display: none;
+  }
+
+  #expenses-container table,
+  #expenses-container tbody,
+  #expenses-container tr,
+  #expenses-container td {
+    display: block;
+    width: 100%;
+  }
+
+  #expenses-container tr {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  #expenses-container td {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6rem 1rem;
+    border: none;
+    border-bottom: 1px solid #eee;
+  }
+
+  #expenses-container td:last-child {
+    border-bottom: none;
+    justify-content: center;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  #expenses-container td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #555;
+  }
+
+  #expenses-container .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .expense-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .expense-actions .btn {
+    width: 100%;
+  }
 }

@@ -1,162 +1,173 @@
-/* ===============================
-   🥚 Eggs Production Page - Scoped
-   =============================== */
-
 #eggs-page {
-  display: block;
-  height: auto;
+  padding: 1rem;
   font-family: "Poppins", sans-serif;
-  background-color: #f8f9fa;
-  padding: 20px;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
-/* 🧭 Main Container */
-#eggs-page #eggs-container {
-  max-width: 1000px;
-  margin: 0 auto;
-  background: #ffffff;
+#eggs-container h3 {
+  color: #5a7c3b;
+  font-weight: 600;
+  font-size: 1.8rem;
+}
+
+@media (max-width: 576px) {
+  #eggs-container h3 {
+    font-size: 1.4rem;
+  }
+}
+
+.eggs-controls {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.eggs-controls .btn {
+  min-width: 150px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.eggs-controls .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(167, 112, 0, 0.3);
+}
+
+#eggs-form {
+  background-color: #ffffff;
   border-radius: 10px;
-  padding: 20px;
+  padding: 1.25rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* 🏷️ Page Title */
-#eggs-page .eggs-title {
-  font-weight: 700;
-  color: #343a40;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-/* 🔘 Toggle Form Button */
-#eggs-page #toggle-eggs-form-btn {
-  border-radius: 8px;
-  transition: 0.3s ease;
-}
-
-#eggs-page #toggle-eggs-form-btn:hover {
-  /* background-color: #5a6268; */
-  transform: scale(1.05);
-}
-
-/* 🧍 Form Styling */
-#eggs-page #eggs-form {
-  background: #f8f9fa;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-#eggs-page #eggs-form input {
-  border-radius: 6px;
-  padding: 10px;
+#eggs-form .form-control {
   font-size: 0.95rem;
-  border: 1px solid #ccc;
+  min-height: 45px;
 }
 
-#eggs-page #eggs-form input:focus {
-  border-color: #1d4e89;
-  outline: none;
+#eggs-form button[type="submit"] {
+  transition: all 0.3s ease;
 }
 
-
-/* ❌ Error Message */
-#eggs-page .text-danger {
-  font-weight: 500;
-  color: red;
+#eggs-form button[type="submit"]:hover {
+  background-color: #a77000;
+  border-color: #a77000;
+  color: #fff;
 }
 
-/* 📊 Table Styling */
-#eggs-page #eggs-table {
-  border-radius: 10px;
-  overflow: hidden;
-  background: white;
-  width: 100%;
-  border-collapse: collapse;
-}
-
-#eggs-page #eggs-table th {
-  background-color: #6c757d;
-  color: white;
-  padding: 10px;
-  text-align: center;
-}
-
-#eggs-page #eggs-table td {
-  vertical-align: middle;
-  padding: 10px;
-  border-top: 1px solid #ddd;
-  text-align: center;
-}
-
-#eggs-page .eggs-row:hover {
-  background-color: #f1f1f1;
-  transition: background 0.2s ease-in-out;
-}
-
-/* ⚙️ Action Buttons */
-#eggs-page .eggs-actions {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-#eggs-page .eggs-actions .btn {
-  min-width: 70px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-}
-
-#eggs-page .eggs-actions .btn:hover {
-  transform: scale(1.05);
-}
-
-/* 📱 Responsive Layout */
 @media (max-width: 768px) {
-  #eggs-page #eggs-container {
-    padding: 10px;
+  #eggs-form .col-md-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
   }
 
-  #eggs-page #eggs-form .row {
-    flex-direction: column;
+  #eggs-form button[type="submit"] {
+    width: 100%;
   }
+}
 
-  #eggs-page #eggs-form input {
-    margin-bottom: 10px;
-  }
+#eggs-table {
+  background-color: #fff;
+  overflow: hidden;
+  width: 100%;
+}
 
-  #eggs-page #eggs-table thead {
+#eggs-table th {
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+
+#eggs-table td {
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding: 0.6rem;
+}
+
+.eggs-actions .btn {
+  min-width: 70px;
+  font-size: 0.85rem;
+  margin: 0 3px;
+  transition: all 0.3s ease;
+}
+
+.eggs-actions .btn-outline-primary:hover {
+  background-color: #a77000;
+  border-color: #a77000;
+  color: #fff;
+}
+
+.eggs-actions .btn-outline-danger:hover {
+  background-color: #b91c1c;
+  border-color: #b91c1c;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  #eggs-container thead {
     display: none;
   }
 
-  #eggs-page #eggs-table,
-  #eggs-page #eggs-table tbody,
-  #eggs-page #eggs-table tr,
-  #eggs-page #eggs-table td {
+  #eggs-container table,
+  #eggs-container tbody,
+  #eggs-container tr,
+  #eggs-container td {
     display: block;
     width: 100%;
   }
 
-  #eggs-page #eggs-table tr {
+  #eggs-container tr {
     background: #fff;
-    margin-bottom: 15px;
+    border: 1px solid #ddd;
     border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 10px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   }
 
-  #eggs-page #eggs-table td {
-    text-align: right;
-    padding-left: 50%;
-    position: relative;
+  #eggs-container td {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6rem 1rem;
+    border: none;
+    border-bottom: 1px solid #eee;
   }
 
-  #eggs-page #eggs-table td::before {
+  #eggs-container td:last-child {
+    border-bottom: none;
+    justify-content: center;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  #eggs-container td::before {
     content: attr(data-label);
-    position: absolute;
-    left: 15px;
-    width: 45%;
-    text-align: left;
-    font-weight: bold;
+    font-weight: 600;
+    color: #555;
+  }
+
+  #eggs-container .btn {
+    width: 100%;
+  }
+}
+
+.text-danger {
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .eggs-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .eggs-actions .btn {
+    width: 100%;
   }
 }

@@ -68,36 +68,43 @@ const FeedRecords = () => {
       </div>
 
       {/* Add Feed Form */}
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {showForm && (
-          <motion.form
-            onSubmit={addFeed}
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.4 }}
-            className="feed-form"
+          <motion.div
+            key="feed-form-wrapper"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            style={{ overflow: "hidden", width: "100%" }}
           >
-            <input
-              type="text"
-              placeholder="Feed Name"
-              value={newFeed.feed_name}
-              onChange={(e) => setNewFeed({ ...newFeed, feed_name: e.target.value })}
-              required
-            />
-            <input
-              type="number"
-              placeholder="Sacks in Storage"
-              value={newFeed.sacks_in_storage}
-              onChange={(e) => setNewFeed({ ...newFeed, sacks_in_storage: e.target.value })}
-              required
-            />
-            <button type="submit" className="feed-save-btn">
-              Save Feed
-            </button>
-          </motion.form>
+            <form onSubmit={addFeed} className="feed-form">
+              <input
+                type="text"
+                placeholder="Feed Name"
+                value={newFeed.feed_name}
+                onChange={(e) =>
+                  setNewFeed({ ...newFeed, feed_name: e.target.value })
+                }
+                required
+              />
+              <input
+                type="number"
+                placeholder="Sacks in Storage"
+                value={newFeed.sacks_in_storage}
+                onChange={(e) =>
+                  setNewFeed({ ...newFeed, sacks_in_storage: e.target.value })
+                }
+                required
+              />
+              <button type="submit" className="feed-save-btn">
+                Save Feed
+              </button>
+            </form>
+          </motion.div>
         )}
       </AnimatePresence>
+
 
       {/* Feed Grid */}
       <div className="feed-grid">
