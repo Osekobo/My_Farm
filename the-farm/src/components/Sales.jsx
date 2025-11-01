@@ -136,9 +136,10 @@ function Sales() {
     return (
         <div id="sales-page">
             <div id="sales-container" className="mt-4">
-                <h1 className="sales-title mb-3">Sales</h1>
+                <h3 className="sales-title text-center mb-3">Sales</h3>
 
-                <div className="d-flex justify-content-end mb-3">
+                {/* 🔘 Top Controls */}
+                <div className="sales-controls d-flex justify-content-end flex-wrap gap-2 mb-3">
                     <button
                         id="toggle-form-btn"
                         className="btn btn-outline-warning"
@@ -157,10 +158,12 @@ function Sales() {
                         {showForm ? "Cancel" : editingSale ? "Edit Sale" : "Add New Sale"}
                     </button>
                 </div>
+
+                {/* 🧾 Sales Form */}
                 {showForm && (
                     <form id="sales-form" onSubmit={handleSubmit} className="mb-4">
                         <div className="row g-2">
-                            <div className="col-md-2">
+                            <div className="col-md-2 col-12">
                                 <input
                                     type="date"
                                     name="date"
@@ -170,7 +173,7 @@ function Sales() {
                                     required
                                 />
                             </div>
-                            <div className="col-md-2">
+                            <div className="col-md-2 col-12">
                                 <input
                                     type="text"
                                     name="buyer_name"
@@ -181,7 +184,7 @@ function Sales() {
                                     required
                                 />
                             </div>
-                            <div className="col-md-2">
+                            <div className="col-md-2 col-12">
                                 <input
                                     type="number"
                                     name="quantity_in_crates"
@@ -192,7 +195,7 @@ function Sales() {
                                     required
                                 />
                             </div>
-                            <div className="col-md-2">
+                            <div className="col-md-2 col-12">
                                 <input
                                     type="number"
                                     name="price_per_tray"
@@ -203,7 +206,7 @@ function Sales() {
                                     required
                                 />
                             </div>
-                            <div className="col-md-2">
+                            <div className="col-md-2 col-12">
                                 <input
                                     type="number"
                                     name="transport_costs"
@@ -214,7 +217,7 @@ function Sales() {
                                     required
                                 />
                             </div>
-                            <div className="col-md-2">
+                            <div className="col-md-2 col-12">
                                 <button type="submit" id="save-btn" className="btn btn-outline-warning w-100">
                                     {editingSale ? "Update" : "Save"}
                                 </button>
@@ -222,7 +225,10 @@ function Sales() {
                         </div>
                     </form>
                 )}
+
                 {error && <p id="error-message" className="text-danger text-center">{error}</p>}
+
+                {/* 📊 Table Section */}
                 <div className="table-responsive">
                     <table id="sales-table" className="table table-hover text-center align-middle">
                         <thead className="table-secondary">
@@ -247,9 +253,19 @@ function Sales() {
                                     <td data-label="Selling Price">{sale.selling_price}</td>
                                     <td data-label="Transport Cost">{sale.transport_costs}</td>
                                     <td data-label="Final Amount">{sale.final_amount}</td>
-                                    <td data-label="Actions">
-                                        <button className="btn btn-sm btn-outline-primary me-1" onClick={() => handleEdit(sale)}>Edit</button>
-                                        <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(sale.id)}>Delete</button>
+                                    <td data-label="Actions" className="sales-actions">
+                                        <button
+                                            className="btn btn-sm btn-outline-success"
+                                            onClick={() => handleEdit(sale)}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            className="btn btn-sm btn-outline-danger"
+                                            onClick={() => handleDelete(sale.id)}
+                                        >
+                                            Delete
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
@@ -257,6 +273,7 @@ function Sales() {
                     </table>
                 </div>
             </div>
+
             <Stock />
         </div>
     );

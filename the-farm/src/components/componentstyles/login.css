@@ -1,17 +1,9 @@
-/* ===============================
-   Poultry Farm Themed Login Page
-   =============================== */
-
 .login-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* background farm image */
-  background: url("https://images.unsplash.com/photo-1598514982954-4dfd1fbf61b5")
-    no-repeat center center/cover;
-
+  background: url("https://images.unsplash.com/photo-1598514982954-4dfd1fbf61b5") no-repeat center center/cover;
   padding: 20px;
 }
 
@@ -24,8 +16,6 @@
   overflow: hidden;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
 }
-
-/* =========== Left/Login Section =========== */
 
 .login-section {
   flex: 2;
@@ -56,7 +46,6 @@
   outline: none;
 }
 
-/* Forgot link */
 .forgot {
   text-align: right;
   margin-top: 10px;
@@ -73,13 +62,11 @@
   text-decoration: underline;
 }
 
-/* Login Button */
-
 .login-btn {
   width: 100%;
   margin-top: 25px;
   padding: 12px;
-  background: #f9a825; /* Egg yolk */
+  background: #f9a825;
   border: none;
   border-radius: 8px;
   font-size: 17px;
@@ -134,10 +121,6 @@
   background: #ffe57f;
   transform: translateY(-2px);
 }
-
-/* ===============================
-   Responsive
-   =============================== */
 
 @media (max-width: 768px) {
   .login-container {

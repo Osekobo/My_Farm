@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import "./componentstyles/Expense.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
@@ -125,27 +124,35 @@ function Expenses() {
   };
 
   return (
-    <div id="expenses-page">
+    <div id="expenses-page" className="container-fluid px-3 px-md-5 py-3">
       <div id="expenses-container" className="mt-4">
         <h3 className="expenses-title text-center mb-3">Expenses Tracker</h3>
+
         {/* Top Controls */}
-        <div className="expenses-controls d-flex justify-content-end mb-3">
+        <div className="expenses-controls d-flex justify-content-end flex-wrap gap-2 mb-3">
           <button
             id="toggle-form-btn"
             className="btn btn-outline-warning"
             onClick={() => {
               setShowForm(!showForm);
               setEditingExpense(null);
-              setFormData({ date: "", category: "", amount_spent: "", description: "" });
+              setFormData({
+                date: "",
+                category: "",
+                amount_spent: "",
+                description: "",
+              });
             }}
           >
             {showForm ? "Cancel" : "Add New Expense"}
           </button>
         </div>
+
+        {/* Form Section */}
         {showForm && (
-          <form id="expense-form" onSubmit={handleSubmit} className="mb-4">
-            <div className="row g-2 form-row">
-              <div className="col-md-3">
+          <form id="expense-form" onSubmit={handleSubmit} className="mb-4 expense-form">
+            <div className="row g-2">
+              <div className="col-12 col-sm-6 col-md-3">
                 <input
                   type="date"
                   name="date"
@@ -155,7 +162,7 @@ function Expenses() {
                   required
                 />
               </div>
-              <div className="col-md-3">
+              <div className="col-12 col-sm-6 col-md-3">
                 <input
                   type="text"
                   name="category"
@@ -166,7 +173,7 @@ function Expenses() {
                   required
                 />
               </div>
-              <div className="col-md-3">
+              <div className="col-12 col-sm-6 col-md-3">
                 <input
                   type="number"
                   name="amount_spent"
@@ -177,7 +184,7 @@ function Expenses() {
                   required
                 />
               </div>
-              <div className="col-md-3">
+              <div className="col-12 col-sm-6 col-md-3">
                 <input
                   type="text"
                   name="description"
@@ -189,12 +196,19 @@ function Expenses() {
                 />
               </div>
             </div>
-            <button type="submit" id="save-btn" className="btn btn-outline-warning mt-3">
+            <button
+              type="submit"
+              id="save-btn"
+              className="btn btn-outline-warning mt-3 w-100 w-md-auto"
+            >
               {editingExpense ? "Update Expense" : "Save Expense"}
             </button>
           </form>
         )}
+
         {error && <p id="error-message" className="text-danger text-center">{error}</p>}
+
+        {/* Table Section */}
         <div className="table-responsive">
           <table id="expenses-table" className="table table-hover text-center align-middle">
             <thead className="table-secondary">
@@ -209,14 +223,14 @@ function Expenses() {
             <tbody>
               {expenses.map((expense) => (
                 <tr key={expense.id} className="expense-row">
-                  <td>{formatDate(expense.date)}</td>
-                  <td>{expense.category}</td>
-                  <td>{expense.amount_spent}</td>
-                  <td>{expense.description}</td>
-                  <td>
+                  <td data-label="Date">{formatDate(expense.date)}</td>
+                  <td data-label="Category">{expense.category}</td>
+                  <td data-label="Amount Spent">{expense.amount_spent}</td>
+                  <td data-label="Description">{expense.description}</td>
+                  <td data-label="Actions">
                     <div className="expense-actions">
                       <button
-                        className="btn btn-sm btn-outline-primary"
+                        className="btn btn-sm btn-outline-success"
                         onClick={() => handleEdit(expense)}
                       >
                         Edit

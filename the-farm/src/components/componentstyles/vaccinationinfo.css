@@ -1,4 +1,4 @@
-#batch-page {
+#vaccine-page {
   padding: 1rem;
   max-width: 100%;
   overflow-x: hidden;
@@ -6,121 +6,126 @@
   font-family: "Poppins", sans-serif;
 }
 
-#batch-container h3 {
+#vaccine-container h2 {
   color: #5a7c3b;
   font-weight: 600;
   font-size: 1.8rem;
 }
 
 @media (max-width: 576px) {
-  #batch-container h3 {
+  #vaccine-container h2 {
     font-size: 1.4rem;
   }
 }
 
-.batch-controls {
+#vaccine-container .d-flex {
   display: flex;
   justify-content: flex-end;
   flex-wrap: wrap;
   gap: 0.75rem;
 }
 
-.batch-controls .btn {
-  min-width: 150px;
+#vaccine-container .btn {
+  min-width: 160px;
   font-weight: 500;
   transition: all 0.3s ease;
 }
 
-.batch-controls .btn:hover {
+#vaccine-container .btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 3px 6px rgba(90, 124, 59, 0.3);
 }
 
-#batch-form {
+#vaccine-container form {
   background-color: #ffffff;
   border-radius: 10px;
   padding: 1.25rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-#batch-form .form-control {
+#vaccine-container .form-control {
   font-size: 0.95rem;
   min-height: 45px;
 }
 
-#batch-form button[type="submit"] {
+#vaccine-container button[type="submit"] {
   transition: all 0.3s ease;
 }
 
-#batch-form button[type="submit"]:hover {
+#vaccine-container button[type="submit"]:hover {
   background-color: #5a7c3b;
   border-color: #5a7c3b;
   color: #fff;
 }
 
 @media (max-width: 768px) {
-  #batch-form .col-md-4 {
+
+  #vaccine-container .col-md-4,
+  #vaccine-container .col-md-6 {
     flex: 0 0 100%;
     max-width: 100%;
   }
 
-  #batch-form button[type="submit"] {
+  #vaccine-container button[type="submit"] {
     width: 100%;
   }
 }
 
-#batch-table {
+
+#vaccine-container table {
   background-color: #fff;
+  /* border-radius: 8px; */
   overflow: hidden;
   width: 100%;
 }
 
-#batch-table th {
+#vaccine-container th {
+  /* background-color: #f8f9fa; */
   font-weight: 600;
   text-align: center;
   white-space: nowrap;
 }
 
-#batch-table td {
+#vaccine-container td {
   text-align: center;
   vertical-align: middle;
   white-space: nowrap;
   padding: 0.6rem;
 }
 
-.batch-actions .btn {
+#vaccine-container td .btn {
   min-width: 70px;
   font-size: 0.85rem;
   margin: 0 3px;
   transition: all 0.3s ease;
 }
 
-.batch-actions .btn-outline-primary:hover {
+#vaccine-container td .btn-outline-primary:hover {
   background-color: #5a7c3b;
   border-color: #5a7c3b;
   color: #fff;
 }
 
-.batch-actions .btn-outline-danger:hover {
+#vaccine-container td .btn-outline-danger:hover {
   background-color: #b91c1c;
   border-color: #b91c1c;
   color: #fff;
 }
 
 @media (max-width: 768px) {
-  #batch-container thead {
+  #vaccine-container thead {
     display: none;
   }
 
-  #batch-container table,
-  #batch-container tbody,
-  #batch-container tr,
-  #batch-container td {
+  #vaccine-container table,
+  #vaccine-container tbody,
+  #vaccine-container tr,
+  #vaccine-container td {
     display: block;
     width: 100%;
   }
 
-  #batch-container tr {
+  #vaccine-container tr {
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -128,7 +133,7 @@
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   }
 
-  #batch-container td {
+  #vaccine-container td {
     display: flex;
     justify-content: space-between;
     padding: 0.6rem 1rem;
@@ -136,7 +141,7 @@
     border-bottom: 1px solid #eee;
   }
 
-  #batch-container td:last-child {
+  #vaccine-container td:last-child {
     border-bottom: none;
     justify-content: center;
     flex-direction: column;
@@ -144,30 +149,29 @@
     gap: 0.5rem;
   }
 
-  #batch-container td::before {
+  #vaccine-container td::before {
     content: attr(data-label);
     font-weight: 600;
     color: #555;
   }
 
-  #batch-container .btn {
+  #vaccine-container .btn {
     width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  #vaccine-container td {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #vaccine-container td .btn {
+    margin: 0.25rem 0;
   }
 }
 
 .text-danger {
   font-weight: 500;
   margin-top: 0.5rem;
-}
-
-@media (max-width: 768px) {
-  .batch-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-
-  .batch-actions .btn {
-    width: 100%;
-  }
 }

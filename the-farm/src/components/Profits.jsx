@@ -49,7 +49,7 @@ const Profits = () => {
     return (
         <div id="profits-page" className="profit-section">
             <div className="profits-container">
-                <h1 className="profits-title">Profit Calculator</h1>
+                <h3 className="profits-title">Profit Calculator</h3>
                 <div className="profits-form">
                     <div className="profits-field">
                         <label>Start Date</label>

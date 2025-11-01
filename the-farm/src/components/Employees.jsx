@@ -133,12 +133,14 @@ function Employees() {
     };
 
     return (
-        <div id="employees-page">
+        <div id="employees-page" className="container-fluid px-3 px-md-5 py-3">
             <div id="employees-container" className="mt-4">
                 <h3 className="employees-title text-center mb-3">Employees</h3>
+
                 {error && <p id="error-message" className="text-danger text-center">{error}</p>}
                 {message && <p id="success-message" className="text-success text-center">{message}</p>}
-                
+
+                {/* Controls */}
                 <div className="employees-controls d-flex justify-content-end mb-3">
                     <button
                         id="toggle-form-btn"
@@ -153,10 +155,15 @@ function Employees() {
                     </button>
                 </div>
 
+                {/* Form Section */}
                 {showForm && (
-                    <form id="employee-form" onSubmit={editMode ? handleUpdate : handleSubmit} className="mb-4">
-                        <div className="row g-2 form-row">
-                            <div className="col-md-3">
+                    <form
+                        id="employee-form"
+                        onSubmit={editMode ? handleUpdate : handleSubmit}
+                        className="mb-4"
+                    >
+                        <div className="row g-2">
+                            <div className="col-md-3 col-sm-6 col-12">
                                 <input
                                     type="text"
                                     name="name"
@@ -167,7 +174,7 @@ function Employees() {
                                     required
                                 />
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-3 col-sm-6 col-12">
                                 <input
                                     type="text"
                                     name="phone_number"
@@ -178,7 +185,7 @@ function Employees() {
                                     required
                                 />
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-3 col-sm-6 col-12">
                                 <input
                                     type="email"
                                     name="email"
@@ -189,7 +196,7 @@ function Employees() {
                                     required
                                 />
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-3 col-sm-6 col-12">
                                 <input
                                     type="text"
                                     name="role"
@@ -201,6 +208,7 @@ function Employees() {
                                 />
                             </div>
                         </div>
+
                         <div className="mt-2">
                             <input
                                 type="number"
@@ -219,6 +227,7 @@ function Employees() {
                     </form>
                 )}
 
+                {/* Table Section */}
                 <div className="table-responsive">
                     <table id="employees-table" className="table table-hover text-center align-middle">
                         <thead className="table-secondary">
@@ -234,19 +243,28 @@ function Employees() {
                         <tbody>
                             {employeedata.map((e) => (
                                 <tr key={e.id} className="employee-row">
-                                    <td onClick={() => handleEditClick(e)}>{e.name}</td>
-                                    <td onClick={() => handleEditClick(e)}>{e.phone_number}</td>
-                                    <td onClick={() => handleEditClick(e)}>{e.email}</td>
-                                    <td onClick={() => handleEditClick(e)}>{e.role}</td>
-                                    <td onClick={() => handleEditClick(e)}>{e.salary}</td>
-
-                                    <td>
-                                        <button
-                                            className="btn btn-danger btn-sm"
-                                            onClick={() => handleDelete(e.id)}
-                                        >
-                                            Delete
-                                        </button>
+                                    <td data-label="Name" onClick={() => handleEditClick(e)}>{e.name}</td>
+                                    <td data-label="Phone" onClick={() => handleEditClick(e)}>{e.phone_number}</td>
+                                    <td data-label="Email" onClick={() => handleEditClick(e)}>{e.email}</td>
+                                    <td data-label="Role" onClick={() => handleEditClick(e)}>{e.role}</td>
+                                    <td data-label="Salary" onClick={() => handleEditClick(e)}>{e.salary}</td>
+                                    <td data-label="Actions">
+                                        <div className="employee-actions">
+                                            <button
+                                                type="button"
+                                                className="btn btn-outline-success btn-sm"
+                                                onClick={() => handleEditClick(e)}
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                type="button"
+                                                className="btn btn-outline-danger btn-sm"
+                                                onClick={() => handleDelete(e.id)}
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

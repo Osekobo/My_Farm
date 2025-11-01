@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./componentstyles/vaccinationinfo.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import VaccinationSchedule from "./VaccinationSchedule";
@@ -112,8 +113,8 @@ function VaccinationInfo() {
   if (loading) return <p>Loading vaccination data...</p>;
 
   return (
-    <div id="vaccine-page" className="p-3" style={{ overflowY: "auto", height: "100%" }}>
-      <div id="vaccine-container" className="container-fluid mt-3">
+    <div id="vaccine-page"  style={{ overflowY: "auto", height: "100%" }}>
+      <div id="vaccine-container" className="mt-4">
         <h2 className="text-center mb-3">Vaccination Records</h2>
 
         <div className="d-flex justify-content-end mb-3">

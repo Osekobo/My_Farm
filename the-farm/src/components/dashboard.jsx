@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -11,13 +11,12 @@ import {
   ShoppingCart,
   Syringe,
   LogOut,
-  Wheat, 
+  Wheat,
 } from "lucide-react";
 import VaccinationAlert from "./VaccinationAlert";
 import "./componentstyles/dashboard.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-
 import EggProductionChart from "./EggsProductionChart";
 import SalesGraph from "./SalesGraph";
 import PopulationGraph from "./PopulationGraph";
@@ -26,6 +25,7 @@ import FeedAlert from "./FeedAlert";
 
 function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -35,6 +35,16 @@ function Dashboard() {
     localStorage.removeItem("username");
     navigate("/login", { replace: true });
   };
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) setIsSidebarOpen(false);
+  }, [location.pathname, isMobile]);
 
   const isDashboardHome =
     location.pathname === "/dashboard" || location.pathname === "/";
