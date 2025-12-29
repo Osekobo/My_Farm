@@ -7,7 +7,7 @@ function GetUserRole() {
 
   try {
     const decoded = jwtDecode(token);
-    // If you stored the whole identity object (id, username, role)
+    
     return decoded.sub?.role || decoded.role || null;
   } catch (err) {
     console.error("Invalid token:", err);
